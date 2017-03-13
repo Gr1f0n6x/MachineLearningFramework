@@ -1,4 +1,4 @@
-package SupervisedLearning;
+package LearningAlgorithms;
 
 /**
  * Created by GrIfOn on 12.03.2017.
