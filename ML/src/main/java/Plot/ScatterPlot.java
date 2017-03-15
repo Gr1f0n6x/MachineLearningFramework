@@ -14,10 +14,10 @@ import javax.swing.*;
 /**
  * Created by GrIfOn on 15.03.2017.
  */
-public class DataSetPlotter extends ApplicationFrame {
+public class ScatterPlot extends ApplicationFrame {
     private DefaultXYDataset xyDataset;
 
-    public DataSetPlotter(String title, DataSet dataSet) {
+    public ScatterPlot(String title, DataSet dataSet) {
         super(title);
 
         setXyDataset(dataSet);
@@ -42,7 +42,7 @@ public class DataSetPlotter extends ApplicationFrame {
     }
 
     private JPanel getChartPanel() {
-        JFreeChart chart = ChartFactory.createXYLineChart("DataSet", "X", "Y", xyDataset, PlotOrientation.VERTICAL, true, true, false);
+        JFreeChart chart = ChartFactory.createScatterPlot("DataSet", "X", "Y", xyDataset, PlotOrientation.VERTICAL, true, true, false);
         return new ChartPanel(chart);
     }
 }

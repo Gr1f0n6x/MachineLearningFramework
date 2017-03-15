@@ -14,10 +14,10 @@ import javax.swing.*;
 /**
  * Created by GrIfOn on 15.03.2017.
  */
-public class DataSetPlotter extends ApplicationFrame {
+public class LineChart extends ApplicationFrame {
     private DefaultXYDataset xyDataset;
 
-    public DataSetPlotter(String title, DataSet dataSet) {
+    public LineChart(String title, DataSet dataSet) {
         super(title);
 
         setXyDataset(dataSet);
