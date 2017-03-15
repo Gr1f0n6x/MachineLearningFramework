@@ -160,6 +160,16 @@ public class DataSet {
         printMatrix();
     }
 
+    public void addColumns(SimpleMatrix a) {
+        matrix = matrix.combine(0, matrix.numCols(), a);
+    }
+
+    public void addColumnOfOnes() {
+        SimpleMatrix ones = new SimpleMatrix(matrix.numRows(), 1);
+        ones.set(1);
+        matrix = ones.combine(0, matrix.numCols(), matrix);
+    }
+
     public double[][] toArray() {
         if(matrix == null) {
             getMatrix();

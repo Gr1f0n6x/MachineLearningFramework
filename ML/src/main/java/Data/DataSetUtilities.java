@@ -7,6 +7,16 @@ import org.ejml.simple.SimpleMatrix;
  */
 public class DataSetUtilities {
 
+    public static void addColumns(SimpleMatrix A, SimpleMatrix B) {
+        A = A.combine(0, A.numCols(), B);
+    }
+
+    public static void addColumnOfOnes(SimpleMatrix A) {
+        SimpleMatrix ones = new SimpleMatrix(A.numRows(), 1);
+        ones.set(1);
+        A = ones.combine(0, A.numCols(), A);
+    }
+
     public void removeColumn(SimpleMatrix matrix, int column) {
 
         if(column > matrix.numCols()) {

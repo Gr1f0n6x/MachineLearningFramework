@@ -2,15 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="db464d71-2ca9-42a8-8bac-594a49c4a85c" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/LearningAlgorithms/LinearRegression.java" afterPath="$PROJECT_DIR$/src/main/java/LearningAlgorithms/LinearRegression.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Data/DataSet.java" afterPath="$PROJECT_DIR$/src/main/java/Data/DataSet.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Data/DataSetUtilities.java" afterPath="$PROJECT_DIR$/src/main/java/Data/DataSetUtilities.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Main.java" afterPath="$PROJECT_DIR$/src/main/java/Main.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Plot/DataSetPlotter.java" afterPath="$PROJECT_DIR$/src/main/java/Plot/DataSetPlotter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Plot/LineChart.java" afterPath="$PROJECT_DIR$/src/main/java/Plot/LineChart.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Plot/Plotter.java" afterPath="$PROJECT_DIR$/src/main/java/Plot/Plotter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Plot/ScatterPlot.java" afterPath="$PROJECT_DIR$/src/main/java/Plot/ScatterPlot.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/DataSet/DataSet.java" afterPath="$PROJECT_DIR$/src/main/java/Data/DataSet.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/DataSet/DataSetUtilities.java" afterPath="$PROJECT_DIR$/src/main/java/Data/DataSetUtilities.java" />
     </list>
     <ignored path="ML.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -33,14 +27,14 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="1.1960461">
-              <caret line="92" column="5" selection-start-line="92" selection-start-column="5" selection-end-line="92" selection-end-column="5" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="26" column="12" selection-start-line="26" selection-start-column="12" selection-end-line="26" selection-end-column="12" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <marker date="1489620740523" expanded="true" signature="832:1551" placeholder="..." />
+                <marker date="1489621204210" expanded="true" signature="220:970" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -50,9 +44,24 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/Data/DataSet.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
+              <caret line="171" column="0" selection-start-line="171" selection-start-column="0" selection-end-line="171" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#4751#4752#0" expanded="true" />
+                <element signature="e#4814#4815#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DataSetUtilities.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/Data/DataSetUtilities.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.42009884">
+              <caret line="15" column="20" selection-start-line="15" selection-start-column="20" selection-end-line="15" selection-end-column="20" />
+              <folding>
+                <element signature="e#196#197#0" expanded="true" />
+                <element signature="e#244#245#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -144,7 +153,9 @@
         <option value="$PROJECT_DIR$/src/main/java/Plot/ScatterPlot.java" />
         <option value="$PROJECT_DIR$/src/main/java/Plot/LineChart.java" />
         <option value="$PROJECT_DIR$/src/main/java/Plot/DataSetPlotter.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Data/DataSet.java" />
         <option value="$PROJECT_DIR$/src/main/java/Main.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Data/DataSetUtilities.java" />
       </list>
     </option>
   </component>
@@ -690,7 +701,7 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="simpleUML" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="DB Browser" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32913387" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="DB Execution Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32913387" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -741,7 +752,7 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1489620740523" expanded="true" signature="832:1551" placeholder="..." />
+            <marker date="1489621204210" expanded="true" signature="220:970" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -950,14 +961,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Data/DataSetUtilities.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.06425041">
-          <caret line="36" column="0" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/LearningAlgorithms/Model.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.2520593">
@@ -980,16 +983,6 @@
             <element signature="e#722#723#0" expanded="true" />
             <element signature="e#1097#1098#0" expanded="true" />
             <element signature="e#1140#1141#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Data/DataSet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1022,11 +1015,34 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.1960461">
-          <caret line="92" column="5" selection-start-line="92" selection-start-column="5" selection-end-line="92" selection-end-column="5" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="26" column="12" selection-start-line="26" selection-start-column="12" selection-end-line="26" selection-end-column="12" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1489620740523" expanded="true" signature="832:1551" placeholder="..." />
+            <marker date="1489621204210" expanded="true" signature="220:970" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Data/DataSet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="171" column="0" selection-start-line="171" selection-start-column="0" selection-end-line="171" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#4751#4752#0" expanded="true" />
+            <element signature="e#4814#4815#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Data/DataSetUtilities.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.42009884">
+          <caret line="15" column="20" selection-start-line="15" selection-start-column="20" selection-end-line="15" selection-end-column="20" />
+          <folding>
+            <element signature="e#196#197#0" expanded="true" />
+            <element signature="e#244#245#0" expanded="true" />
           </folding>
         </state>
       </provider>
