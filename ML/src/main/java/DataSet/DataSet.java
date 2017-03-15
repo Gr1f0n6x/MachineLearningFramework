@@ -36,6 +36,14 @@ public class DataSet {
         rowDataSet = reader.readAll();
     }
 
+    public DataSet(SimpleMatrix matrix) {
+        this.matrix = matrix;
+    }
+
+    public DataSet(List<String[]> rowDataSet) {
+        this.rowDataSet = rowDataSet;
+    }
+
     public List<String[]> getRowDataSet() {
         return rowDataSet;
     }
@@ -77,7 +85,7 @@ public class DataSet {
                     try {
                         value = Double.parseDouble(element);
                     } catch (Exception e) {
-                        value = 99999;
+                        value = 0;
                     }
 
                     matrix.set(row, column, value);
@@ -94,26 +102,39 @@ public class DataSet {
         }
     }
 
-    // TODO: validate boundaries
     public SimpleMatrix getTrainingSet(int startColumn, int endColumn) {
         if(matrix == null) {
             getMatrix();
         }
 
+        if(startColumn > matrix.numCols() || endColumn > matrix.numCols()) {
+            throw new IllegalArgumentException("Argumnets: startColumn && endColumn should be less than matrix.numCols");
+        }
+
         return matrix.extractMatrix(0, matrix.numRows(), startColumn, endColumn);
     }
 
-    // TODO: validate boundaries
     public SimpleMatrix getAnswersSet(int column) {
         if(matrix == null) {
             getMatrix();
         }
 
+        if(column > matrix.numCols()) {
+            throw new IllegalArgumentException("Argumnet: column should be less than matrix.numCols");
+        }
+
         return matrix.extractMatrix(0, matrix.numRows(), column, column + 1);
     }
 
-    // TODO: validate boundaries
     public void removeColumn(int column) {
+        if(matrix == null) {
+            getMatrix();
+        }
+
+        if(column > matrix.numCols()) {
+            throw new IllegalArgumentException("Argumnet: column should be less than matrix.numCols");
+        }
+
         SimpleMatrix A = matrix.extractMatrix(0, matrix.numRows(), 0, column);
         SimpleMatrix B = matrix.extractMatrix(0, matrix.numRows(), column + 1, matrix.numCols());
 
@@ -122,13 +143,57 @@ public class DataSet {
         printMatrix();
     }
 
-    // TODO: validate boundaries
     public void removeColumns(int startColumn, int endColumn) {
+        if(matrix == null) {
+            getMatrix();
+        }
+
+        if(startColumn > matrix.numCols() || endColumn > matrix.numCols()) {
+            throw new IllegalArgumentException("Argumnets: startColumn && endColumn should be less than matrix.numCols");
+        }
+
         SimpleMatrix A = matrix.extractMatrix(0, matrix.numRows(), 0, startColumn);
         SimpleMatrix B = matrix.extractMatrix(0, matrix.numRows(), endColumn + 1, matrix.numCols());
 
         matrix = A.combine(0, A.numCols(), B);
 
         printMatrix();
+    }
+
+    public double[][] toArray() {
+        if(matrix == null) {
+            getMatrix();
+        }
+
+        double array[][] = new double[matrix.numRows()][matrix.numCols()];
+        for (int i = 0; i < matrix.numRows(); ++i) {
+            for (int j = 0; j < matrix.numCols(); ++j) {
+                array[i][j] = matrix.get(i,j);
+            }
+        }
+
+        return array;
+    }
+
+    public double[][] toArray(int XColumn, int YColumn) {
+        if(matrix == null) {
+            getMatrix();
+        }
+
+        if(XColumn > matrix.numCols() || YColumn > matrix.numCols()) {
+            throw new IllegalArgumentException("Argumnets: XColumn && YColumn should be less than matrix.numCols");
+        }
+
+        double X[] = new double[matrix.numRows()];
+        double Y[] = new double[matrix.numRows()];
+
+        for (int i = 0; i < matrix.numRows(); ++i) {
+            X[i] = matrix.get(i, XColumn);
+            Y[i] = matrix.get(i, YColumn);
+        }
+
+        double[][] array = new double[][] {X, Y};
+
+        return array;
     }
 }
