@@ -1,5 +1,7 @@
 package LearningAlgorithms;
 
+import Plot.DataSetPlotter;
+import Plot.LineChart;
 import org.ejml.simple.SimpleMatrix;
 
 /**
@@ -62,6 +64,11 @@ public class LinearRegression implements Model {
     @Override
     public void predict(SimpleMatrix X) {
 
+    }
+
+    public void plotCostFunctionHistory() {
+        //LineChart lineChart = new LineChart("CostFunction", graph);
+        //lineChart.plot();
     }
 }
 
