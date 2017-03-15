@@ -1,48 +1,60 @@
 package Plot;
 
-import DataSet.DataSet;
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.PlotOrientation;
+import Data.DataSet;
+import Data.DataSetUtilities;
+import org.ejml.simple.SimpleMatrix;
 import org.jfree.data.xy.DefaultXYDataset;
 import org.jfree.ui.ApplicationFrame;
 import org.jfree.ui.RefineryUtilities;
 
 import javax.swing.*;
+import java.util.Arrays;
 
 /**
  * Created by GrIfOn on 15.03.2017.
  */
-public class DataSetPlotter extends ApplicationFrame {
-    private DefaultXYDataset xyDataset;
+public abstract class DataSetPlotter extends ApplicationFrame implements Plotter {
+    protected DefaultXYDataset xyDataset;
 
-    public DataSetPlotter(String title, DataSet dataSet) {
+    public DataSetPlotter(String title) {
         super(title);
-
-        setXyDataset(dataSet);
-
-        this.setContentPane(getChartPanel());
-
     }
 
     public DefaultXYDataset getXyDataset() {
         return xyDataset;
     }
 
+    @Override
     public void plot() {
         this.pack();
         RefineryUtilities.centerFrameOnScreen(this);
         this.setVisible(true);
     }
 
-    private void setXyDataset(DataSet dataSet) {
+    protected void setXyDataset(DataSet dataSet) {
         xyDataset = new DefaultXYDataset();
-        xyDataset.addSeries("Data", dataSet.toArray(0, 1));
+        xyDataset.addSeries("Data", dataSet.toArray());
     }
 
-    private JPanel getChartPanel() {
-        JFreeChart chart = ChartFactory.createXYLineChart("DataSet", "X", "Y", xyDataset, PlotOrientation.VERTICAL, true, true, false);
-        return new ChartPanel(chart);
+    protected void setXyDataset(DataSet dataSet, int xColumn, int yColumn) {
+        xyDataset = new DefaultXYDataset();
+        xyDataset.addSeries("Data", dataSet.toArray(xColumn, yColumn));
     }
+
+    protected void setXyDataset(double[][] dataSet) {
+        xyDataset = new DefaultXYDataset();
+        xyDataset.addSeries("Data", dataSet);
+    }
+
+    protected void setXyDataset(SimpleMatrix dataSet) {
+        xyDataset = new DefaultXYDataset();
+        xyDataset.addSeries("Data", DataSetUtilities.toArray(dataSet));
+    }
+
+    protected void setXyDataset(SimpleMatrix dataSet, int xColumn, int yColumn) {
+        xyDataset = new DefaultXYDataset();
+        xyDataset.addSeries("Data", DataSetUtilities.toArray(dataSet, xColumn, yColumn));
+    }
+
+    protected abstract JPanel getChartPanel();
 }

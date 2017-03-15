@@ -1,4 +1,4 @@
-package DataSet;
+package Data;
 
 import com.opencsv.CSVReader;
 import org.ejml.simple.SimpleMatrix;

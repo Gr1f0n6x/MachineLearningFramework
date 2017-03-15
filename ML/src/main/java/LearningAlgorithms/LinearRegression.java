@@ -1,6 +1,6 @@
 package LearningAlgorithms;
 
-import Plot.DataSetPlotter;
+import Data.DataSetUtilities;
 import Plot.LineChart;
 import org.ejml.simple.SimpleMatrix;
 
@@ -67,8 +67,8 @@ public class LinearRegression implements Model {
     }
 
     public void plotCostFunctionHistory() {
-        //LineChart lineChart = new LineChart("CostFunction", graph);
-        //lineChart.plot();
+        LineChart lineChart = new LineChart("CostFunction", DataSetUtilities.toArray(J_history));
+        lineChart.plot();
     }
 }
 

@@ -1,48 +1,57 @@
 package Plot;
 
-import DataSet.DataSet;
+import Data.DataSet;
+import org.ejml.simple.SimpleMatrix;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.data.xy.DefaultXYDataset;
-import org.jfree.ui.ApplicationFrame;
-import org.jfree.ui.RefineryUtilities;
 
 import javax.swing.*;
 
 /**
  * Created by GrIfOn on 15.03.2017.
  */
-public class LineChart extends ApplicationFrame {
-    private DefaultXYDataset xyDataset;
+public class LineChart extends DataSetPlotter {
 
     public LineChart(String title, DataSet dataSet) {
         super(title);
 
         setXyDataset(dataSet);
-
         this.setContentPane(getChartPanel());
-
     }
 
-    public DefaultXYDataset getXyDataset() {
-        return xyDataset;
+    public LineChart(String title, double[][] dataSet) {
+        super(title);
+
+        setXyDataset(dataSet);
+        this.setContentPane(getChartPanel());
     }
 
-    public void plot() {
-        this.pack();
-        RefineryUtilities.centerFrameOnScreen(this);
-        this.setVisible(true);
+    public LineChart(String title, DataSet dataSet, int xColumnm, int yColumn) {
+        super(title);
+
+        setXyDataset(dataSet, xColumnm, yColumn);
+        this.setContentPane(getChartPanel());
     }
 
-    private void setXyDataset(DataSet dataSet) {
-        xyDataset = new DefaultXYDataset();
-        xyDataset.addSeries("Data", dataSet.toArray(0, 1));
+    public LineChart(String title, SimpleMatrix dataSet) {
+        super(title);
+
+        setXyDataset(dataSet);
+        this.setContentPane(getChartPanel());
     }
 
-    private JPanel getChartPanel() {
-        JFreeChart chart = ChartFactory.createXYLineChart("DataSet", "X", "Y", xyDataset, PlotOrientation.VERTICAL, true, true, false);
+    public LineChart(String title, SimpleMatrix dataSet, int xColumn, int yColumn) {
+        super(title);
+
+        setXyDataset(dataSet, xColumn, yColumn);
+        this.setContentPane(getChartPanel());
+    }
+
+    @Override
+    protected JPanel getChartPanel() {
+        JFreeChart chart = ChartFactory.createXYLineChart("Data", "X", "Y", xyDataset, PlotOrientation.VERTICAL, true, true, false);
         return new ChartPanel(chart);
     }
 }

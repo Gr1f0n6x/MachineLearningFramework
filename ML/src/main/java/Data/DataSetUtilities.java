@@ -1,4 +1,4 @@
-package DataSet;
+package Data;
 
 import org.ejml.simple.SimpleMatrix;
 

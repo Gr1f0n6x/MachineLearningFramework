@@ -1,10 +1,7 @@
-import DataSet.DataSet;
+import Data.DataSet;
 import Plot.DataSetPlotter;
+import Plot.LineChart;
 import org.ejml.simple.SimpleMatrix;
-import org.jfree.chart.demo.PieChartDemo1;
-import org.jfree.ui.RefineryUtilities;
-
-import java.io.IOException;
 
 /**
  * Created by GrIfOn on 12.03.2017.
@@ -12,7 +9,7 @@ import java.io.IOException;
 public class Main {
     public static void main(String[] args) {
 //        try {
-//            DataSet dataSet = new DataSet("D:\\WORK_Java\\MachineLearningFramework\\ML\\src\\main\\resources\\titanic.csv");
+//            Data dataSet = new Data("D:\\WORK_Java\\MachineLearningFramework\\ML\\src\\main\\resources\\titanic.csv");
 //            DataSetPlotter dataSetPlotter = new DataSetPlotter("test", dataSet);
 //            dataSetPlotter.plot();
 //
@@ -56,9 +53,9 @@ public class Main {
 
         SimpleMatrix Y_train = one.extractMatrix(0, one.numRows(), 3, 4);
 
-        SimpleMatrix J_history = new SimpleMatrix(2000, 2);
+        SimpleMatrix J_history = new SimpleMatrix(100, 2);
 
-        for(int i = 0; i < 2000; ++i) {
+        for(int i = 0; i < 100; ++i) {
             //h(theta) current
             SimpleMatrix h_theta = X_train.mult(thetas);
 
@@ -73,7 +70,7 @@ public class Main {
 
             for(int j = 0; j < X_train.numCols(); ++j) {
                 //System.out.println( h_theta.minus(Y_train).elementMult(X_train.extractVector(false, j)).elementSum() / 5);
-                double Q = thetas.get(j, 0) - 0.005 * h_theta.minus(Y_train).elementMult(X_train.extractVector(false, j)).elementSum() / 5;
+                double Q = thetas.get(j, 0) - 0.001 * h_theta.minus(Y_train).elementMult(X_train.extractVector(false, j)).elementSum() / 5;
                 newThetas.set(j, 0, Q);
             }
 
@@ -84,7 +81,7 @@ public class Main {
         J_history.print();
         X_train.mult(thetas).print();
         DataSet graph = new DataSet(J_history);
-        DataSetPlotter dataSetPlotter = new DataSetPlotter("test", graph);
+        DataSetPlotter dataSetPlotter = new LineChart("test", graph, 0, 1);
         dataSetPlotter.plot();
 
         //predict
