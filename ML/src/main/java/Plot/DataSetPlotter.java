@@ -56,5 +56,12 @@ public abstract class DataSetPlotter extends ApplicationFrame implements Plotter
         xyDataset.addSeries("Data", DataSetUtilities.toArray(dataSet, xColumn, yColumn));
     }
 
-    protected abstract JPanel getChartPanel();
+    protected void setXyDataset(SimpleMatrix X, SimpleMatrix Y) {
+        xyDataset = new DefaultXYDataset();
+
+        double[][] arrayOfXY = new double[][] {X.getMatrix().getData(), Y.getMatrix().getData()};
+        xyDataset.addSeries("Data", arrayOfXY);
+    }
+
+    protected abstract JPanel getChartPanel(String title);
 }

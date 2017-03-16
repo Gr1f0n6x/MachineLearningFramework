@@ -7,6 +7,13 @@ import org.ejml.simple.SimpleMatrix;
  */
 public class DataSetUtilities {
 
+    /**
+     *
+     * @param matrix
+     * @param startColumn
+     * @param endColumn
+     * @return
+     */
     public static SimpleMatrix getTrainingSet(SimpleMatrix matrix, int startColumn, int endColumn) {
 
         if(startColumn > matrix.numCols() || endColumn > matrix.numCols()
@@ -17,6 +24,12 @@ public class DataSetUtilities {
         return matrix.extractMatrix(0, matrix.numRows(), startColumn, endColumn);
     }
 
+    /**
+     *
+     * @param matrix
+     * @param column
+     * @return
+     */
     public static SimpleMatrix getAnswersSet(SimpleMatrix matrix, int column) {
 
         if(column > matrix.numCols() || column < 0) {
@@ -26,16 +39,33 @@ public class DataSetUtilities {
         return matrix.extractMatrix(0, matrix.numRows(), column, column + 1);
     }
 
+    /**
+     *
+     * @param A
+     * @param B
+     * @return
+     */
     public static SimpleMatrix addColumns(SimpleMatrix A, SimpleMatrix B) {
         return A.combine(0, A.numCols(), B);
     }
 
+    /**
+     *
+     * @param A
+     * @return
+     */
     public static SimpleMatrix addColumnOfOnes(SimpleMatrix A) {
         SimpleMatrix ones = new SimpleMatrix(A.numRows(), 1);
         ones.set(1);
         return ones.combine(0, ones.numCols(), A);
     }
 
+    /**
+     *
+     * @param matrix
+     * @param column
+     * @return
+     */
     public static SimpleMatrix removeColumn(SimpleMatrix matrix, int column) {
 
         if(column > matrix.numCols() || column < 0) {
@@ -50,6 +80,13 @@ public class DataSetUtilities {
         return A.combine(0, A.numCols(), B);
     }
 
+    /**
+     *
+     * @param matrix
+     * @param startColumn
+     * @param endColumn
+     * @return
+     */
     public static SimpleMatrix removeColumns(SimpleMatrix matrix, int startColumn, int endColumn) {
 
         if(startColumn > matrix.numCols() || endColumn > matrix.numCols()
@@ -65,6 +102,11 @@ public class DataSetUtilities {
         return A.combine(0, A.numCols(), B);
     }
 
+    /**
+     *
+     * @param matrix
+     * @return
+     */
     public static double[][] toArray(SimpleMatrix matrix) {
 
         double array[][] = new double[matrix.numRows()][matrix.numCols()];
@@ -77,6 +119,13 @@ public class DataSetUtilities {
         return array;
     }
 
+    /**
+     *
+     * @param matrix
+     * @param XColumn
+     * @param YColumn
+     * @return
+     */
     public static double[][] toArray(SimpleMatrix matrix, int XColumn, int YColumn) {
 
         if(XColumn > matrix.numCols() || YColumn > matrix.numCols()

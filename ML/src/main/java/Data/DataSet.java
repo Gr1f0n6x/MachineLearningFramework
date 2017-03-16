@@ -19,6 +19,7 @@ public class DataSet {
     private List<String[]> rowDataSet;
     private SimpleMatrix matrix;
 
+
     public DataSet(String fileName) throws IOException {
         this(Paths.get(fileName));
     }
@@ -56,18 +57,31 @@ public class DataSet {
         matrix.print();
     }
 
+    /**
+     *
+     * @param value
+     */
     public void replaceAllEmtyValues(String value) {
         rowDataSet = rowDataSet.stream().
                 map((stringArray) -> Arrays.stream(stringArray).map((x) -> "".equals(x) ? value : x).toArray(String[]::new)).
                 collect(Collectors.toList());
     }
 
+    /**
+     *
+     * @param oldValue
+     * @param newValue
+     */
     public void replaceByValue(String oldValue, String newValue) {
         rowDataSet = rowDataSet.stream().
                 map((stringArray) -> Arrays.stream(stringArray).map((x) -> oldValue.equals(x) ? newValue : x).toArray(String[]::new)).
                 collect(Collectors.toList());
     }
 
+    /**
+     *
+     * @return
+     */
     public SimpleMatrix getMatrix() {
         if(matrix == null) {
             replaceAllEmtyValues("NULL");
@@ -96,12 +110,22 @@ public class DataSet {
         return matrix;
     }
 
+    /**
+     *
+     * @param matrix
+     */
     public void setMatrix(SimpleMatrix matrix) {
         if(matrix != null) {
             this.matrix = matrix;
         }
     }
 
+    /**
+     *
+     * @param startColumn
+     * @param endColumn
+     * @return
+     */
     public SimpleMatrix getTrainingSet(int startColumn, int endColumn) {
         if(matrix == null) {
             getMatrix();
@@ -110,6 +134,11 @@ public class DataSet {
         return DataSetUtilities.getTrainingSet(matrix, startColumn, endColumn);
     }
 
+    /**
+     *
+     * @param column
+     * @return
+     */
     public SimpleMatrix getAnswersSet(int column) {
         if(matrix == null) {
             getMatrix();
@@ -118,6 +147,10 @@ public class DataSet {
         return DataSetUtilities.getAnswersSet(matrix, column);
     }
 
+    /**
+     *
+     * @param column
+     */
     public void removeColumn(int column) {
         if(matrix == null) {
             getMatrix();
@@ -126,6 +159,11 @@ public class DataSet {
         matrix = DataSetUtilities.removeColumn(matrix, column);
     }
 
+    /**
+     *
+     * @param startColumn
+     * @param endColumn
+     */
     public void removeColumns(int startColumn, int endColumn) {
         if(matrix == null) {
             getMatrix();
@@ -134,6 +172,10 @@ public class DataSet {
         matrix = DataSetUtilities.removeColumns(matrix, startColumn, endColumn);
     }
 
+    /**
+     *
+     * @param a
+     */
     public void addColumns(SimpleMatrix a) {
         if(matrix == null) {
             getMatrix();
@@ -142,14 +184,10 @@ public class DataSet {
         matrix = DataSetUtilities.addColumns(matrix, a);
     }
 
-    public void addColumnOfOnes() {
-        if(matrix == null) {
-            getMatrix();
-        }
-
-        matrix = DataSetUtilities.addColumnOfOnes(matrix);
-    }
-
+    /**
+     *
+     * @return
+     */
     public double[][] toArray() {
         if(matrix == null) {
             getMatrix();
@@ -158,6 +196,12 @@ public class DataSet {
         return DataSetUtilities.toArray(matrix);
     }
 
+    /**
+     *
+     * @param XColumn
+     * @param YColumn
+     * @return
+     */
     public double[][] toArray(int XColumn, int YColumn) {
         if(matrix == null) {
             getMatrix();
