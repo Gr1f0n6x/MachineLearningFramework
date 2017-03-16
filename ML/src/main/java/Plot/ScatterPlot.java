@@ -1,18 +1,20 @@
 package Plot;
 
 import Data.DataSet;
+import Plot.Interfaces.Plotter;
 import org.ejml.simple.SimpleMatrix;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.ui.RefineryUtilities;
 
 import javax.swing.*;
 
 /**
  * Created by GrIfOn on 15.03.2017.
  */
-public class ScatterPlot extends DataSetPlotter {
+public class ScatterPlot extends XYDataSetFrame implements Plotter {
 
     public ScatterPlot(String title, DataSet dataSet) {
         super(title);
@@ -56,9 +58,37 @@ public class ScatterPlot extends DataSetPlotter {
         this.setContentPane(getChartPanel(title));
     }
 
+    public ScatterPlot(String title, SimpleMatrix[] dataSet) {
+        super(title);
+
+        setXyDataset(dataSet);
+        this.setContentPane(getChartPanel(title));
+    }
+
+    public ScatterPlot(String title, DataSet[] dataSet) {
+        super(title);
+
+        setXyDataset(dataSet);
+        this.setContentPane(getChartPanel(title));
+    }
+
+    public ScatterPlot(String title, double[][][] dataSet) {
+        super(title);
+
+        setXyDataset(dataSet);
+        this.setContentPane(getChartPanel(title));
+    }
+
     @Override
     protected JPanel getChartPanel(String title) {
         JFreeChart chart = ChartFactory.createScatterPlot(title, "X", "Y", xyDataset, PlotOrientation.VERTICAL, true, true, false);
         return new ChartPanel(chart);
+    }
+
+    @Override
+    public void plot() {
+        this.pack();
+        RefineryUtilities.centerFrameOnScreen(this);
+        this.setVisible(true);
     }
 }

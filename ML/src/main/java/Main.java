@@ -26,24 +26,9 @@ public class Main {
 
         SimpleMatrix Y = DataSetUtilities.getAnswersSet(matrix, 2);
 
-        // multiply all columns to get one vector X
-//        SimpleMatrix vector = X.extractVector(false, 0);
-//        for(int i = 1; i < X.numCols(); ++i) {
-//            vector = X.extractVector(false, i).elementMult(vector);
-//        }
-//
-//        vector.print();
-//        Y.print();
-
-
-//        ScatterPlot scatterPlot = new ScatterPlot("test", X.extractVector(false, 1), Y);
-//        scatterPlot.plot();
-
-        LineChart lineChart = new LineChart("Initial Data", X.extractVector(false, 0), Y);
-        lineChart.plot();
 
         LinearRegression linearRegression = new LinearRegression(0.001);
-        linearRegression.fit(X, Y, 200, 0);
+        linearRegression.fit(X, Y, 10, 0);
         linearRegression.plotCostFunctionHistory();
 
         SimpleMatrix test = new SimpleMatrix(new double[][] {
@@ -55,8 +40,13 @@ public class Main {
         });
 
         SimpleMatrix result = linearRegression.predict(test);
+        DataSetUtilities.addColumns(test.extractVector(false, 0), result).print();
+        DataSetUtilities.addColumns(X.extractVector(false, 0), Y).print();
 
-        LineChart lineChart1 = new LineChart("Prediction", test.extractVector(false, 0), result);
-        lineChart1.plot();
+        LineChart lineChart = new LineChart("Prediction",
+                new SimpleMatrix[] {DataSetUtilities.addColumns(test.extractVector(false, 0), result).transpose(),
+                        DataSetUtilities.addColumns(X.extractVector(false, 0), Y).transpose()});
+
+        lineChart.plot();
     }
 }

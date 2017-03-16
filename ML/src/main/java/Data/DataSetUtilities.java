@@ -145,4 +145,18 @@ public class DataSetUtilities {
 
         return array;
     }
+
+    /**
+     *
+     * @param A
+     * @return
+     */
+    public static SimpleMatrix getOneVectorFromTrainingSet(SimpleMatrix A) {
+        SimpleMatrix vector = A.extractVector(false, 0);
+        for(int i = 1; i < A.numCols(); ++i) {
+            vector = A.extractVector(false, i).elementMult(vector);
+        }
+
+        return vector;
+    }
 }
