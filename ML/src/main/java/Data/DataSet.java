@@ -107,11 +107,7 @@ public class DataSet {
             getMatrix();
         }
 
-        if(startColumn > matrix.numCols() || endColumn > matrix.numCols()) {
-            throw new IllegalArgumentException("Argumnets: startColumn && endColumn should be less than matrix.numCols");
-        }
-
-        return matrix.extractMatrix(0, matrix.numRows(), startColumn, endColumn);
+        return DataSetUtilities.getTrainingSet(matrix, startColumn, endColumn);
     }
 
     public SimpleMatrix getAnswersSet(int column) {
@@ -119,11 +115,7 @@ public class DataSet {
             getMatrix();
         }
 
-        if(column > matrix.numCols()) {
-            throw new IllegalArgumentException("Argumnet: column should be less than matrix.numCols");
-        }
-
-        return matrix.extractMatrix(0, matrix.numRows(), column, column + 1);
+        return DataSetUtilities.getAnswersSet(matrix, column);
     }
 
     public void removeColumn(int column) {
@@ -131,16 +123,7 @@ public class DataSet {
             getMatrix();
         }
 
-        if(column > matrix.numCols()) {
-            throw new IllegalArgumentException("Argumnet: column should be less than matrix.numCols");
-        }
-
-        SimpleMatrix A = matrix.extractMatrix(0, matrix.numRows(), 0, column);
-        SimpleMatrix B = matrix.extractMatrix(0, matrix.numRows(), column + 1, matrix.numCols());
-
-        matrix = A.combine(0, A.numCols(), B);
-
-        printMatrix();
+        matrix = DataSetUtilities.removeColumn(matrix, column);
     }
 
     public void removeColumns(int startColumn, int endColumn) {
@@ -148,26 +131,23 @@ public class DataSet {
             getMatrix();
         }
 
-        if(startColumn > matrix.numCols() || endColumn > matrix.numCols()) {
-            throw new IllegalArgumentException("Argumnets: startColumn && endColumn should be less than matrix.numCols");
-        }
-
-        SimpleMatrix A = matrix.extractMatrix(0, matrix.numRows(), 0, startColumn);
-        SimpleMatrix B = matrix.extractMatrix(0, matrix.numRows(), endColumn + 1, matrix.numCols());
-
-        matrix = A.combine(0, A.numCols(), B);
-
-        printMatrix();
+        matrix = DataSetUtilities.removeColumns(matrix, startColumn, endColumn);
     }
 
     public void addColumns(SimpleMatrix a) {
-        matrix = matrix.combine(0, matrix.numCols(), a);
+        if(matrix == null) {
+            getMatrix();
+        }
+
+        matrix = DataSetUtilities.addColumns(matrix, a);
     }
 
     public void addColumnOfOnes() {
-        SimpleMatrix ones = new SimpleMatrix(matrix.numRows(), 1);
-        ones.set(1);
-        matrix = ones.combine(0, ones.numCols(), matrix);
+        if(matrix == null) {
+            getMatrix();
+        }
+
+        matrix = DataSetUtilities.addColumnOfOnes(matrix);
     }
 
     public double[][] toArray() {
@@ -175,14 +155,7 @@ public class DataSet {
             getMatrix();
         }
 
-        double array[][] = new double[matrix.numRows()][matrix.numCols()];
-        for (int i = 0; i < matrix.numRows(); ++i) {
-            for (int j = 0; j < matrix.numCols(); ++j) {
-                array[i][j] = matrix.get(i,j);
-            }
-        }
-
-        return array;
+        return DataSetUtilities.toArray(matrix);
     }
 
     public double[][] toArray(int XColumn, int YColumn) {
@@ -190,20 +163,6 @@ public class DataSet {
             getMatrix();
         }
 
-        if(XColumn > matrix.numCols() || YColumn > matrix.numCols()) {
-            throw new IllegalArgumentException("Argumnets: XColumn && YColumn should be less than matrix.numCols");
-        }
-
-        double X[] = new double[matrix.numRows()];
-        double Y[] = new double[matrix.numRows()];
-
-        for (int i = 0; i < matrix.numRows(); ++i) {
-            X[i] = matrix.get(i, XColumn);
-            Y[i] = matrix.get(i, YColumn);
-        }
-
-        double[][] array = new double[][] {X, Y};
-
-        return array;
+        return DataSetUtilities.toArray(matrix, XColumn, YColumn);
     }
 }
