@@ -10,6 +10,7 @@ import org.ejml.simple.SimpleMatrix;
 public class LinearRegression implements Model<SimpleMatrix> {
 
     private double alpha;
+    private double lambda;
     private SimpleMatrix thetas;
     private SimpleMatrix J_history;
 
@@ -17,8 +18,23 @@ public class LinearRegression implements Model<SimpleMatrix> {
         this(1);
     }
 
+    /**
+     *
+     * @param alpha
+     * @param lambda
+     */
+    public LinearRegression(double alpha, double lambda) {
+        this.alpha = alpha > 0 ? alpha : 1;
+        this.lambda = lambda > 0 ? lambda : 0;
+    }
+
+    /**
+     *
+     * @param alpha
+     */
     public LinearRegression(double alpha) {
-        this.alpha = alpha;
+        this.alpha = alpha > 0 ? alpha : 1;
+        this.lambda = 0;
     }
 
     public double getAlpha() {
@@ -37,9 +53,17 @@ public class LinearRegression implements Model<SimpleMatrix> {
         return J_history;
     }
 
-    // J = 1/2m * sum[ (H(Xi) - Yi)^2 ]
+    // J = 1/2m * (sum[ (H(Xi) - Yi)^2 ] + lambda/2m * sum[Q^2])
     private double costFunction(SimpleMatrix H_predict, SimpleMatrix Y_train) {
-        return H_predict.minus(Y_train).transpose().mult(H_predict.minus(Y_train)).elementSum() / (2 * Y_train.numRows());
+        if(lambda > 0) {
+            SimpleMatrix regularizationThetas = thetas.extractMatrix(1, thetas.numRows(), 0, thetas.numCols());
+            double regularization = regularizationThetas.elementMult(regularizationThetas).elementSum() * lambda / (2 * Y_train.numRows());
+
+            return (H_predict.minus(Y_train).transpose().mult(H_predict.minus(Y_train)).elementSum() + regularization) / (2 * Y_train.numRows());
+
+        } else {
+            return H_predict.minus(Y_train).transpose().mult(H_predict.minus(Y_train)).elementSum() / (2 * Y_train.numRows());
+        }
     }
 
     // H(X) = Q0*X0 + ... + Qn*Xn
@@ -47,9 +71,14 @@ public class LinearRegression implements Model<SimpleMatrix> {
         return X_train.mult(thetas);
     }
 
-    // G(Q, X) = Qj - alpha/m * sum[ (H(X) - Y). * Xj ]
+    // G(Q, X) = Qj - alpha * 1/m * sum[ (H(X) - Y). * Xj ]
     private double gradientDescent(SimpleMatrix X_train, SimpleMatrix Y_train, SimpleMatrix H_predict, int feature) {
         return thetas.get(feature, 0) - alpha * H_predict.minus(Y_train).elementMult(X_train.extractVector(false, feature)).elementSum() / Y_train.numRows();
+    }
+
+    // G(Q, X) = Qj - alpha * (1/m * sum[ (H(X) - Y). * Xj ] + lambda/m * Qj)
+    private double gradientDescentWithRegularization(SimpleMatrix X_train, SimpleMatrix Y_train, SimpleMatrix H_predict, int feature) {
+        return thetas.get(feature, 0) - alpha * (H_predict.minus(Y_train).elementMult(X_train.extractVector(false, feature)).elementSum() / Y_train.numRows() + lambda *  thetas.get(feature, 0)/ Y_train.numRows());
     }
 
     @Override
@@ -68,8 +97,11 @@ public class LinearRegression implements Model<SimpleMatrix> {
 
             SimpleMatrix newThetas = new SimpleMatrix(Train.numCols(), 1);
 
-            for(int feature = 0; feature < Train.numCols(); ++feature) {
-                double theta = gradientDescent(Train, Y_train, H_theta, feature);
+            double theta = gradientDescent(Train, Y_train, H_theta, 0);
+            newThetas.set(0, 0, theta);
+
+            for(int feature = 1; feature < Train.numCols(); ++feature) {
+                theta = gradientDescentWithRegularization(Train, Y_train, H_theta, feature);
                 newThetas.set(feature, 0, theta);
             }
 

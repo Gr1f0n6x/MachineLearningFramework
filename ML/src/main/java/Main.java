@@ -27,7 +27,7 @@ public class Main {
         SimpleMatrix Y = DataSetUtilities.getAnswersSet(matrix, 2);
 
 
-        LinearRegression linearRegression = new LinearRegression(0.001);
+        LinearRegression linearRegression = new LinearRegression(0.001, 0);
         linearRegression.fit(X, Y, 10, 0);
         linearRegression.plotCostFunctionHistory();
 
