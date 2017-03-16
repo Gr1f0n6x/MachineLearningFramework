@@ -7,7 +7,7 @@ import org.ejml.simple.SimpleMatrix;
 /**
  * Created by GrIfOn on 12.03.2017.
  */
-public class LinearRegression implements Model {
+public class LinearRegression implements Model<Double> {
 
     private double alpha;
     private SimpleMatrix thetas;
@@ -55,47 +55,34 @@ public class LinearRegression implements Model {
     @Override
     public void fit(SimpleMatrix X_train, SimpleMatrix Y_train, int epochNum, int batchSize) {
         thetas = new SimpleMatrix(X_train.numCols(), 1);
+        J_history = new SimpleMatrix(epochNum, 2);
 
-        for(int i = 0; i < epochNum; ++i) {
+        for(int epoch = 0; epoch < epochNum; ++epoch) {
+            SimpleMatrix H_theta = predictionFunction(X_train);
 
+            double cost = costFunction(X_train, Y_train, H_theta);
+
+            J_history.set(epoch, 0, cost);
+            J_history.set(epoch, 1, epoch);
+
+            SimpleMatrix newThetas = new SimpleMatrix(X_train.numCols(), 1);
+
+            for(int feature = 0; feature < X_train.numCols(); ++feature) {
+                double theta = gradientDescent(X_train, Y_train, H_theta, feature);
+                newThetas.set(feature, 0, theta);
+            }
+
+            thetas = newThetas;
         }
     }
 
     @Override
-    public void predict(SimpleMatrix X) {
-
+    public Double predict(SimpleMatrix X) {
+        return X.mult(thetas).elementSum();
     }
 
     public void plotCostFunctionHistory() {
-        LineChart lineChart = new LineChart("CostFunction", DataSetUtilities.toArray(J_history));
+        LineChart lineChart = new LineChart("CostFunction", DataSetUtilities.toArray(J_history, 0, 1));
         lineChart.plot();
     }
 }
-
-
-/*        for(int i = 0; i < 200; ++i) {
-            //h(theta) current
-            SimpleMatrix h_theta = X_train.mult(thetas);
-
-            //J(theta)
-            double cost = h_theta.minus(Y_train).transpose().mult(h_theta.minus(Y_train)).elementSum()/10;
-
-            J_history.set(i, 0, cost);
-            J_history.set(i, 1, i);
-
-            //gradient descent
-            SimpleMatrix newThetas = new SimpleMatrix(new double[][] {
-                    {0},
-                    {0}
-            });
-
-            for(int j = 0; j < X_train.numCols(); ++j) {
-                //System.out.println( h_theta.minus(Y_train).elementMult(X_train.extractVector(false, j)).elementSum() / 5);
-                double Q = thetas.get(j, 0) - 0.01 * h_theta.minus(Y_train).elementMult(X_train.extractVector(false, j)).elementSum() / 5;
-                newThetas.set(j, 0, Q);
-            }
-
-            thetas = newThetas;
-            thetas.print();
-        }
-* */

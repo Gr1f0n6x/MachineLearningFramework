@@ -7,17 +7,35 @@ import org.ejml.simple.SimpleMatrix;
  */
 public class DataSetUtilities {
 
-    public static void addColumns(SimpleMatrix A, SimpleMatrix B) {
-        A = A.combine(0, A.numCols(), B);
+    public static SimpleMatrix getTrainingSet(SimpleMatrix matrix, int startColumn, int endColumn) {
+
+        if(startColumn > matrix.numCols() || endColumn > matrix.numCols()) {
+            throw new IllegalArgumentException("Argumnets: startColumn && endColumn should be less than matrix.numCols");
+        }
+
+        return matrix.extractMatrix(0, matrix.numRows(), startColumn, endColumn);
     }
 
-    public static void addColumnOfOnes(SimpleMatrix A) {
+    public static SimpleMatrix getAnswersSet(SimpleMatrix matrix, int column) {
+
+        if(column > matrix.numCols()) {
+            throw new IllegalArgumentException("Argumnet: column should be less than matrix.numCols");
+        }
+
+        return matrix.extractMatrix(0, matrix.numRows(), column, column + 1);
+    }
+
+    public static SimpleMatrix addColumns(SimpleMatrix A, SimpleMatrix B) {
+        return A.combine(0, A.numCols(), B);
+    }
+
+    public static SimpleMatrix addColumnOfOnes(SimpleMatrix A) {
         SimpleMatrix ones = new SimpleMatrix(A.numRows(), 1);
         ones.set(1);
-        A = ones.combine(0, A.numCols(), A);
+        return ones.combine(0, ones.numCols(), A);
     }
 
-    public void removeColumn(SimpleMatrix matrix, int column) {
+    public SimpleMatrix removeColumn(SimpleMatrix matrix, int column) {
 
         if(column > matrix.numCols()) {
             throw new IllegalArgumentException("Argumnet: column should be less than matrix.numCols");
@@ -26,12 +44,12 @@ public class DataSetUtilities {
         SimpleMatrix A = matrix.extractMatrix(0, matrix.numRows(), 0, column);
         SimpleMatrix B = matrix.extractMatrix(0, matrix.numRows(), column + 1, matrix.numCols());
 
-        matrix = A.combine(0, A.numCols(), B);
-
         matrix.print();
+
+        return A.combine(0, A.numCols(), B);
     }
 
-    public void removeColumns(SimpleMatrix matrix, int startColumn, int endColumn) {
+    public SimpleMatrix removeColumns(SimpleMatrix matrix, int startColumn, int endColumn) {
 
         if(startColumn > matrix.numCols() || endColumn > matrix.numCols()) {
             throw new IllegalArgumentException("Argumnets: startColumn && endColumn should be less than matrix.numCols");
@@ -40,9 +58,9 @@ public class DataSetUtilities {
         SimpleMatrix A = matrix.extractMatrix(0, matrix.numRows(), 0, startColumn);
         SimpleMatrix B = matrix.extractMatrix(0, matrix.numRows(), endColumn + 1, matrix.numCols());
 
-        matrix = A.combine(0, A.numCols(), B);
-
         matrix.print();
+
+        return A.combine(0, A.numCols(), B);
     }
 
     public static double[][] toArray(SimpleMatrix matrix) {

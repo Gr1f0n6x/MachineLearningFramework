@@ -1,4 +1,6 @@
 import Data.DataSet;
+import Data.DataSetUtilities;
+import LearningAlgorithms.LinearRegression;
 import Plot.DataSetPlotter;
 import Plot.LineChart;
 import org.ejml.simple.SimpleMatrix;
@@ -16,6 +18,13 @@ public class Main {
                 {4, 16, 16},
                 {5, 25, 25},
         };
+
+        SimpleMatrix matrix = new SimpleMatrix(data);
+        matrix = DataSetUtilities.addColumnOfOnes(matrix);
+        LinearRegression linearRegression = new LinearRegression(0.001);
+        linearRegression.fit(DataSetUtilities.getTrainingSet(matrix, 0, 3), DataSetUtilities.getAnswersSet(matrix, 3), 200, 0);
+        linearRegression.plotCostFunctionHistory();
+
 
 
 //        double[][] ones = new double[][] {

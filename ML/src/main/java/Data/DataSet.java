@@ -167,7 +167,7 @@ public class DataSet {
     public void addColumnOfOnes() {
         SimpleMatrix ones = new SimpleMatrix(matrix.numRows(), 1);
         ones.set(1);
-        matrix = ones.combine(0, matrix.numCols(), matrix);
+        matrix = ones.combine(0, ones.numCols(), matrix);
     }
 
     public double[][] toArray() {
