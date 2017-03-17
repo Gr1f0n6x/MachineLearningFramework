@@ -53,11 +53,11 @@ public class LinearRegression implements Model<SimpleMatrix> {
         return J_history;
     }
 
-    // J = 1/2m * (sum[ (H(Xi) - Yi)^2 ] + lambda/2m * sum[Q^2])
+    // J = 1/2m * (sum[ (H(Xi) - Yi)^2 ] + lambda * sum[Q^2])
     private double costFunction(SimpleMatrix H_predict, SimpleMatrix Y_train) {
         if(lambda > 0) {
             SimpleMatrix regularizationThetas = thetas.extractMatrix(1, thetas.numRows(), 0, thetas.numCols());
-            double regularization = regularizationThetas.elementMult(regularizationThetas).elementSum() * lambda / (2 * Y_train.numRows());
+            double regularization = regularizationThetas.elementMult(regularizationThetas).elementSum() * lambda;
 
             return (H_predict.minus(Y_train).transpose().mult(H_predict.minus(Y_train)).elementSum() + regularization) / (2 * Y_train.numRows());
 
@@ -78,7 +78,7 @@ public class LinearRegression implements Model<SimpleMatrix> {
 
     // G(Q, X) = Qj - alpha * (1/m * sum[ (H(X) - Y). * Xj ] + lambda/m * Qj)
     private double gradientDescentWithRegularization(SimpleMatrix X_train, SimpleMatrix Y_train, SimpleMatrix H_predict, int feature) {
-        return thetas.get(feature, 0) - alpha * (H_predict.minus(Y_train).elementMult(X_train.extractVector(false, feature)).elementSum() / Y_train.numRows() + lambda *  thetas.get(feature, 0)/ Y_train.numRows());
+        return thetas.get(feature, 0) - alpha * (H_predict.minus(Y_train).elementMult(X_train.extractVector(false, feature)).elementSum() / Y_train.numRows() + lambda * thetas.get(feature, 0)/ Y_train.numRows());
     }
 
     @Override
@@ -100,7 +100,7 @@ public class LinearRegression implements Model<SimpleMatrix> {
             double theta = gradientDescent(Train, Y_train, H_theta, 0);
             newThetas.set(0, 0, theta);
 
-            for(int feature = 1; feature < Train.numCols(); ++feature) {
+            for(int feature = 0; feature < Train.numCols(); ++feature) {
                 theta = gradientDescentWithRegularization(Train, Y_train, H_theta, feature);
                 newThetas.set(feature, 0, theta);
             }
