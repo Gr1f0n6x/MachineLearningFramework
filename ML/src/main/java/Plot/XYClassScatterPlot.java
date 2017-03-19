@@ -5,7 +5,11 @@ import org.ejml.simple.SimpleMatrix;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
+import org.jfree.data.xy.DefaultXYDataset;
 
 import javax.swing.*;
 
@@ -46,5 +50,37 @@ public class XYClassScatterPlot extends XYClassDataSetFrame {
     protected JPanel getChartPanel(String title) {
         chart = ChartFactory.createScatterPlot(title, "X", "Y", xyDataset, PlotOrientation.VERTICAL, true, true, false);
         return new ChartPanel(chart);
+    }
+
+    public void plotHyperline(SimpleMatrix thetas) {
+        XYPlot plotter = new XYPlot();
+        XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer(false, true);
+        plotter.setDataset(xyDataset);
+        plotter.setRenderer(renderer);
+
+        plotter.setDomainAxis(new NumberAxis("X"));
+        plotter.setRangeAxis(new NumberAxis("Y"));
+
+        plotter.setOrientation(PlotOrientation.VERTICAL);
+        plotter.setRangeGridlinesVisible(true);
+        plotter.setDomainGridlinesVisible(true);
+
+
+        XYLineAndShapeRenderer line = new XYLineAndShapeRenderer();
+
+        DefaultXYDataset hyperline = new DefaultXYDataset();
+
+        hyperline.addSeries(0, new double[][] {
+                {-thetas.get(0, 0) / thetas.get(1, 0), 0},
+                {0, -thetas.get(0, 0) / thetas.get(2, 0)},
+        });
+
+        plotter.setDataset(1, hyperline);
+        plotter.setRenderer(1, line);
+
+        chart = new JFreeChart(plotter);
+        this.setContentPane(new ChartPanel(chart));
+
+        plot();
     }
 }

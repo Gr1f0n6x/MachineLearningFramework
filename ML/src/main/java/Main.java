@@ -1,6 +1,7 @@
 import Data.DataSetUtilities;
 import LearningAlgorithms.LogisticRegression;
 import Plot.XYClassScatterPlot;
+import Plot.XYLineChart;
 import Plot.XYScatterPlot;
 import org.apache.commons.collections.MultiHashMap;
 import org.apache.commons.collections.map.MultiKeyMap;
@@ -93,6 +94,16 @@ public class Main {
 
         logisticRegression.getThetas().print();
 
-        xyClassScatterPlot.plot();
+        //xyClassScatterPlot.plot();
+
+
+//        XYLineChart xyLineChart = new XYLineChart("line", new SimpleMatrix(new double[][] {
+//                {10.7, 0},
+//                {0, 9},
+//        }).transpose());
+//        xyLineChart.plot();
+
+        logisticRegression.getThetas().print();
+        xyClassScatterPlot.plotHyperline(logisticRegression.getThetas());
     }
 }
