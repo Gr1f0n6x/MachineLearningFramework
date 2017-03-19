@@ -92,8 +92,8 @@ public class LinearRegression implements Model<SimpleMatrix> {
 
             double cost = costFunction(H_theta, Y_train);
 
-            J_history.set(epoch, 0, cost);
-            J_history.set(epoch, 1, epoch);
+            J_history.set(epoch, 0, epoch);
+            J_history.set(epoch, 1, cost);
 
             SimpleMatrix newThetas = new SimpleMatrix(Train.numCols(), 1);
 
@@ -111,7 +111,7 @@ public class LinearRegression implements Model<SimpleMatrix> {
 
     @Override
     public SimpleMatrix predict(SimpleMatrix X) {
-        return DataSetUtilities.addColumnOfOnes(X).mult(thetas);
+        return predictionFunction(DataSetUtilities.addColumnOfOnes(X));
     }
 
     public void plotCostFunctionHistory() {

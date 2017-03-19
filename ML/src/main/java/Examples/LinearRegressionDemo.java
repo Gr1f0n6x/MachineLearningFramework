@@ -26,7 +26,7 @@ public class LinearRegressionDemo {
 
 
         LinearRegression linearRegression = new LinearRegression(0.001, 100);
-        linearRegression.fit(X, Y, 10, 0);
+        linearRegression.fit(X, Y, 100, 0);
         linearRegression.plotCostFunctionHistory();
 
         SimpleMatrix test = new SimpleMatrix(new double[][] {

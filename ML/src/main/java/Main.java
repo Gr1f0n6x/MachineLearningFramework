@@ -1,3 +1,5 @@
+import Data.DataSetUtilities;
+import LearningAlgorithms.LogisticRegression;
 import Plot.XYClassScatterPlot;
 import Plot.XYScatterPlot;
 import org.apache.commons.collections.MultiHashMap;
@@ -18,6 +20,24 @@ import java.util.stream.IntStream;
 public class Main {
     public static void main(String[] args) {
 
+//        double[][] data = new double[][] {
+//                {1, 4, 0},
+//                {3, 2, 0},
+//                {4, 5, 0},
+//                {4, 2, 0},
+//                {2, 1, 0},
+//                {6, 10, 1},
+//                {9, 8, 1},
+//                {6, 7, 1},
+//                {7, 9, 1},
+//                {9, 6, 1},
+//                {11, 11, 2},
+//                {15, 12, 2},
+//                {14, 13, 2},
+//                {12, 11, 2},
+//                {15, 15, 2},
+//        };
+
         double[][] data = new double[][] {
                 {1, 4, 0},
                 {3, 2, 0},
@@ -29,15 +49,10 @@ public class Main {
                 {6, 7, 1},
                 {7, 9, 1},
                 {9, 6, 1},
-                {11, 11, 2},
-                {15, 12, 2},
-                {14, 13, 2},
-                {12, 11, 2},
-                {15, 15, 2},
         };
 
         SimpleMatrix dataSet = new SimpleMatrix(data);
-        dataSet.print();
+        //dataSet.print();
 
 
 //        Map<Integer, SimpleMatrix> classMap = new MultiValueMap();
@@ -56,9 +71,25 @@ public class Main {
 
 
 
-        XYClassScatterPlot xyClassScatterPlot = new XYClassScatterPlot("demo", dataSet);
-        xyClassScatterPlot.plot();
+//        XYClassScatterPlot xyClassScatterPlot = new XYClassScatterPlot("demo", dataSet);
+//        xyClassScatterPlot.plot();
 
+        LogisticRegression logisticRegression = new LogisticRegression(0.4);
+        logisticRegression.fit(DataSetUtilities.getTrainingSet(dataSet, 0, 2), DataSetUtilities.getAnswersSet(dataSet, 2), 100, 0);
+
+        logisticRegression.plotCostFunctionHistory();
+
+        double[][] predict = new double[][] {
+                {1.2, 3.5}
+        };
+
+        System.out.println(logisticRegression.predict(new SimpleMatrix(predict)));
+
+        predict = new double[][] {
+                {7.6, 8.5}
+        };
+
+        System.out.println(logisticRegression.predict(new SimpleMatrix(predict)));
 
     }
 }
