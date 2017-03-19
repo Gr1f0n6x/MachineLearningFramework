@@ -27,10 +27,7 @@ public class BinaryLogisticRegressionDemo {
 
         SimpleMatrix dataSet = new SimpleMatrix(data);
 
-
-
         XYClassScatterPlot xyClassScatterPlot = new XYClassScatterPlot("demo", dataSet);
-        xyClassScatterPlot.plot();
 
         LogisticRegression logisticRegression = new LogisticRegression(0.4);
         logisticRegression.fit(DataSetUtilities.getTrainingSet(dataSet, 0, 2), DataSetUtilities.getAnswersSet(dataSet, 2), 100, 0);
@@ -41,12 +38,15 @@ public class BinaryLogisticRegressionDemo {
                 {1.2, 3.5}
         };
 
-        logisticRegression.predict(new SimpleMatrix(predict)).print();
+
+        xyClassScatterPlot.addExtraData(DataSetUtilities.addColumns(new SimpleMatrix(predict), logisticRegression.predict(new SimpleMatrix(predict))));
 
         predict = new double[][] {
                 {7.6, 8.5}
         };
 
-       logisticRegression.predict(new SimpleMatrix(predict)).print();
+        xyClassScatterPlot.addExtraData(DataSetUtilities.addColumns(new SimpleMatrix(predict), logisticRegression.predict(new SimpleMatrix(predict))));
+
+        xyClassScatterPlot.plotHyperline(logisticRegression.getTheta());
     }
 }

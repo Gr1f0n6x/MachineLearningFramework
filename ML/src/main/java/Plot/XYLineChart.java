@@ -60,10 +60,10 @@ public class XYLineChart extends XYDataSetFrame {
         this.setContentPane(getChartPanel(title));
     }
 
-    public XYLineChart(String title, SimpleMatrix[] dataSet) {
+    public XYLineChart(String title, SimpleMatrix[] dataSet, boolean transpose) {
         super(title);
 
-        setXyDataset(dataSet);
+        setXyDataset(dataSet, transpose);
         this.setContentPane(getChartPanel(title));
     }
 

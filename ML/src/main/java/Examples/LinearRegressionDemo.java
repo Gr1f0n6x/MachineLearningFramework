@@ -42,8 +42,8 @@ public class LinearRegressionDemo {
         DataSetUtilities.addColumns(X.extractVector(false, 0), Y).print();
 
         XYLineChart lineChart = new XYLineChart("Prediction",
-                new SimpleMatrix[] {DataSetUtilities.addColumns(test.extractVector(false, 0), result).transpose(),
-                        DataSetUtilities.addColumns(X.extractVector(false, 0), Y).transpose()});
+                new SimpleMatrix[] {DataSetUtilities.addColumns(test.extractVector(false, 0), result),
+                        DataSetUtilities.addColumns(X.extractVector(false, 0), Y)}, true);
 
         lineChart.plot();
     }
