@@ -1,7 +1,7 @@
 package LearningAlgorithms;
 
 import Data.DataSetUtilities;
-import Plot.LineChart;
+import Plot.XYLineChart;
 import org.ejml.simple.SimpleMatrix;
 
 /**
@@ -115,7 +115,7 @@ public class LinearRegression implements Model<SimpleMatrix> {
     }
 
     public void plotCostFunctionHistory() {
-        LineChart lineChart = new LineChart("CostFunction", DataSetUtilities.toArray(J_history, 0, 1));
-        lineChart.plot();
+        XYLineChart XYLineChart = new XYLineChart("CostFunction", DataSetUtilities.toArray(J_history, 0, 1));
+        XYLineChart.plot();
     }
 }

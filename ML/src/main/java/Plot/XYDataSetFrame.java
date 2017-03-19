@@ -2,16 +2,18 @@ package Plot;
 
 import Data.DataSet;
 import Data.DataSetUtilities;
+import Plot.Interfaces.Plotter;
 import org.ejml.simple.SimpleMatrix;
 import org.jfree.data.xy.DefaultXYDataset;
 import org.jfree.ui.ApplicationFrame;
+import org.jfree.ui.RefineryUtilities;
 
 import javax.swing.*;
 
 /**
  * Created by GrIfOn on 15.03.2017.
  */
-public abstract class XYDataSetFrame extends ApplicationFrame {
+public abstract class XYDataSetFrame extends ApplicationFrame implements Plotter {
     protected DefaultXYDataset xyDataset;
 
     public XYDataSetFrame(String title) {
@@ -123,4 +125,11 @@ public abstract class XYDataSetFrame extends ApplicationFrame {
     }
 
     protected abstract JPanel getChartPanel(String title);
+
+    @Override
+    public void plot() {
+        this.pack();
+        RefineryUtilities.centerFrameOnScreen(this);
+        this.setVisible(true);
+    }
 }

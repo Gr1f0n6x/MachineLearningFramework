@@ -139,6 +139,19 @@ public class DataSet {
      * @param column
      * @return
      */
+    public SimpleMatrix getTrainingSet(int column) {
+        if(matrix == null) {
+            getMatrix();
+        }
+
+        return DataSetUtilities.getTrainingSet(matrix, column, column + 1);
+    }
+
+    /**
+     *
+     * @param column
+     * @return
+     */
     public SimpleMatrix getAnswersSet(int column) {
         if(matrix == null) {
             getMatrix();

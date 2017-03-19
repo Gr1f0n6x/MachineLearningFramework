@@ -30,6 +30,21 @@ public class DataSetUtilities {
      * @param column
      * @return
      */
+    public static SimpleMatrix getTrainingSet(SimpleMatrix matrix, int column) {
+
+        if(column > matrix.numCols() || column < 0) {
+            throw new IllegalArgumentException("Argument: column should be less than matrix.numCols and > 0");
+        }
+
+        return matrix.extractMatrix(0, matrix.numRows(), column, column + 1);
+    }
+
+    /**
+     *
+     * @param matrix
+     * @param column
+     * @return
+     */
     public static SimpleMatrix getAnswersSet(SimpleMatrix matrix, int column) {
 
         if(column > matrix.numCols() || column < 0) {
