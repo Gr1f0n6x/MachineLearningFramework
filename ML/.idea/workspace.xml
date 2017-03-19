@@ -2,24 +2,22 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="db464d71-2ca9-42a8-8bac-594a49c4a85c" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/Plot/XYClassDataSetFrame.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/Plot/XYClassScatterPlot.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/Plot/LineChart.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/Plot/ScatterPlot.class" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/LearningAlgorithms/LinearRegression.class" afterPath="$PROJECT_DIR$/target/classes/LearningAlgorithms/LinearRegression.class" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_ejml_all_0_30.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_ejml_core_0_30.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_ejml_dense64_0_30.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_ejml_denseC64_0_30.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_ejml_equation_0_30.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_ejml_simple_0_30.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/Examples/LinearRegressionDemo.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_googlecode_efficient_java_matrix_library_ejml_0_25.xml" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/LearningAlgorithms/LogisticRegression.class" afterPath="$PROJECT_DIR$/target/classes/LearningAlgorithms/LogisticRegression.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/LearningAlgorithms/kNN.class" afterPath="$PROJECT_DIR$/target/classes/LearningAlgorithms/kNN.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/Main.class" afterPath="$PROJECT_DIR$/target/classes/Main.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/Plot/XYClassDataSetFrame.class" afterPath="$PROJECT_DIR$/target/classes/Plot/XYClassDataSetFrame.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Data/DataSet.java" afterPath="$PROJECT_DIR$/src/main/java/Data/DataSet.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Data/DataSetUtilities.java" afterPath="$PROJECT_DIR$/src/main/java/Data/DataSetUtilities.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/LearningAlgorithms/LinearRegression.java" afterPath="$PROJECT_DIR$/src/main/java/LearningAlgorithms/LinearRegression.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ML.iml" afterPath="$PROJECT_DIR$/ML.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/LearningAlgorithms/LogisticRegression.java" afterPath="$PROJECT_DIR$/src/main/java/LearningAlgorithms/LogisticRegression.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/LearningAlgorithms/kNN.java" afterPath="$PROJECT_DIR$/src/main/java/LearningAlgorithms/kNN.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Main.java" afterPath="$PROJECT_DIR$/src/main/java/Main.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Plot/XYDataSetFrame.java" afterPath="$PROJECT_DIR$/src/main/java/Plot/XYDataSetFrame.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/Plot/LineChart.java" afterPath="$PROJECT_DIR$/src/main/java/Plot/XYLineChart.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/Plot/ScatterPlot.java" afterPath="$PROJECT_DIR$/src/main/java/Plot/XYScatterPlot.java" />
     </list>
     <ignored path="ML.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -46,20 +44,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/Main.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="78" column="47" selection-start-line="78" selection-start-column="47" selection-end-line="78" selection-end-column="47" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#559#602#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="XYClassDataSetFrame.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/Plot/XYClassDataSetFrame.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.38879737">
-              <caret line="98" column="9" selection-start-line="98" selection-start-column="9" selection-end-line="98" selection-end-column="9" />
+              <caret line="33" column="28" selection-start-line="33" selection-start-column="28" selection-end-line="33" selection-end-column="28" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -67,13 +52,16 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="XYClassScatterPlot.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/Plot/XYClassScatterPlot.java">
+      <file leaf-file-name="LogisticRegression.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/LearningAlgorithms/LogisticRegression.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="53" column="0" selection-start-line="53" selection-start-column="0" selection-end-line="53" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.39209226">
+              <caret line="14" column="10" selection-start-line="14" selection-start-column="10" selection-end-line="14" selection-end-column="10" />
               <folding>
-                <element signature="imports" expanded="true" />
+                <element signature="e#578#579#0" expanded="true" />
+                <element signature="e#605#606#0" expanded="true" />
+                <element signature="e#761#762#0" expanded="true" />
+                <element signature="e#785#786#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -103,7 +91,6 @@
         <option value="$PROJECT_DIR$/src/main/java/LearningAlgorithm.java" />
         <option value="$PROJECT_DIR$/src/main/java/SupervisedLearning/LinearRegression.java" />
         <option value="$PROJECT_DIR$/src/main/java/LearningAlgorithms/LearningAlgorithm.java" />
-        <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/java/DataSet/DataSet.java" />
         <option value="$PROJECT_DIR$/src/main/java/DataSet/DataSetUtilities.java" />
         <option value="$PROJECT_DIR$/src/main/java/Plot/Plotter.java" />
@@ -119,7 +106,6 @@
         <option value="$PROJECT_DIR$/src/main/java/Plot/LineChart.java" />
         <option value="$PROJECT_DIR$/src/main/java/Plot/ScatterPlot.java" />
         <option value="$PROJECT_DIR$/src/main/java/LearningAlgorithms/LinearRegression.java" />
-        <option value="$PROJECT_DIR$/src/main/java/LearningAlgorithms/LogisticRegression.java" />
         <option value="$PROJECT_DIR$/src/main/java/LearningAlgorithms/kNN.java" />
         <option value="$PROJECT_DIR$/src/main/java/Data/DataSetUtilities.java" />
         <option value="$PROJECT_DIR$/src/main/java/Data/DataSet.java" />
@@ -127,8 +113,11 @@
         <option value="$PROJECT_DIR$/src/main/java/Plot/XYScatterPlot.java" />
         <option value="$PROJECT_DIR$/src/main/java/Plot/XYLineChart.java" />
         <option value="$PROJECT_DIR$/src/main/java/Plot/XYClassScatterPlot.java" />
-        <option value="$PROJECT_DIR$/src/main/java/Main.java" />
         <option value="$PROJECT_DIR$/src/main/java/Plot/XYClassDataSetFrame.java" />
+        <option value="$PROJECT_DIR$/src/main/java/LearningAlgorithms/LogisticRegression.java" />
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/Examples/LinearRegressionDemo.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Main.java" />
       </list>
     </option>
   </component>
@@ -720,24 +709,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/LearningAlgorithms/Model.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Data/DataSet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="108" column="0" selection-start-line="108" selection-start-column="0" selection-end-line="108" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Data/DataSetUtilities.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -780,7 +751,6 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#559#602#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -841,25 +811,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/com/googlecode/efficient-java-matrix-library/ejml/0.25/ejml-0.25.jar!/org/ejml/simple/SimpleMatrix.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.17586207">
-          <caret line="15" column="43" selection-start-line="15" selection-start-column="43" selection-end-line="15" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_73/src.zip!/java/nio/file/Files.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-59.408566">
           <caret line="89" column="19" selection-start-line="89" selection-start-column="19" selection-end-line="89" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-21.038462">
-          <caret line="42" column="0" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -963,13 +918,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/com/googlecode/efficient-java-matrix-library/ejml/0.25/ejml-0.25.jar!/org/ejml/simple/SimpleBase.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.34827587">
-          <caret line="239" column="13" selection-start-line="239" selection-start-column="13" selection-end-line="239" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/LearningAlgorithms/kNN.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.22405271">
@@ -978,25 +926,6 @@
             <element signature="e#341#342#0" expanded="false" />
             <element signature="e#368#369#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/LearningAlgorithms/LogisticRegression.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-          <folding>
-            <element signature="e#356#357#0" expanded="false" />
-            <element signature="e#383#384#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/LearningAlgorithms/LinearRegression.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.29983526">
-          <caret line="99" column="46" selection-start-line="99" selection-start-column="46" selection-end-line="99" selection-end-column="46" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1103,17 +1032,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="78" column="47" selection-start-line="78" selection-start-column="47" selection-end-line="78" selection-end-column="47" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#559#602#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Plot/XYClassScatterPlot.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1126,10 +1044,83 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Plot/XYClassDataSetFrame.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.38879737">
-          <caret line="98" column="9" selection-start-line="98" selection-start-column="9" selection-end-line="98" selection-end-column="9" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="101" column="7" selection-start-line="101" selection-start-column="7" selection-end-line="101" selection-end-column="7" />
           <folding>
             <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/com/googlecode/efficient-java-matrix-library/ejml/0.25/ejml-0.25.jar!/org/ejml/ops/CommonOps.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.34827587">
+          <caret line="887" column="23" selection-start-line="887" selection-start-column="23" selection-end-line="887" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/com/googlecode/efficient-java-matrix-library/ejml/0.25/ejml-0.25.jar!/org/ejml/simple/SimpleBase.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.3333335">
+          <caret line="349" column="70" selection-start-line="349" selection-start-column="70" selection-end-line="349" selection-end-column="70" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/LearningAlgorithms/LinearRegression.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.5601318">
+          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Examples/LinearRegressionDemo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.3723229">
+          <caret line="49" column="1" selection-start-line="49" selection-start-column="1" selection-end-line="49" selection-end-column="1" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/com/googlecode/efficient-java-matrix-library/ejml/0.25/ejml-0.25.jar!/org/ejml/simple/SimpleMatrix.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.17586207">
+          <caret line="15" column="38" selection-start-line="15" selection-start-column="38" selection-end-line="15" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5180723">
+          <caret line="28" column="21" selection-start-line="28" selection-start-column="21" selection-end-line="28" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="33" column="28" selection-start-line="33" selection-start-column="28" selection-end-line="33" selection-end-column="28" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/LearningAlgorithms/LogisticRegression.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.39209226">
+          <caret line="14" column="10" selection-start-line="14" selection-start-column="10" selection-end-line="14" selection-end-column="10" />
+          <folding>
+            <element signature="e#578#579#0" expanded="true" />
+            <element signature="e#605#606#0" expanded="true" />
+            <element signature="e#761#762#0" expanded="true" />
+            <element signature="e#785#786#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -23,9 +23,9 @@
     <dependencies>
         <!-- https://mvnrepository.com/artifact/com.googlecode.efficient-java-matrix-library/ejml -->
         <dependency>
-            <groupId>com.googlecode.efficient-java-matrix-library</groupId>
-            <artifactId>ejml</artifactId>
-            <version>0.25</version>
+            <groupId>org.ejml</groupId>
+            <artifactId>all</artifactId>
+            <version>0.30</version>
         </dependency>
 
         <dependency>
