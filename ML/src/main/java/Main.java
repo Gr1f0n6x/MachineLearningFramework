@@ -71,8 +71,7 @@ public class Main {
 
 
 
-//        XYClassScatterPlot xyClassScatterPlot = new XYClassScatterPlot("demo", dataSet);
-//        xyClassScatterPlot.plot();
+        XYClassScatterPlot xyClassScatterPlot = new XYClassScatterPlot("demo", dataSet);
 
         LogisticRegression logisticRegression = new LogisticRegression(0.4);
         logisticRegression.fit(DataSetUtilities.getTrainingSet(dataSet, 0, 2), DataSetUtilities.getAnswersSet(dataSet, 2), 100, 0);
@@ -83,13 +82,17 @@ public class Main {
                 {1.2, 3.5}
         };
 
-        System.out.println(logisticRegression.predict(new SimpleMatrix(predict)));
+
+        xyClassScatterPlot.addExtraData(DataSetUtilities.addColumns(new SimpleMatrix(predict), logisticRegression.predict(new SimpleMatrix(predict))));
 
         predict = new double[][] {
                 {7.6, 8.5}
         };
 
-        System.out.println(logisticRegression.predict(new SimpleMatrix(predict)));
+        xyClassScatterPlot.addExtraData(DataSetUtilities.addColumns(new SimpleMatrix(predict), logisticRegression.predict(new SimpleMatrix(predict))));
 
+        logisticRegression.getThetas().print();
+
+        xyClassScatterPlot.plot();
     }
 }

@@ -4,6 +4,7 @@ import Data.DataSet;
 import Data.DataSetUtilities;
 import Plot.Interfaces.Plotter;
 import org.ejml.simple.SimpleMatrix;
+import org.jfree.chart.JFreeChart;
 import org.jfree.data.xy.DefaultXYDataset;
 import org.jfree.ui.ApplicationFrame;
 import org.jfree.ui.RefineryUtilities;
@@ -15,6 +16,7 @@ import javax.swing.*;
  */
 public abstract class XYDataSetFrame extends ApplicationFrame implements Plotter {
     protected DefaultXYDataset xyDataset;
+    protected JFreeChart chart;
 
     public XYDataSetFrame(String title) {
         super(title);
@@ -22,6 +24,17 @@ public abstract class XYDataSetFrame extends ApplicationFrame implements Plotter
 
     public DefaultXYDataset getXyDataset() {
         return xyDataset;
+    }
+
+    public JFreeChart getChart() {
+        return chart;
+    }
+
+    @Override
+    public void plot() {
+        this.pack();
+        RefineryUtilities.centerFrameOnScreen(this);
+        this.setVisible(true);
     }
 
     /**
@@ -124,12 +137,14 @@ public abstract class XYDataSetFrame extends ApplicationFrame implements Plotter
 
     }
 
+    public void addExtraData(SimpleMatrix A) {
+        xyDataset.addSeries("Data", DataSetUtilities.toArray(A));
+    }
+
+    public void addExtraData(DataSet A) {
+        xyDataset.addSeries("Data", DataSetUtilities.toArray(A.getMatrix()));
+    }
+
     protected abstract JPanel getChartPanel(String title);
 
-    @Override
-    public void plot() {
-        this.pack();
-        RefineryUtilities.centerFrameOnScreen(this);
-        this.setVisible(true);
-    }
 }

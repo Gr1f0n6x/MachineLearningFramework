@@ -5,6 +5,8 @@ import Data.DataSetUtilities;
 import Plot.Interfaces.Plotter;
 import org.apache.commons.collections.map.MultiValueMap;
 import org.ejml.simple.SimpleMatrix;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.UnknownKeyException;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.ApplicationFrame;
@@ -19,6 +21,7 @@ import java.util.Map;
  */
 public abstract class XYClassDataSetFrame extends ApplicationFrame implements Plotter {
     protected XYSeriesCollection xyDataset;
+    protected JFreeChart chart;
 
     public XYClassDataSetFrame(String title) {
         super(title);
@@ -28,28 +31,23 @@ public abstract class XYClassDataSetFrame extends ApplicationFrame implements Pl
         return xyDataset;
     }
 
+    public JFreeChart getChart() {
+        return chart;
+    }
+
+    @Override
+    public void plot() {
+        this.pack();
+        RefineryUtilities.centerFrameOnScreen(this);
+        this.setVisible(true);
+    }
+
     /**
      *
      * @param dataSet
      */
     protected void setXyDataset(DataSet dataSet) {
-        xyDataset = new XYSeriesCollection();
-
-        Map<String, SimpleMatrix> classMap = new MultiValueMap();
-        for(int i = 0; i < dataSet.getMatrix().numRows(); ++i) {
-            classMap.put(String.valueOf(dataSet.getMatrix().get(i, dataSet.getMatrix().numCols() - 1)),
-                    dataSet.getMatrix().extractVector(true, i));
-        }
-
-        for(Map.Entry<String, SimpleMatrix> entry : classMap.entrySet()) {
-
-            List<SimpleMatrix> values = (List<SimpleMatrix>) entry.getValue();
-            XYSeries xySeries = new XYSeries(entry.getKey());
-
-            values.stream().forEach((x) -> xySeries.add(x.get(0, 0), x.get(0, 1)));
-
-            xyDataset.addSeries(xySeries);
-        }
+        setXyDataset(dataSet.getMatrix());
     }
 
     /**
@@ -70,33 +68,10 @@ public abstract class XYClassDataSetFrame extends ApplicationFrame implements Pl
      *
      * @param dataSet
      */
-    protected void setXyDataset(double[][] dataSet) {
-        SimpleMatrix matrix = new SimpleMatrix(dataSet);
-        setXyDataset(matrix);
-    }
-
-    /**
-     *
-     * @param dataSet
-     */
     protected void setXyDataset(SimpleMatrix dataSet) {
         xyDataset = new XYSeriesCollection();
 
-        Map<String, SimpleMatrix> classMap = new MultiValueMap();
-        for(int i = 0; i < dataSet.numRows(); ++i) {
-            classMap.put(String.valueOf(dataSet.get(i, dataSet.numCols() - 1)),
-                    dataSet.extractVector(true, i));
-        }
-
-        for(Map.Entry<String, SimpleMatrix> entry : classMap.entrySet()) {
-
-            List<SimpleMatrix> values = (List<SimpleMatrix>) entry.getValue();
-            XYSeries xySeries = new XYSeries(entry.getKey());
-
-            values.stream().forEach((x) -> xySeries.add(x.get(0, 0), x.get(0, 1)));
-
-            xyDataset.addSeries(xySeries);
-        }
+        extractClassesFromDataSet(dataSet);
     }
 
     /**
@@ -113,12 +88,41 @@ public abstract class XYClassDataSetFrame extends ApplicationFrame implements Pl
         setXyDataset(DataSetUtilities.addColumns(X, Y));
     }
 
+    public void addExtraData(SimpleMatrix A) {
+        extractClassesFromDataSet(A);
+    }
+
+    public void addExtraData(DataSet A) {
+        extractClassesFromDataSet(A.getMatrix());
+    }
+
     protected abstract JPanel getChartPanel(String title);
 
-    @Override
-    public void plot() {
-        this.pack();
-        RefineryUtilities.centerFrameOnScreen(this);
-        this.setVisible(true);
+    private void extractClassesFromDataSet(SimpleMatrix matrix) {
+        Map<String, SimpleMatrix> classMap = new MultiValueMap();
+        for(int i = 0; i < matrix.numRows(); ++i) {
+            classMap.put(String.valueOf(matrix.get(i, matrix.numCols() - 1)),
+                    matrix.extractVector(true, i));
+        }
+
+        for(Map.Entry<String, SimpleMatrix> entry : classMap.entrySet()) {
+
+            List<SimpleMatrix> values = (List<SimpleMatrix>) entry.getValue();
+            XYSeries xySeries;
+            try {
+
+                xySeries = xyDataset.getSeries(entry.getKey());
+                final XYSeries finalXySeries = xySeries;
+                values.stream().forEach((x) -> finalXySeries.add(x.get(0, 0), x.get(0, 1)));
+
+            } catch (UnknownKeyException e) {
+
+                xySeries = new XYSeries(entry.getKey());
+                final XYSeries finalXySeries = xySeries;
+                values.stream().forEach((x) -> finalXySeries.add(x.get(0, 0), x.get(0, 1)));
+
+                xyDataset.addSeries(xySeries);
+            }
+        }
     }
 }

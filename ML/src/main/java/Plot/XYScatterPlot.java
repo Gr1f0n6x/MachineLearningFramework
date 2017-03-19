@@ -81,7 +81,7 @@ public class XYScatterPlot extends XYDataSetFrame implements Plotter {
 
     @Override
     protected JPanel getChartPanel(String title) {
-        JFreeChart chart = ChartFactory.createScatterPlot(title, "X", "Y", xyDataset, PlotOrientation.VERTICAL, true, true, false);
+        chart = ChartFactory.createScatterPlot(title, "X", "Y", xyDataset, PlotOrientation.VERTICAL, true, true, false);
         return new ChartPanel(chart);
     }
 }

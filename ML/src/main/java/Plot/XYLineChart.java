@@ -83,7 +83,7 @@ public class XYLineChart extends XYDataSetFrame {
 
     @Override
     protected JPanel getChartPanel(String title) {
-        JFreeChart chart = ChartFactory.createXYLineChart(title, "X", "Y", xyDataset, PlotOrientation.VERTICAL, true, true, false);
+        chart = ChartFactory.createXYLineChart(title, "X", "Y", xyDataset, PlotOrientation.VERTICAL, true, true, false);
         return new ChartPanel(chart);
     }
 }

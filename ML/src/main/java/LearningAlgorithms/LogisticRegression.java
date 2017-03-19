@@ -7,7 +7,7 @@ import org.ejml.simple.SimpleMatrix;
 /**
  * Created by GrIfOn on 12.03.2017.
  */
-public class LogisticRegression implements Model<Double> {
+public class LogisticRegression implements Model<SimpleMatrix> {
     private SimpleMatrix thetas;
     private SimpleMatrix J_history;
     private double alpha;
@@ -17,6 +17,22 @@ public class LogisticRegression implements Model<Double> {
     }
 
     public LogisticRegression(double alpha) {
+        this.alpha = alpha;
+    }
+
+    public SimpleMatrix getThetas() {
+        return thetas;
+    }
+
+    public SimpleMatrix getCostHistory() {
+        return J_history;
+    }
+
+    public double getAlpha() {
+        return alpha;
+    }
+
+    public void setAlpha(double alpha) {
         this.alpha = alpha;
     }
 
@@ -70,8 +86,16 @@ public class LogisticRegression implements Model<Double> {
     }
 
     @Override
-    public Double predict(SimpleMatrix X) {
-        return predictionFunction(DataSetUtilities.addColumnOfOnes(X)).elementSum() > 0.5 ? 1. : 0;
+    public SimpleMatrix predict(SimpleMatrix X) {
+        SimpleMatrix prediction = predictionFunction(DataSetUtilities.addColumnOfOnes(X));
+
+        for(int row = 0; row < prediction.numRows(); ++row) {
+            for(int col = 0; col < prediction.numCols(); ++col) {
+                prediction.set(row, col, prediction.get(row, col) > 0.5 ? 1. : 0);
+            }
+        }
+
+        return prediction;
     }
 
     public void plotCostFunctionHistory() {
