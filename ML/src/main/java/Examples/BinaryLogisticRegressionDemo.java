@@ -30,7 +30,7 @@ public class BinaryLogisticRegressionDemo {
         XYClassScatterPlot xyClassScatterPlot = new XYClassScatterPlot("demo", dataSet);
 
         LogisticRegression logisticRegression = new LogisticRegression(0.4);
-        logisticRegression.fit(DataSetUtilities.getTrainingSet(dataSet, 0, 2), DataSetUtilities.getAnswersSet(dataSet, 2), 100, 0);
+        logisticRegression.fit(DataSetUtilities.getTrainingSet(dataSet, 0, 1), DataSetUtilities.getAnswersSet(dataSet, 2), 100, 0);
 
         logisticRegression.plotCostFunctionHistory();
 

@@ -20,7 +20,7 @@ public class LinearRegressionDemo {
         };
 
         SimpleMatrix matrix = new SimpleMatrix(data);
-        SimpleMatrix X = DataSetUtilities.getTrainingSet(matrix, 0, 2);
+        SimpleMatrix X = DataSetUtilities.getTrainingSet(matrix, 0, 1);
 
         SimpleMatrix Y = DataSetUtilities.getAnswersSet(matrix, 2);
 
@@ -34,7 +34,12 @@ public class LinearRegressionDemo {
                 {2, 4},
                 {3, 9},
                 {4, 16},
-                {5, 25}
+                {5, 25},
+                {6, 36},
+                {7, 49},
+                {8, 64},
+                {9, 81},
+                {10, 100},
         });
 
         SimpleMatrix result = linearRegression.predict(test);

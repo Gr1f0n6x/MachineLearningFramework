@@ -21,7 +21,7 @@ public class DataSetUtilities {
             throw new IllegalArgumentException("Arguments: startColumn && endColumn should be less than matrix.numCols and > 0");
         }
 
-        return matrix.extractMatrix(0, matrix.numRows(), startColumn, endColumn);
+        return matrix.extractMatrix(0, matrix.numRows(), startColumn, endColumn + 1);
     }
 
     /**

@@ -89,6 +89,7 @@ public class LogisticRegression implements Model<SimpleMatrix> {
     }
 
     private void multiClassClassification(SimpleMatrix Train, SimpleMatrix Y_train, int epochNum) {
+
         for(int i = 0; i < classList.length; ++i) {
 
             thetas[i] = new SimpleMatrix(Train.numCols(), 1);
@@ -110,6 +111,8 @@ public class LogisticRegression implements Model<SimpleMatrix> {
 
                 thetas[i] = newThetas;
             }
+
+
         }
     }
 
