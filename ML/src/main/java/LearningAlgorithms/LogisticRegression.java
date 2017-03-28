@@ -14,13 +14,20 @@ public class LogisticRegression implements Model<SimpleMatrix> {
     private SimpleMatrix[] J_history;
     private double[] classList;
     private double alpha;
+    private double lambda;
 
     public LogisticRegression() {
         this(1);
     }
 
     public LogisticRegression(double alpha) {
-        this.alpha = alpha;
+        this.alpha = alpha > 0 ? alpha : 1;
+        this.lambda = 0;
+    }
+
+    public LogisticRegression(double alpha, double lambda) {
+        this.alpha = alpha > 0 ? alpha : 1;
+        this.lambda = lambda > 0 ? lambda : 0;
     }
 
     public SimpleMatrix[] getThetas() {
@@ -43,13 +50,36 @@ public class LogisticRegression implements Model<SimpleMatrix> {
         this.alpha = alpha;
     }
 
-    // cost = 1/m * sum[-Y .* log(H) - (1 - Y) .* log(1 - H)]
-    private double costFunction(SimpleMatrix H_predict, SimpleMatrix Y) {
-        // -Y .* log(H)
-        SimpleMatrix first = Y.negative().elementMult(H_predict.elementLog());
-        //(1 - Y) .* log(1 - H)
-        SimpleMatrix second = Y.minus(1).negative().elementMult(H_predict.minus(1).negative().elementLog());
-        return first.minus(second).elementSum() / Y.numRows();
+    public double getLambda() {
+        return lambda;
+    }
+
+    public void setLambda(double lambda) {
+        this.lambda = lambda;
+    }
+
+    // cost = 1/m * sum[-Y .* log(H) - (1 - Y) .* log(1 - H)] + lambda / (2 * m) * Q^2
+    private double costFunction(SimpleMatrix H_predict, SimpleMatrix Y, int classNumber) {
+        if(lambda > 0) {
+            // -Y .* log(H)
+            SimpleMatrix first = Y.negative().elementMult(H_predict.elementLog());
+
+            //(1 - Y) .* log(1 - H)
+            SimpleMatrix second = Y.minus(1).negative().elementMult(H_predict.minus(1).negative().elementLog());
+
+            //lambda / (2 * m) * Q^2
+            SimpleMatrix third = thetas[classNumber].extractMatrix(1, thetas[classNumber].numRows(), 0, 1).elementPower(2);
+
+            return first.minus(second).elementSum() / Y.numRows() + third.elementSum() * lambda / (2 * Y.numRows());
+        } else {
+            // -Y .* log(H)
+            SimpleMatrix first = Y.negative().elementMult(H_predict.elementLog());
+
+            //(1 - Y) .* log(1 - H)
+            SimpleMatrix second = Y.minus(1).negative().elementMult(H_predict.minus(1).negative().elementLog());
+
+            return first.minus(second).elementSum() / Y.numRows();
+        }
     }
 
     // sigmoid
@@ -63,9 +93,23 @@ public class LogisticRegression implements Model<SimpleMatrix> {
         return ones.elementDiv(A.plus(1));
     }
 
-    // Qj = Qj - alpha / m * sum [(H - Y) .* Xj]
-    private double gradientDescent(SimpleMatrix X, SimpleMatrix Y, SimpleMatrix H_predict, SimpleMatrix theta, int feature) {
-        return theta.get(feature, 0) - alpha * H_predict.minus(Y).elementMult(X.extractVector(false, feature)).elementSum() / Y.numRows();
+    //G(Q, X) = Q - (alpha / m * [ X' * (H(X) - Y) ] + lambda * alpha / m * Q)
+    private SimpleMatrix gradient(SimpleMatrix X, SimpleMatrix Y, SimpleMatrix H, SimpleMatrix theta) {
+        if(lambda > 0) {
+            SimpleMatrix newTheta = new SimpleMatrix(theta);
+            newTheta.set(0, 0, 0);
+            // (X' * [H - Y]) * alpha / m
+            SimpleMatrix A = X.transpose().mult(H.minus(Y)).scale(alpha / Y.numRows());
+            // tempThetas * lambda * alpha / m
+
+            SimpleMatrix B = newTheta.scale(lambda * alpha / Y.numRows());
+            SimpleMatrix C = A.plus(B);
+
+            return theta.minus(C);
+        } else {
+            SimpleMatrix A = X.transpose().mult(H.minus(Y)).scale(alpha / Y.numRows());
+            return theta.minus(A);
+        }
     }
 
     private double[] getClassList(SimpleMatrix Y) {
@@ -98,18 +142,12 @@ public class LogisticRegression implements Model<SimpleMatrix> {
 
             for (int epoch = 0; epoch < epochNum; ++epoch) {
                 SimpleMatrix H_theta = predictionFunction(Train, thetas[i]);
-                double cost = costFunction(H_theta, oneVsAll);
+                double cost = costFunction(H_theta, oneVsAll, i);
 
                 J_history[i].set(epoch, 0, epoch);
                 J_history[i].set(epoch, 1, cost);
 
-                SimpleMatrix newThetas = new SimpleMatrix(thetas[i].numRows(), 1);
-
-                for (int feature = 0; feature < Train.numCols(); ++feature) {
-                    newThetas.set(feature, 0, gradientDescent(Train, oneVsAll, H_theta, thetas[i], feature));
-                }
-
-                thetas[i] = newThetas;
+                thetas[i] = gradient(Train, oneVsAll, H_theta, thetas[i]);
             }
 
 
@@ -122,18 +160,12 @@ public class LogisticRegression implements Model<SimpleMatrix> {
 
         for (int epoch = 0; epoch < epochNum; ++epoch) {
             SimpleMatrix H_theta = predictionFunction(Train, thetas[0]);
-            double cost = costFunction(H_theta, Y_train);
+            double cost = costFunction(H_theta, Y_train, 0);
 
             J_history[0].set(epoch, 0, epoch);
             J_history[0].set(epoch, 1, cost);
 
-            SimpleMatrix newThetas = new SimpleMatrix(thetas[0].numRows(), 1);
-
-            for (int feature = 0; feature < Train.numCols(); ++feature) {
-                newThetas.set(feature, 0, gradientDescent(Train, Y_train, H_theta, thetas[0], feature));
-            }
-
-            thetas[0] = newThetas;
+            thetas[0] = gradient(Train, Y_train, H_theta, thetas[0]);
         }
     }
 

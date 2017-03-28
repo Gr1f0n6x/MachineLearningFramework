@@ -67,9 +67,9 @@ public class LinearRegression implements Model<SimpleMatrix> {
      */
     private double costFunction(SimpleMatrix H_predict, SimpleMatrix Y_train) {
         if(lambda > 0) {
-            return H_predict.minus(Y_train).elementPower(2).elementSum() / (2 * Y_train.numRows()) + lambda / (2 * Y_train.numRows()) * thetas.extractVector(true, 1).elementPower(2).elementSum();
+            return H_predict.minus(Y_train).elementPower(2).elementSum() / (2 * Y_train.numRows()) + lambda / (2 * Y_train.numRows()) * thetas.extractMatrix(1, thetas.numRows(), 0, 1).elementPower(2).elementSum();
         } else {
-            return H_predict.minus(Y_train).elementPower(2).elementSum() / Y_train.numRows();
+            return H_predict.minus(Y_train).elementPower(2).elementSum() / (2 * Y_train.numRows());
         }
     }
 

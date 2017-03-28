@@ -29,24 +29,24 @@ public class BinaryLogisticRegressionDemo {
 
         XYClassScatterPlot xyClassScatterPlot = new XYClassScatterPlot("demo", dataSet);
 
-        LogisticRegression logisticRegression = new LogisticRegression(0.4);
-        logisticRegression.fit(DataSetUtilities.getTrainingSet(dataSet, 0, 1), DataSetUtilities.getAnswersSet(dataSet, 2), 100, 0);
+        LogisticRegression logisticRegression = new LogisticRegression(0.4, 3);
+        //LogisticRegression logisticRegression = new LogisticRegression(0.4);
+        logisticRegression.fit(DataSetUtilities.getTrainingSet(dataSet, 0, 1), DataSetUtilities.getAnswersSet(dataSet, 2), 1000, 0);
 
         logisticRegression.plotCostFunctionHistory();
 
         double[][] predict = new double[][] {
-                {1.2, 3.5}
+                {1.2, 3.5},
+                {5.775, 6.2},
+                {5.775, 6.4},
+                {7.6, 8.5},
         };
 
-
-        xyClassScatterPlot.addExtraData(DataSetUtilities.addColumns(new SimpleMatrix(predict), logisticRegression.predict(new SimpleMatrix(predict))));
-
-        predict = new double[][] {
-                {7.6, 8.5}
-        };
 
         xyClassScatterPlot.addExtraData(DataSetUtilities.addColumns(new SimpleMatrix(predict), logisticRegression.predict(new SimpleMatrix(predict))));
 
         xyClassScatterPlot.plotHyperline(logisticRegression.getTheta());
+
+        logisticRegression.getTheta().print();
     }
 }

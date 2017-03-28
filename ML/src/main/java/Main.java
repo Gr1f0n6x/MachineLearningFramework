@@ -40,70 +40,53 @@ public class Main {
 //                {15, 1, 2},
 //        };
 
-//        double[][] data = new double[][] {
-//                {6, 10, 1},
-//                {9, 8, 1},
-//                {6, 7, 1},
-//                {7, 9, 1},
-//                {9, 6, 1},
-//                {11, 2, 0},
-//                {15, 4, 0},
-//                {14, 3.2, 0},
-//                {12, 5, 0},
-//                {15, 1, 0},
-//        };
-//
-//        SimpleMatrix dataSet = new SimpleMatrix(data);
-//
-//        XYClassScatterPlot xyClassScatterPlot = new XYClassScatterPlot("demo", dataSet);
-//        xyClassScatterPlot.plot();
-//
-//
-//        LogisticRegression logisticRegression = new LogisticRegression(0.1);
-//        logisticRegression.fit(DataSetUtilities.getTrainingSet(dataSet, 0, 2), DataSetUtilities.getAnswersSet(dataSet, 2), 100, 0);
-//
-//        logisticRegression.plotCostFunctionHistory();
-//
-//        double[][] predict = new double[][] {
-//                {1.2, 3.5}
-//        };
-//
-//
-//        xyClassScatterPlot.addExtraData(DataSetUtilities.addColumns(new SimpleMatrix(predict), logisticRegression.predict(new SimpleMatrix(predict))));
-//
-//        predict = new double[][] {
-//                {7.6, 8.5}
-//        };
-//
-//        xyClassScatterPlot.addExtraData(DataSetUtilities.addColumns(new SimpleMatrix(predict), logisticRegression.predict(new SimpleMatrix(predict))));
-//
-//        predict = new double[][] {
-//                {13, 2}
-//        };
-//
-//        xyClassScatterPlot.addExtraData(DataSetUtilities.addColumns(new SimpleMatrix(predict), logisticRegression.predict(new SimpleMatrix(predict))));
-//
-////        xyClassScatterPlot.plotHyperline(DataSetUtilities.getTrainingSet(dataSet, 0), logisticRegression.getThetas());
-//        xyClassScatterPlot.plotHyperline(logisticRegression.getTheta());
-//
-//        logisticRegression.getTheta().print();
-
-
-        double[][] x = new double[][] {
-                {1, 2, 3},
-                {4, 5, 6},
-                {7, 8, 9},
+        double[][] data = new double[][] {
+                {6, 10, 1},
+                {9, 8, 1},
+                {6, 7, 1},
+                {7, 9, 1},
+                {9, 6, 1},
+                {11, 2, 0},
+                {15, 4, 0},
+                {14, 3.2, 0},
+                {12, 5, 0},
+                {15, 1, 0},
         };
 
-        double[][] y = new double[][] {
-                {1, 1, 1},
-                {1, 1, 1},
-                {1, 1, 1},
+        SimpleMatrix dataSet = new SimpleMatrix(data);
+
+        XYClassScatterPlot xyClassScatterPlot = new XYClassScatterPlot("demo", dataSet);
+        xyClassScatterPlot.plot();
+
+
+        LogisticRegression logisticRegression = new LogisticRegression(0.1);
+        logisticRegression.fit(DataSetUtilities.getTrainingSet(dataSet, 0, 2), DataSetUtilities.getAnswersSet(dataSet, 2), 100, 0);
+
+        logisticRegression.plotCostFunctionHistory();
+
+        double[][] predict = new double[][] {
+                {1.2, 3.5}
         };
 
-        SimpleMatrix X = new SimpleMatrix(x);
-        SimpleMatrix Y = new SimpleMatrix(y);
 
-        X.plus(Y).scale(2./3.).print();
+        xyClassScatterPlot.addExtraData(DataSetUtilities.addColumns(new SimpleMatrix(predict), logisticRegression.predict(new SimpleMatrix(predict))));
+
+        predict = new double[][] {
+                {7.6, 8.5}
+        };
+
+        xyClassScatterPlot.addExtraData(DataSetUtilities.addColumns(new SimpleMatrix(predict), logisticRegression.predict(new SimpleMatrix(predict))));
+
+        predict = new double[][] {
+                {13, 2}
+        };
+
+        xyClassScatterPlot.addExtraData(DataSetUtilities.addColumns(new SimpleMatrix(predict), logisticRegression.predict(new SimpleMatrix(predict))));
+
+//        xyClassScatterPlot.plotHyperline(DataSetUtilities.getTrainingSet(dataSet, 0), logisticRegression.getThetas());
+        xyClassScatterPlot.plotHyperline(logisticRegression.getTheta());
+
+        logisticRegression.getTheta().print();
+
     }
 }
