@@ -1,25 +1,14 @@
+package Examples;
+
 import Data.DataSetUtilities;
 import LearningAlgorithms.LogisticRegression;
 import Plot.XYClassScatterPlot;
-import Plot.XYLineChart;
-import Plot.XYScatterPlot;
-import org.apache.commons.collections.MultiHashMap;
-import org.apache.commons.collections.map.MultiKeyMap;
-import org.apache.commons.collections.map.MultiValueMap;
 import org.ejml.simple.SimpleMatrix;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.DoublePredicate;
-import java.util.stream.DoubleStream;
-import java.util.stream.IntStream;
-
 /**
- * Created by GrIfOn on 12.03.2017.
+ * Created by GrIfOn on 29.03.2017.
  */
-public class Main {
+public class MultipleLogisticRegressionDemo {
     public static void main(String[] args) {
 
         double[][] data = new double[][] {

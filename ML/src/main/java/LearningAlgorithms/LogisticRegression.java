@@ -186,26 +186,26 @@ public class LogisticRegression implements Model<SimpleMatrix> {
     @Override
     public SimpleMatrix predict(SimpleMatrix X) {
         SimpleMatrix Test = DataSetUtilities.addColumnOfOnes(X);
-        SimpleMatrix prediction = predictionFunction(Test, thetas[0]);
+        SimpleMatrix[] prediction = new SimpleMatrix[thetas.length];
 
         for(int i = 0; i < thetas.length; ++i) {
+            prediction[i] = predictionFunction(Test, thetas[i]);
+        }
 
-            SimpleMatrix currentPrediction = predictionFunction(Test, thetas[i]);
+        SimpleMatrix answer = new SimpleMatrix(prediction[0].numRows(), 1);
 
-            for(int row = 0; row < prediction.numRows(); ++row) {
-                for(int col = 0; col < prediction.numCols(); ++col) {
-                    prediction.set(row, col, prediction.get(row, col) < currentPrediction.get(row, col) ? currentPrediction.get(row, col) : prediction.get(row, col));
+        for(int row = 0; row < prediction[0].numRows(); ++row) {
+            double max = 0;
+            for(int i = 0; i < thetas.length; ++ i) {
+                if(prediction[i].get(row, 0) + i > max + i) {
+                    max = prediction[i].get(row, 0) + i;
                 }
             }
+
+            answer.set(row, 0, Math.ceil(max) - 1);
         }
 
-        for(int row = 0; row < prediction.numRows(); ++row) {
-            for(int col = 0; col < prediction.numCols(); ++col) {
-                prediction.set(row, col, prediction.get(row, col) > 0.5 ? 1. : 0 );
-            }
-        }
-
-        return prediction;
+        return answer;
     }
 
     public void plotCostFunctionHistory() {

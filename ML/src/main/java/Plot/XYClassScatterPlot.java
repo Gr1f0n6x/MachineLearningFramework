@@ -85,7 +85,7 @@ public class XYClassScatterPlot extends XYClassDataSetFrame {
         plot();
     }
 
-    public void plotHyperline(SimpleMatrix X, SimpleMatrix[] thetas) {
+    public void plotHyperline(SimpleMatrix[] thetas) {
         XYPlot plotter = new XYPlot();
         XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer(false, true);
         plotter.setDataset(xyDataset);
@@ -93,37 +93,36 @@ public class XYClassScatterPlot extends XYClassDataSetFrame {
 
         plotter.setDomainAxis(new NumberAxis("X"));
         plotter.setRangeAxis(new NumberAxis("Y"));
+        plotter.mapDatasetToRangeAxis(0, 0);
 
         plotter.setOrientation(PlotOrientation.VERTICAL);
         plotter.setRangeGridlinesVisible(true);
         plotter.setDomainGridlinesVisible(true);
 
-        double max = DoubleStream.of(X.getMatrix().getData()).max().getAsDouble();
-        double min = DoubleStream.of(X.getMatrix().getData()).min().getAsDouble();
 
         for (int i = 0; i < thetas.length; ++i) {
 
             XYLineAndShapeRenderer line = new XYLineAndShapeRenderer();
             DefaultXYDataset hyperline = new DefaultXYDataset();
 
-            double[][] points = new double[2][2];
-
-
-            double y = (-thetas[i].get(0, 0) - thetas[i].get(2, 0) * max) / thetas[i].get(1, 0);
-
-            points[0][0] = max;
-            points[1][0] = y;
-
-            y = (-thetas[i].get(0, 0) - thetas[i].get(2, 0) * min) / thetas[i].get(1, 0);
-
-            points[0][1] = min;
-            points[1][1] = y;
+            double[][] points = new double[][] {
+                    {-thetas[i].get(0, 0) / thetas[i].get(1, 0), 0},
+                    {0, -thetas[i].get(0, 0) / thetas[i].get(2, 0)},
+            };
 
             hyperline.addSeries(0, points);
 
 
             plotter.setDataset(i + 1, hyperline);
             plotter.setRenderer(i + 1, line);
+
+
+            plotter.setRangeAxis(i + 1, new NumberAxis("HyperlaneX" + i));
+            plotter.setDomainAxis(i + 1, new NumberAxis("HyperlaneY" + i));
+
+            //Map the data to the appropriate axis
+            plotter.mapDatasetToRangeAxis(i + 1, i + 1);
+            plotter.mapDatasetToDomainAxis(i + 1, i + 1);
         }
 
             chart = new JFreeChart(plotter);
