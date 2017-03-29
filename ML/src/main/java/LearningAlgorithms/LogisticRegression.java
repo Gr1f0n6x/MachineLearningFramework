@@ -9,7 +9,7 @@ import java.util.stream.DoubleStream;
 /**
  * Created by GrIfOn on 12.03.2017.
  */
-public class LogisticRegression implements Model<SimpleMatrix> {
+public class LogisticRegression {
     private SimpleMatrix[] thetas;
     private SimpleMatrix[] J_history;
     private double[] classList;
@@ -169,7 +169,6 @@ public class LogisticRegression implements Model<SimpleMatrix> {
         }
     }
 
-    @Override
     public void fit(SimpleMatrix X_train, SimpleMatrix Y_train, int epochNum, int batchSize) {
         SimpleMatrix Train = DataSetUtilities.addColumnOfOnes(X_train);
         classList = getClassList(Y_train);
@@ -183,7 +182,6 @@ public class LogisticRegression implements Model<SimpleMatrix> {
         }
     }
 
-    @Override
     public SimpleMatrix predict(SimpleMatrix X) {
         SimpleMatrix Test = DataSetUtilities.addColumnOfOnes(X);
         SimpleMatrix[] prediction = new SimpleMatrix[thetas.length];

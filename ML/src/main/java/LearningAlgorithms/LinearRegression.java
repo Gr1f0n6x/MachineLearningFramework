@@ -7,7 +7,7 @@ import org.ejml.simple.SimpleMatrix;
 /**
  * Created by GrIfOn on 12.03.2017.
  */
-public class LinearRegression implements Model<SimpleMatrix> {
+public class LinearRegression {
 
     private double alpha;
     private double lambda;
@@ -98,7 +98,6 @@ public class LinearRegression implements Model<SimpleMatrix> {
         }
     }
 
-    @Override
     public void fit(SimpleMatrix X_train, SimpleMatrix Y_train, int epochNum, int batchSize) {
         SimpleMatrix Train = DataSetUtilities.addColumnOfOnes(X_train);
         thetas = new SimpleMatrix(Train.numCols(), 1);
@@ -116,7 +115,6 @@ public class LinearRegression implements Model<SimpleMatrix> {
         }
     }
 
-    @Override
     public SimpleMatrix predict(SimpleMatrix X) {
         return predictionFunction(DataSetUtilities.addColumnOfOnes(X));
     }
