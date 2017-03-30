@@ -19,7 +19,18 @@ public class DataNormalization {
             result.setColumn(col, 0, A.extractVector(false, col).minus(min).divide(max - min).getMatrix().getData());
         }
 
-        result.print();
+        return result;
+    }
+
+    public static SimpleMatrix minMaxNormalization(SimpleMatrix Train, SimpleMatrix Predict) {
+        SimpleMatrix result = new SimpleMatrix(Predict.numRows(), Predict.numCols());
+
+        for(int col = 0; col < Train.numCols(); ++col) {
+            double max = DoubleStream.of(Train.extractVector(false, col).getMatrix().getData()).max().getAsDouble();
+            double min = DoubleStream.of(Train.extractVector(false, col).getMatrix().getData()).min().getAsDouble();
+
+            result.setColumn(col, 0, Predict.extractVector(false, col).minus(min).divide(max - min).getMatrix().getData());
+        }
 
         return result;
     }

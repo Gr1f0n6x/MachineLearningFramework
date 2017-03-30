@@ -1,13 +1,14 @@
-import Data.DataNormalization;
+package Examples;
+
 import Data.DataSetUtilities;
 import LearningAlgorithms.KNN;
 import Plot.XYClassScatterPlot;
 import org.ejml.simple.SimpleMatrix;
 
 /**
- * Created by GrIfOn on 12.03.2017.
+ * Created by GrIfOn on 30.03.2017.
  */
-public class Main {
+public class kNNDemo {
     public static void main(String[] args) {
 
         double[][] data = new double[][] {
