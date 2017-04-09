@@ -1,7 +1,9 @@
-import Data.DataNormalization;
+import Core.NeuralNetwork.Layers.Dense;
+import Core.NeuralNetwork.Layers.Input;
+import Core.NeuralNetwork.Layers.Layer;
+import Core.NeuralNetwork.Layers.Output;
+import Core.NeuralNetwork.Models.Sequential;
 import Data.DataSetUtilities;
-import LearningAlgorithms.KNN;
-import Plot.XYClassScatterPlot;
 import org.ejml.simple.SimpleMatrix;
 
 /**
@@ -9,7 +11,7 @@ import org.ejml.simple.SimpleMatrix;
  */
 public class Main {
     public static void main(String[] args) {
-
+//
 //        double[][] data = new double[][] {
 //                {1, 4, 0},
 //                {3, 2, 0},
@@ -29,26 +31,24 @@ public class Main {
 //                {12, 5, 2},
 //                {15, 1, 2},
 //        };
+//
+//        SimpleMatrix dataSet = new SimpleMatrix(data);
+//
+//        System.out.println(dataSet.get(21));
 
-        double[][] data = new double[][]{
-                {1, 1, 1},
-                {2, 2, 2},
-                {3, 3, 3},
-                {4, 4, 4},
-                {5, 5, 5},
-        };
+        Sequential sequential = new Sequential();
+        sequential.addLayer(new Input(2));
+        sequential.addLayer(new Dense(3));
+        sequential.addLayer(new Dense(4));
+        sequential.addLayer(new Output(1));
+        sequential.conect();
 
-        SimpleMatrix dataSet = new SimpleMatrix(data);
+        for(Layer layer : sequential.getLayers()) {
+            System.out.println(layer);
+            for(SimpleMatrix theta : layer.getThetas()) {
+                theta.print();
+            }
 
-//        XYClassScatterPlot xyClassScatterPlot = new XYClassScatterPlot("data", dataSet);
-//        xyClassScatterPlot.plot();
-
-        dataSet.print();
-
-        //SimpleMatrix[] matrixes = DataSetUtilities.getCrossValidationAndTrainSets(DataSetUtilities.getTrainingSet(dataSet, 0, 1), DataSetUtilities.getAnswersSet(dataSet, 2), 0.5, true);
-        SimpleMatrix[] matrixes = DataSetUtilities.getCrossValidationAndTrainSets(dataSet, 0.5, true);
-        for(SimpleMatrix matrix : matrixes) {
-            matrix.print();
         }
     }
 }

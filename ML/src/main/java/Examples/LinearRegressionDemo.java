@@ -1,7 +1,7 @@
 package Examples;
 
 import Data.DataSetUtilities;
-import LearningAlgorithms.LinearRegression;
+import Core.LinearRegression;
 import Plot.XYLineChart;
 import org.ejml.simple.SimpleMatrix;
 

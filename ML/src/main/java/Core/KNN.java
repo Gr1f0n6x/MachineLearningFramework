@@ -1,4 +1,4 @@
-package LearningAlgorithms;
+package Core;
 
 import Data.DataNormalization;
 import org.ejml.simple.SimpleMatrix;

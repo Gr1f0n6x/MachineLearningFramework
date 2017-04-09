@@ -1,7 +1,7 @@
 package Examples;
 
 import Data.DataSetUtilities;
-import LearningAlgorithms.LogisticRegression;
+import Core.LogisticRegression;
 import Plot.XYClassScatterPlot;
 import org.ejml.simple.SimpleMatrix;
 
@@ -38,8 +38,7 @@ public class MultipleLogisticRegressionDemo {
 
         LogisticRegression logisticRegression = new LogisticRegression(1);
         //LogisticRegression logisticRegression = new LogisticRegression(0.1, 5);
-        //logisticRegression.fit(DataSetUtilities.getTrainingSet(dataSet, 0, 1), DataSetUtilities.getAnswersSet(dataSet, 2), 1000);
-        logisticRegression.fit(DataSetUtilities.getTrainingSet(dataSet, 0, 1), DataSetUtilities.getAnswersSet(dataSet, 2), 10, 0.2, true);
+        logisticRegression.fit(DataSetUtilities.getTrainingSet(dataSet, 0, 1), DataSetUtilities.getAnswersSet(dataSet, 2), 1000);
 
         logisticRegression.plotCostFunctionHistory();
 

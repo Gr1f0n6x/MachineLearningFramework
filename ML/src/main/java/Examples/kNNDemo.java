@@ -1,7 +1,7 @@
 package Examples;
 
 import Data.DataSetUtilities;
-import LearningAlgorithms.KNN;
+import Core.KNN;
 import Plot.XYClassScatterPlot;
 import org.ejml.simple.SimpleMatrix;
 

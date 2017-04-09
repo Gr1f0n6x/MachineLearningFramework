@@ -1,4 +1,4 @@
-package LearningAlgorithms;
+package Core;
 
 import Data.DataSetUtilities;
 import Plot.XYClassScatterPlot;
@@ -328,9 +328,6 @@ public class LogisticRegression {
         SimpleMatrix X_cv = DataSetUtilities.addColumnOfOnes(sets[2]);
         SimpleMatrix Y_cv = sets[3];
 
-        XYClassScatterPlot xyClassScatterPlot = new XYClassScatterPlot("data", sets[0].combine(0, sets[0].numCols(), sets[1]));
-        xyClassScatterPlot.plot();
-
         classList = getClassList(Y_train);
         classListCv = getClassList(Y_cv);
         SimpleMatrix[] thetas = new SimpleMatrix[classList.length > 2 ? classList.length : 1];
@@ -359,10 +356,6 @@ public class LogisticRegression {
             prediction[i] = predictionFunction(Test, thetas[i]);
         }
 
-        prediction[0].print();
-        prediction[1].print();
-        prediction[2].print();
-
         SimpleMatrix answer = new SimpleMatrix(prediction[0].numRows(), 1);
 
         for(int row = 0; row < prediction[0].numRows(); ++row) {
@@ -374,7 +367,6 @@ public class LogisticRegression {
                     classNum = i;
                 }
             }
-            System.out.println(max);
 
             if(thetas.length > 1) {
                 answer.set(row, 0, Math.ceil(max + classNum) - 1);

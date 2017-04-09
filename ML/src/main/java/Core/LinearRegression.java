@@ -1,4 +1,4 @@
-package LearningAlgorithms;
+package Core;
 
 import Data.DataSetUtilities;
 import Plot.XYLineChart;
