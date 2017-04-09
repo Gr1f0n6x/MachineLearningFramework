@@ -9,6 +9,11 @@ import java.util.stream.DoubleStream;
  */
 public class DataNormalization {
 
+    /**
+     *
+     * @param A
+     * @return
+     */
     public static SimpleMatrix minMaxNormalization(SimpleMatrix A) {
         SimpleMatrix result = new SimpleMatrix(A.numRows(), A.numCols());
 
@@ -22,6 +27,12 @@ public class DataNormalization {
         return result;
     }
 
+    /**
+     *
+     * @param Train
+     * @param Predict
+     * @return
+     */
     public static SimpleMatrix minMaxNormalization(SimpleMatrix Train, SimpleMatrix Predict) {
         SimpleMatrix result = new SimpleMatrix(Predict.numRows(), Predict.numCols());
 

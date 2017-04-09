@@ -14,6 +14,9 @@ public class LinearRegression {
     private SimpleMatrix thetas;
     private SimpleMatrix J_history;
 
+    /**
+     *
+     */
     public LinearRegression() {
         this(1);
     }
@@ -37,23 +40,45 @@ public class LinearRegression {
         this.lambda = 0;
     }
 
+    /**
+     *
+     * @return
+     */
     public double getAlpha() {
         return alpha;
     }
 
+    /**
+     *
+     * @param alpha
+     */
     public void setAlpha(double alpha) {
         this.alpha = alpha;
     }
 
+    /**
+     *
+     * @return
+     */
     public SimpleMatrix getThetas() {
         return thetas;
     }
 
+    /**
+     *
+     * @return
+     */
     public SimpleMatrix getCostHistory() {
         return J_history;
     }
 
     // H(X) = Q0*X0 + ... + Qn*Xn
+
+    /**
+     *
+     * @param X_train
+     * @return
+     */
     private SimpleMatrix predictionFunction(SimpleMatrix X_train) {
         return X_train.mult(thetas);
     }
@@ -98,6 +123,13 @@ public class LinearRegression {
         }
     }
 
+    /**
+     *
+     * @param X_train
+     * @param Y_train
+     * @param epochNum
+     * @param batchSize
+     */
     public void fit(SimpleMatrix X_train, SimpleMatrix Y_train, int epochNum, int batchSize) {
         SimpleMatrix Train = DataSetUtilities.addColumnOfOnes(X_train);
         thetas = new SimpleMatrix(Train.numCols(), 1);
@@ -115,10 +147,18 @@ public class LinearRegression {
         }
     }
 
+    /**
+     *
+     * @param X
+     * @return
+     */
     public SimpleMatrix predict(SimpleMatrix X) {
         return predictionFunction(DataSetUtilities.addColumnOfOnes(X));
     }
 
+    /**
+     *
+     */
     public void plotCostFunctionHistory() {
         XYLineChart XYLineChart = new XYLineChart("CostFunction", DataSetUtilities.toArray(J_history, 0, 1));
         XYLineChart.plot();

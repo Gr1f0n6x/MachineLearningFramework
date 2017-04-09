@@ -16,49 +16,97 @@ public class LogisticRegression {
     private double alpha;
     private double lambda;
 
+    /**
+     *
+     */
     public LogisticRegression() {
         this(1);
     }
 
+    /**
+     *
+     * @param alpha
+     */
     public LogisticRegression(double alpha) {
         this.alpha = alpha > 0 ? alpha : 1;
         this.lambda = 0;
     }
 
+    /**
+     *
+     * @param alpha
+     * @param lambda
+     */
     public LogisticRegression(double alpha, double lambda) {
         this.alpha = alpha > 0 ? alpha : 1;
         this.lambda = lambda > 0 ? lambda : 0;
     }
 
+    /**
+     *
+     * @return
+     */
     public SimpleMatrix[] getThetas() {
         return thetas;
     }
 
+    /**
+     *
+     * @return
+     */
     public SimpleMatrix getTheta() {
         return thetas[0];
     }
 
+    /**
+     *
+     * @return
+     */
     public SimpleMatrix[] getCostHistory() {
         return J_history;
     }
 
+    /**
+     *
+     * @return
+     */
     public double getAlpha() {
         return alpha;
     }
 
+    /**
+     *
+     * @param alpha
+     */
     public void setAlpha(double alpha) {
         this.alpha = alpha;
     }
 
+    /**
+     *
+     * @return
+     */
     public double getLambda() {
         return lambda;
     }
 
+    /**
+     *
+     * @param lambda
+     */
     public void setLambda(double lambda) {
         this.lambda = lambda;
     }
 
     // cost = 1/m * sum[-Y .* log(H) - (1 - Y) .* log(1 - H)] + lambda / (2 * m) * Q^2
+
+    /**
+     *
+     * @param H_predict
+     * @param Y
+     * @param classNumber
+     * @return
+     */
     private double costFunction(SimpleMatrix H_predict, SimpleMatrix Y, int classNumber) {
         if(lambda > 0) {
             // -Y .* log(H)
@@ -84,6 +132,13 @@ public class LogisticRegression {
 
     // sigmoid
     // 1 ./ (1 + exp(- X * Thetas))
+
+    /**
+     *
+     * @param X
+     * @param theta
+     * @return
+     */
     private SimpleMatrix predictionFunction(SimpleMatrix X, SimpleMatrix theta) {
         //exp(- X * Thetas)
         SimpleMatrix A = X.mult(theta).negative().elementExp();
@@ -94,6 +149,15 @@ public class LogisticRegression {
     }
 
     //G(Q, X) = Q - (alpha / m * [ X' * (H(X) - Y) ] + lambda * alpha / m * Q)
+
+    /**
+     *
+     * @param X
+     * @param Y
+     * @param H
+     * @param theta
+     * @return
+     */
     private SimpleMatrix gradient(SimpleMatrix X, SimpleMatrix Y, SimpleMatrix H, SimpleMatrix theta) {
         if(lambda > 0) {
             SimpleMatrix newTheta = new SimpleMatrix(theta);
@@ -112,10 +176,21 @@ public class LogisticRegression {
         }
     }
 
+    /**
+     *
+     * @param Y
+     * @return
+     */
     private double[] getClassList(SimpleMatrix Y) {
         return DoubleStream.of(Y.getMatrix().getData()).distinct().toArray();
     }
 
+    /**
+     *
+     * @param Y
+     * @param classId
+     * @return
+     */
     private SimpleMatrix createOneVsALlAnswerMatrix(SimpleMatrix Y, double classId) {
         SimpleMatrix oneVsALl = Y.copy();
 
@@ -132,6 +207,12 @@ public class LogisticRegression {
         return oneVsALl;
     }
 
+    /**
+     *
+     * @param Train
+     * @param Y_train
+     * @param epochNum
+     */
     private void multiClassClassification(SimpleMatrix Train, SimpleMatrix Y_train, int epochNum) {
 
         for(int i = 0; i < classList.length; ++i) {
@@ -154,6 +235,12 @@ public class LogisticRegression {
         }
     }
 
+    /**
+     *
+     * @param Train
+     * @param Y_train
+     * @param epochNum
+     */
     private void binaryClassClassification(SimpleMatrix Train, SimpleMatrix Y_train, int epochNum) {
         thetas[0] = new SimpleMatrix(Train.numCols(), 1);
         J_history[0] = new SimpleMatrix(epochNum, 2);
@@ -169,6 +256,13 @@ public class LogisticRegression {
         }
     }
 
+    /**
+     *
+     * @param X_train
+     * @param Y_train
+     * @param epochNum
+     * @param batchSize
+     */
     public void fit(SimpleMatrix X_train, SimpleMatrix Y_train, int epochNum, int batchSize) {
         SimpleMatrix Train = DataSetUtilities.addColumnOfOnes(X_train);
         classList = getClassList(Y_train);
@@ -182,6 +276,11 @@ public class LogisticRegression {
         }
     }
 
+    /**
+     *
+     * @param X
+     * @return
+     */
     public SimpleMatrix predict(SimpleMatrix X) {
         SimpleMatrix Test = DataSetUtilities.addColumnOfOnes(X);
         SimpleMatrix[] prediction = new SimpleMatrix[thetas.length];
@@ -206,6 +305,9 @@ public class LogisticRegression {
         return answer;
     }
 
+    /**
+     *
+     */
     public void plotCostFunctionHistory() {
         XYLineChart XYLineChart = new XYLineChart("CostFunction", J_history, true);
         XYLineChart.plot();
