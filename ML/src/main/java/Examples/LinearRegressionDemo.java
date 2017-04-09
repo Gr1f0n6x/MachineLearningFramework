@@ -17,6 +17,8 @@ public class LinearRegressionDemo {
                 {3, 9, 9},
                 {4, 16, 16},
                 {5, 25, 25},
+                {6, 36, 36},
+                {7, 49, 49},
         };
 
         SimpleMatrix matrix = new SimpleMatrix(data);
@@ -26,12 +28,10 @@ public class LinearRegressionDemo {
 
 
         LinearRegression linearRegression = new LinearRegression(0.001, 1);
-        linearRegression.fit(X, Y, 100);
+        linearRegression.fit(X, Y, 100, 0.2, true);
         linearRegression.plotCostFunctionHistory();
 
         SimpleMatrix test = new SimpleMatrix(new double[][] {
-                {5, 25},
-                {6, 36},
                 {7, 49},
                 {8, 64},
                 {9, 81},

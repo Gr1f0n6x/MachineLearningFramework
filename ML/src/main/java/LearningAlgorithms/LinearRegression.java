@@ -78,7 +78,7 @@ public class LinearRegression {
      * @param X_train
      * @return
      */
-    private SimpleMatrix predictionFunction(SimpleMatrix X_train) {
+    private SimpleMatrix predictionFunction(SimpleMatrix X_train, SimpleMatrix thetas) {
         return X_train.mult(thetas);
     }
 
@@ -88,7 +88,7 @@ public class LinearRegression {
      * @param Y_train
      * @return
      */
-    private double costFunction(SimpleMatrix H_predict, SimpleMatrix Y_train) {
+    private double costFunction(SimpleMatrix H_predict, SimpleMatrix Y_train, SimpleMatrix thetas, double lambda) {
         if(lambda > 0) {
             return H_predict.minus(Y_train).elementPower(2).elementSum() / (2 * Y_train.numRows()) + lambda / (2 * Y_train.numRows()) * thetas.extractMatrix(1, thetas.numRows(), 0, 1).elementPower(2).elementSum();
         } else {
@@ -97,13 +97,13 @@ public class LinearRegression {
     }
 
     /**
-     * G(Q, X) = Q - (alpha / m * [ X' * (H(X) - Y) ] + lambda * alpha / m * Q)
+     * G(Q, X) = Q - [alpha / m * [ X' * (H(X) - Y) ] + lambda * alpha * Q / m]
      * @param X
      * @param Y
      * @param H
      * @return
      */
-    private SimpleMatrix gradient(SimpleMatrix X, SimpleMatrix Y, SimpleMatrix H) {
+    private SimpleMatrix gradient(SimpleMatrix X, SimpleMatrix Y, SimpleMatrix H, SimpleMatrix thetas) {
         if(lambda > 0) {
             SimpleMatrix newTheta = new SimpleMatrix(thetas);
             newTheta.set(0, 0, 0);
@@ -122,42 +122,58 @@ public class LinearRegression {
 
     /**
      *
-     * @param X_train
-     * @param Y_train
+     * @param X
+     * @param Y
      * @param epochNum
      */
-    public void fit(SimpleMatrix X_train, SimpleMatrix Y_train, int epochNum) {
-        SimpleMatrix Train = DataSetUtilities.addColumnOfOnes(X_train);
-        thetas = new SimpleMatrix(Train.numCols(), 1);
+    public void fit(SimpleMatrix X, SimpleMatrix Y, int epochNum) {
+        SimpleMatrix Train = DataSetUtilities.addColumnOfOnes(X);
+        SimpleMatrix thetas = new SimpleMatrix(Train.numCols(), 1);
         J_history = new SimpleMatrix(epochNum, 2);
 
         for(int epoch = 0; epoch < epochNum; ++epoch) {
-            SimpleMatrix H_theta = predictionFunction(Train);
+            SimpleMatrix H_predict = predictionFunction(Train, thetas);
 
-            double cost = costFunction(H_theta, Y_train);
+            double cost = costFunction(H_predict, Y, thetas, lambda);
 
             J_history.set(epoch, 0, epoch);
             J_history.set(epoch, 1, cost);
 
-            thetas = gradient(Train, Y_train, H_theta);
+            thetas = gradient(Train, Y, H_predict, thetas);
         }
+
+        this.thetas = thetas;
     }
 
-    public void fit(SimpleMatrix X_train, SimpleMatrix Y_train, int epochNum, double crossValidationPart, boolean shuffle) {
-        SimpleMatrix Train = DataSetUtilities.addColumnOfOnes(X_train);
-        thetas = new SimpleMatrix(Train.numCols(), 1);
+    public void fit(SimpleMatrix X, SimpleMatrix Y, int epochNum, double crossValidationPart, boolean shuffle) {
+        SimpleMatrix[] sets = DataSetUtilities.getCrossValidationAndTrainSets(X.copy(), Y.copy(), crossValidationPart, shuffle);
+
+        SimpleMatrix X_train = DataSetUtilities.addColumnOfOnes(sets[0]);
+        SimpleMatrix Y_train = sets[1];
+        SimpleMatrix X_cv = DataSetUtilities.addColumnOfOnes(sets[2]);
+        SimpleMatrix Y_cv = sets[3];
+
+        SimpleMatrix thetas = new SimpleMatrix(X_train.numCols(), 1);
         J_history = new SimpleMatrix(epochNum, 2);
+        Jcv_history = new SimpleMatrix(epochNum, 2);
 
         for(int epoch = 0; epoch < epochNum; ++epoch) {
-            SimpleMatrix H_theta = predictionFunction(Train);
-
-            double cost = costFunction(H_theta, Y_train);
+            SimpleMatrix H_predict_train = predictionFunction(X_train, thetas);
+            double costTrain = costFunction(H_predict_train, Y_train, thetas, lambda);
 
             J_history.set(epoch, 0, epoch);
-            J_history.set(epoch, 1, cost);
+            J_history.set(epoch, 1, costTrain);
 
-            thetas = gradient(Train, Y_train, H_theta);
+            SimpleMatrix H_predict_cv = predictionFunction(X_cv, thetas);
+            double costCv = costFunction(H_predict_cv, Y_cv, thetas, 0);
+
+            Jcv_history.set(epoch, 0, epoch);
+            Jcv_history.set(epoch, 1, costCv);
+
+            thetas = gradient(X_train, Y_train, H_predict_train ,thetas);
         }
+
+        this.thetas = thetas;
     }
 
     /**
@@ -166,14 +182,20 @@ public class LinearRegression {
      * @return
      */
     public SimpleMatrix predict(SimpleMatrix X) {
-        return predictionFunction(DataSetUtilities.addColumnOfOnes(X));
+        return predictionFunction(DataSetUtilities.addColumnOfOnes(X), thetas);
     }
 
     /**
      *
      */
     public void plotCostFunctionHistory() {
-        XYLineChart XYLineChart = new XYLineChart("CostFunction", DataSetUtilities.toArray(J_history, 0, 1));
+        XYLineChart XYLineChart = null;
+
+        if(Jcv_history != null) {
+            XYLineChart = new XYLineChart("CostFunction", new SimpleMatrix[] {J_history, Jcv_history}, true);
+        } else {
+            XYLineChart = new XYLineChart("CostFunction", DataSetUtilities.toArray(J_history, 0, 1));
+        }
         XYLineChart.plot();
     }
 }
