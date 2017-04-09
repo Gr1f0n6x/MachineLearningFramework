@@ -130,11 +130,9 @@ public class LogisticRegression {
         }
     }
 
-    // sigmoid
-    // 1 ./ (1 + exp(- X * Thetas))
-
     /**
-     *
+     * sigmoid
+     *  1 ./ (1 + exp(- X * Thetas))
      * @param X
      * @param theta
      * @return
@@ -148,10 +146,8 @@ public class LogisticRegression {
         return ones.elementDiv(A.plus(1));
     }
 
-    //G(Q, X) = Q - (alpha / m * [ X' * (H(X) - Y) ] + lambda * alpha / m * Q)
-
     /**
-     *
+     * G(Q, X) = Q - (alpha / m * [ X' * (H(X) - Y) ] + lambda * alpha / m * Q)
      * @param X
      * @param Y
      * @param H
@@ -261,9 +257,8 @@ public class LogisticRegression {
      * @param X_train
      * @param Y_train
      * @param epochNum
-     * @param batchSize
      */
-    public void fit(SimpleMatrix X_train, SimpleMatrix Y_train, int epochNum, int batchSize) {
+    public void fit(SimpleMatrix X_train, SimpleMatrix Y_train, int epochNum) {
         SimpleMatrix Train = DataSetUtilities.addColumnOfOnes(X_train);
         classList = getClassList(Y_train);
         thetas = new SimpleMatrix[classList.length > 2 ? classList.length : 1];
@@ -299,7 +294,11 @@ public class LogisticRegression {
                 }
             }
 
-            answer.set(row, 0, Math.ceil(max) - 1);
+            if(thetas.length > 1) {
+                answer.set(row, 0, Math.ceil(max) - 1);
+            } else {
+                answer.set(row, 0, Math.round(max));
+            }
         }
 
         return answer;

@@ -13,6 +13,7 @@ public class LinearRegression {
     private double lambda;
     private SimpleMatrix thetas;
     private SimpleMatrix J_history;
+    private SimpleMatrix Jcv_history;
 
     /**
      *
@@ -72,10 +73,8 @@ public class LinearRegression {
         return J_history;
     }
 
-    // H(X) = Q0*X0 + ... + Qn*Xn
-
     /**
-     *
+     * H(X) = Q0*X0 + ... + Qn*Xn
      * @param X_train
      * @return
      */
@@ -83,9 +82,8 @@ public class LinearRegression {
         return X_train.mult(thetas);
     }
 
-    // J = 1/2m * (sum[ (H(Xi) - Yi)^2 ] + lambda * sum[Q^2])
     /**
-     *
+     * J = 1/2m * (sum[ (H(Xi) - Yi)^2 ] + lambda * sum[Q^2])
      * @param H_predict
      * @param Y_train
      * @return
@@ -98,9 +96,8 @@ public class LinearRegression {
         }
     }
 
-    // G(Q, X) = Q - (alpha / m * [ X' * (H(X) - Y) ] + lambda * alpha / m * Q)
     /**
-     *
+     * G(Q, X) = Q - (alpha / m * [ X' * (H(X) - Y) ] + lambda * alpha / m * Q)
      * @param X
      * @param Y
      * @param H
@@ -128,9 +125,25 @@ public class LinearRegression {
      * @param X_train
      * @param Y_train
      * @param epochNum
-     * @param batchSize
      */
-    public void fit(SimpleMatrix X_train, SimpleMatrix Y_train, int epochNum, int batchSize) {
+    public void fit(SimpleMatrix X_train, SimpleMatrix Y_train, int epochNum) {
+        SimpleMatrix Train = DataSetUtilities.addColumnOfOnes(X_train);
+        thetas = new SimpleMatrix(Train.numCols(), 1);
+        J_history = new SimpleMatrix(epochNum, 2);
+
+        for(int epoch = 0; epoch < epochNum; ++epoch) {
+            SimpleMatrix H_theta = predictionFunction(Train);
+
+            double cost = costFunction(H_theta, Y_train);
+
+            J_history.set(epoch, 0, epoch);
+            J_history.set(epoch, 1, cost);
+
+            thetas = gradient(Train, Y_train, H_theta);
+        }
+    }
+
+    public void fit(SimpleMatrix X_train, SimpleMatrix Y_train, int epochNum, double crossValidationPart, boolean shuffle) {
         SimpleMatrix Train = DataSetUtilities.addColumnOfOnes(X_train);
         thetas = new SimpleMatrix(Train.numCols(), 1);
         J_history = new SimpleMatrix(epochNum, 2);

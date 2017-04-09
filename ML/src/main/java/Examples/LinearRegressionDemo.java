@@ -25,15 +25,11 @@ public class LinearRegressionDemo {
         SimpleMatrix Y = DataSetUtilities.getAnswersSet(matrix, 2);
 
 
-        LinearRegression linearRegression = new LinearRegression(0.001, 100);
-        linearRegression.fit(X, Y, 100, 0);
+        LinearRegression linearRegression = new LinearRegression(0.001, 1);
+        linearRegression.fit(X, Y, 100);
         linearRegression.plotCostFunctionHistory();
 
         SimpleMatrix test = new SimpleMatrix(new double[][] {
-                {1, 1},
-                {2, 4},
-                {3, 9},
-                {4, 16},
                 {5, 25},
                 {6, 36},
                 {7, 49},

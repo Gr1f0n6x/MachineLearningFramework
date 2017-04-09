@@ -39,7 +39,7 @@ public class MultipleLogisticRegressionDemo {
 
         LogisticRegression logisticRegression = new LogisticRegression(1);
         //LogisticRegression logisticRegression = new LogisticRegression(0.1, 5);
-        logisticRegression.fit(DataSetUtilities.getTrainingSet(dataSet, 0, 1), DataSetUtilities.getAnswersSet(dataSet, 2), 500, 0);
+        logisticRegression.fit(DataSetUtilities.getTrainingSet(dataSet, 0, 1), DataSetUtilities.getAnswersSet(dataSet, 2), 500);
 
         logisticRegression.plotCostFunctionHistory();
 
@@ -51,8 +51,12 @@ public class MultipleLogisticRegressionDemo {
                 {10, 5},
                 {10, 3},
                 {7, 7},
+                {7, 6},
                 {7, 5},
                 {7, 1},
+                {7, 2},
+                {7, 3},
+                {7, 4},
         };
 
         logisticRegression.predict(new SimpleMatrix(predict));
