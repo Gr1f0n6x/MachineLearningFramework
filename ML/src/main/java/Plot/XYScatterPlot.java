@@ -37,10 +37,10 @@ public class XYScatterPlot extends XYDataSetFrame implements Plotter {
         this.setContentPane(getChartPanel(title));
     }
 
-    public XYScatterPlot(String title, SimpleMatrix dataSet) {
+    public XYScatterPlot(String title, SimpleMatrix dataSet, boolean transpose) {
         super(title);
 
-        setXyDataset(dataSet);
+        setXyDataset(dataSet, transpose);
         this.setContentPane(getChartPanel(title));
     }
 

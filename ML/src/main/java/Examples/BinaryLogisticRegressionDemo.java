@@ -31,7 +31,8 @@ public class BinaryLogisticRegressionDemo {
 
         LogisticRegression logisticRegression = new LogisticRegression(0.4, 3);
         //LogisticRegression logisticRegression = new LogisticRegression(0.4);
-        logisticRegression.fit(DataSetUtilities.getTrainingSet(dataSet, 0, 1), DataSetUtilities.getAnswersSet(dataSet, 2), 1000);
+        //logisticRegression.fit(DataSetUtilities.getTrainingSet(dataSet, 0, 1), DataSetUtilities.getAnswersSet(dataSet, 2), 1000);
+        logisticRegression.fit(DataSetUtilities.getTrainingSet(dataSet, 0, 1), DataSetUtilities.getAnswersSet(dataSet, 2), 1000, 0.2, true);
 
         logisticRegression.plotCostFunctionHistory();
 

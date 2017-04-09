@@ -212,7 +212,7 @@ public class DataSetUtilities {
         }
 
         int rows = xTrain.numRows();
-        int cvPart = (int) Math.floor(rows * part) + 1;
+        int cvPart = (int) Math.round(rows * part);
 
         SimpleMatrix[] result = new SimpleMatrix[] {
                 xTrain.extractMatrix(0, rows - cvPart, 0, xTrain.numCols()),
@@ -241,7 +241,7 @@ public class DataSetUtilities {
         }
 
         int rows = data.numRows();
-        int cvPart = (int) Math.floor(rows * part) + 1;
+        int cvPart = (int) Math.round(rows * part);
 
         SimpleMatrix[] result = new SimpleMatrix[] {
                 data.extractMatrix(0, rows - cvPart, 0, data.numCols()),

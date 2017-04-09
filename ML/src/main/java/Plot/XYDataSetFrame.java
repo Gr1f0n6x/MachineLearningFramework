@@ -70,9 +70,13 @@ public abstract class XYDataSetFrame extends ApplicationFrame implements Plotter
      *
      * @param dataSet
      */
-    protected void setXyDataset(SimpleMatrix dataSet) {
+    protected void setXyDataset(SimpleMatrix dataSet, boolean transpose) {
         xyDataset = new DefaultXYDataset();
-        xyDataset.addSeries("Data", DataSetUtilities.toArray(dataSet));
+        if(transpose) {
+            xyDataset.addSeries("Data", DataSetUtilities.toArray(dataSet.transpose()));
+        } else {
+            xyDataset.addSeries("Data", DataSetUtilities.toArray(dataSet));
+        }
     }
 
     /**

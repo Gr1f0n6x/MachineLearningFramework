@@ -1,6 +1,7 @@
 package LearningAlgorithms;
 
 import Data.DataSetUtilities;
+import Plot.XYClassScatterPlot;
 import Plot.XYLineChart;
 import org.ejml.simple.SimpleMatrix;
 
@@ -11,8 +12,10 @@ import java.util.stream.DoubleStream;
  */
 public class LogisticRegression {
     private SimpleMatrix[] thetas;
-    private SimpleMatrix[] J_history;
+    private SimpleMatrix J_history;
+    private SimpleMatrix Jcv_history;
     private double[] classList;
+    private double[] classListCv;
     private double alpha;
     private double lambda;
 
@@ -62,7 +65,7 @@ public class LogisticRegression {
      *
      * @return
      */
-    public SimpleMatrix[] getCostHistory() {
+    public SimpleMatrix getCostHistory() {
         return J_history;
     }
 
@@ -98,16 +101,14 @@ public class LogisticRegression {
         this.lambda = lambda;
     }
 
-    // cost = 1/m * sum[-Y .* log(H) - (1 - Y) .* log(1 - H)] + lambda / (2 * m) * Q^2
-
     /**
-     *
+     * cost = 1/m * sum[-Y .* log(H) - (1 - Y) .* log(1 - H)] + lambda / (2 * m) * Q^2
      * @param H_predict
      * @param Y
      * @param classNumber
      * @return
      */
-    private double costFunction(SimpleMatrix H_predict, SimpleMatrix Y, int classNumber) {
+    private double costFunction(SimpleMatrix H_predict, SimpleMatrix Y, SimpleMatrix[] thetas, double lambda, int classNumber) {
         if(lambda > 0) {
             // -Y .* log(H)
             SimpleMatrix first = Y.negative().elementMult(H_predict.elementLog());
@@ -154,7 +155,7 @@ public class LogisticRegression {
      * @param theta
      * @return
      */
-    private SimpleMatrix gradient(SimpleMatrix X, SimpleMatrix Y, SimpleMatrix H, SimpleMatrix theta) {
+    private SimpleMatrix gradient(SimpleMatrix X, SimpleMatrix Y, SimpleMatrix H, SimpleMatrix theta, double lambda) {
         if(lambda > 0) {
             SimpleMatrix newTheta = new SimpleMatrix(theta);
             newTheta.set(0, 0, 0);
@@ -188,19 +189,19 @@ public class LogisticRegression {
      * @return
      */
     private SimpleMatrix createOneVsALlAnswerMatrix(SimpleMatrix Y, double classId) {
-        SimpleMatrix oneVsALl = Y.copy();
+        SimpleMatrix oneVsAll = Y.copy();
 
         for(int row = 0; row < Y.numRows(); ++row) {
             for(int col = 0; col < Y.numCols(); ++col) {
-                if(oneVsALl.get(row, col) != classId) {
-                    oneVsALl.set(row, col, 0);
+                if(oneVsAll.get(row, col) != classId) {
+                    oneVsAll.set(row, col, 0);
                 } else {
-                    oneVsALl.set(row, col, 1);
+                    oneVsAll.set(row, col, 1);
                 }
             }
         }
 
-        return oneVsALl;
+        return oneVsAll;
     }
 
     /**
@@ -209,22 +210,49 @@ public class LogisticRegression {
      * @param Y_train
      * @param epochNum
      */
-    private void multiClassClassification(SimpleMatrix Train, SimpleMatrix Y_train, int epochNum) {
+    private void multiClassClassification(SimpleMatrix Train, SimpleMatrix Y_train, SimpleMatrix[] thetas, int epochNum) {
 
         for(int i = 0; i < classList.length; ++i) {
 
             thetas[i] = new SimpleMatrix(Train.numCols(), 1);
-            J_history[i] = new SimpleMatrix(epochNum, 2);
             SimpleMatrix oneVsAll = createOneVsALlAnswerMatrix(Y_train, classList[i]);
 
             for (int epoch = 0; epoch < epochNum; ++epoch) {
-                SimpleMatrix H_theta = predictionFunction(Train, thetas[i]);
-                double cost = costFunction(H_theta, oneVsAll, i);
+                SimpleMatrix H_predict = predictionFunction(Train, thetas[i]);
+                double cost = costFunction(H_predict, oneVsAll, thetas, lambda, i);
 
-                J_history[i].set(epoch, 0, epoch);
-                J_history[i].set(epoch, 1, cost);
+                J_history.set(epoch, 0, epoch);
+                J_history.set(epoch, 1, J_history.get(epoch, 1) + cost);
 
-                thetas[i] = gradient(Train, oneVsAll, H_theta, thetas[i]);
+                thetas[i] = gradient(Train, oneVsAll, H_predict, thetas[i], lambda);
+            }
+
+
+        }
+    }
+
+    private void multiClassClassification(SimpleMatrix X_train, SimpleMatrix Y_train, SimpleMatrix X_cv, SimpleMatrix Y_cv, SimpleMatrix[] thetas, int epochNum) {
+
+        for(int i = 0; i < classList.length; ++i) {
+
+            thetas[i] = new SimpleMatrix(X_train.numCols(), 1);
+            SimpleMatrix oneVsAllTrain = createOneVsALlAnswerMatrix(Y_train, classList[i]);
+            SimpleMatrix oneVsAllCv = createOneVsALlAnswerMatrix(Y_cv, classListCv[i % classListCv.length]);
+
+            for (int epoch = 0; epoch < epochNum; ++epoch) {
+                SimpleMatrix H_predict_train = predictionFunction(X_train, thetas[0]);
+                double costTrain = costFunction(H_predict_train, oneVsAllTrain, thetas, lambda, 0);
+
+                J_history.set(epoch, 0, epoch);
+                J_history.set(epoch, 1, J_history.get(epoch, 1) + costTrain);
+
+                SimpleMatrix H_predict_cv = predictionFunction(X_cv, thetas[0]);
+                double costCv = costFunction(H_predict_cv, oneVsAllCv, thetas, 0, 0);
+
+                Jcv_history.set(epoch, 0, epoch);
+                Jcv_history.set(epoch, 1, Jcv_history.get(epoch, 1) + costCv);
+
+                thetas[i] = gradient(X_train, oneVsAllTrain, H_predict_train, thetas[0], lambda);
             }
 
 
@@ -233,22 +261,41 @@ public class LogisticRegression {
 
     /**
      *
-     * @param Train
+     * @param X_train
      * @param Y_train
      * @param epochNum
      */
-    private void binaryClassClassification(SimpleMatrix Train, SimpleMatrix Y_train, int epochNum) {
-        thetas[0] = new SimpleMatrix(Train.numCols(), 1);
-        J_history[0] = new SimpleMatrix(epochNum, 2);
+    private void binaryClassClassification(SimpleMatrix X_train, SimpleMatrix Y_train, SimpleMatrix[] thetas, int epochNum) {
+        thetas[0] = new SimpleMatrix(X_train.numCols(), 1);
 
         for (int epoch = 0; epoch < epochNum; ++epoch) {
-            SimpleMatrix H_theta = predictionFunction(Train, thetas[0]);
-            double cost = costFunction(H_theta, Y_train, 0);
+            SimpleMatrix H_predict = predictionFunction(X_train, thetas[0]);
+            double cost = costFunction(H_predict, Y_train, thetas, lambda, 0);
 
-            J_history[0].set(epoch, 0, epoch);
-            J_history[0].set(epoch, 1, cost);
+            J_history.set(epoch, 0, epoch);
+            J_history.set(epoch, 1, J_history.get(epoch, 1) + cost);
 
-            thetas[0] = gradient(Train, Y_train, H_theta, thetas[0]);
+            thetas[0] = gradient(X_train, Y_train, H_predict, thetas[0], lambda);
+        }
+    }
+
+    private void binaryClassClassification(SimpleMatrix X_train, SimpleMatrix Y_train, SimpleMatrix X_cv, SimpleMatrix Y_cv, SimpleMatrix[] thetas, int epochNum) {
+        thetas[0] = new SimpleMatrix(X_train.numCols(), 1);
+
+        for (int epoch = 0; epoch < epochNum; ++epoch) {
+            SimpleMatrix H_predict_train = predictionFunction(X_train, thetas[0]);
+            double costTrain = costFunction(H_predict_train, Y_train, thetas, lambda, 0);
+
+            J_history.set(epoch, 0, epoch);
+            J_history.set(epoch, 1, J_history.get(epoch, 1) + costTrain);
+
+            SimpleMatrix H_predict_cv = predictionFunction(X_cv, thetas[0]);
+            double costCv = costFunction(H_predict_cv, Y_cv, thetas, 0, 0);
+
+            Jcv_history.set(epoch, 0, epoch);
+            Jcv_history.set(epoch, 1, Jcv_history.get(epoch, 1) + costCv);
+
+            thetas[0] = gradient(X_train, Y_train, H_predict_train, thetas[0], lambda);
         }
     }
 
@@ -261,14 +308,42 @@ public class LogisticRegression {
     public void fit(SimpleMatrix X_train, SimpleMatrix Y_train, int epochNum) {
         SimpleMatrix Train = DataSetUtilities.addColumnOfOnes(X_train);
         classList = getClassList(Y_train);
-        thetas = new SimpleMatrix[classList.length > 2 ? classList.length : 1];
-        J_history = new SimpleMatrix[classList.length > 2 ? classList.length : 1];
+        SimpleMatrix[] thetas = new SimpleMatrix[classList.length > 2 ? classList.length : 1];
+        J_history = new SimpleMatrix(epochNum, 2);
 
         if(classList.length > 2) {
-            multiClassClassification(Train, Y_train, epochNum);
+            multiClassClassification(Train, Y_train, thetas, epochNum);
         } else {
-            binaryClassClassification(Train, Y_train, epochNum);
+            binaryClassClassification(Train, Y_train, thetas, epochNum);
         }
+
+        this.thetas = thetas;
+    }
+
+    public void fit(SimpleMatrix X, SimpleMatrix Y, int epochNum, double crossValidationPart, boolean shuffle) {
+        SimpleMatrix[] sets = DataSetUtilities.getCrossValidationAndTrainSets(X.copy(), Y.copy(), crossValidationPart, shuffle);
+
+        SimpleMatrix X_train = DataSetUtilities.addColumnOfOnes(sets[0]);
+        SimpleMatrix Y_train = sets[1];
+        SimpleMatrix X_cv = DataSetUtilities.addColumnOfOnes(sets[2]);
+        SimpleMatrix Y_cv = sets[3];
+
+        XYClassScatterPlot xyClassScatterPlot = new XYClassScatterPlot("data", sets[0].combine(0, sets[0].numCols(), sets[1]));
+        xyClassScatterPlot.plot();
+
+        classList = getClassList(Y_train);
+        classListCv = getClassList(Y_cv);
+        SimpleMatrix[] thetas = new SimpleMatrix[classList.length > 2 ? classList.length : 1];
+        J_history = new SimpleMatrix(epochNum, 2);
+        Jcv_history = new SimpleMatrix(epochNum, 2);
+
+        if(classList.length > 2) {
+            multiClassClassification(X_train, Y_train, X_cv, Y_cv, thetas, epochNum);
+        } else {
+            binaryClassClassification(X_train, Y_train, X_cv, Y_cv, thetas, epochNum);
+        }
+
+        this.thetas = thetas;
     }
 
     /**
@@ -284,18 +359,25 @@ public class LogisticRegression {
             prediction[i] = predictionFunction(Test, thetas[i]);
         }
 
+        prediction[0].print();
+        prediction[1].print();
+        prediction[2].print();
+
         SimpleMatrix answer = new SimpleMatrix(prediction[0].numRows(), 1);
 
         for(int row = 0; row < prediction[0].numRows(); ++row) {
             double max = 0;
-            for(int i = 0; i < thetas.length; ++ i) {
-                if(prediction[i].get(row, 0) + i > max + i) {
-                    max = prediction[i].get(row, 0) + i;
+            int classNum = 0;
+            for(int i = 0; i < thetas.length; ++i) {
+                if(prediction[i].get(row, 0) > max) {
+                    max = prediction[i].get(row, 0);
+                    classNum = i;
                 }
             }
+            System.out.println(max);
 
             if(thetas.length > 1) {
-                answer.set(row, 0, Math.ceil(max) - 1);
+                answer.set(row, 0, Math.ceil(max + classNum) - 1);
             } else {
                 answer.set(row, 0, Math.round(max));
             }
@@ -308,7 +390,13 @@ public class LogisticRegression {
      *
      */
     public void plotCostFunctionHistory() {
-        XYLineChart XYLineChart = new XYLineChart("CostFunction", J_history, true);
+        XYLineChart XYLineChart = null;
+
+        if(Jcv_history != null) {
+            XYLineChart = new XYLineChart("CostFunction", new SimpleMatrix[] {J_history, Jcv_history}, true);
+        } else {
+            XYLineChart = new XYLineChart("CostFunction", DataSetUtilities.toArray(J_history, 0, 1));
+        }
         XYLineChart.plot();
     }
 }
