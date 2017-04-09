@@ -1,7 +1,6 @@
 package Core;
 
 import Data.DataSetUtilities;
-import Plot.XYClassScatterPlot;
 import Plot.XYLineChart;
 import org.ejml.simple.SimpleMatrix;
 
@@ -12,8 +11,8 @@ import java.util.stream.DoubleStream;
  */
 public class LogisticRegression {
     private SimpleMatrix[] thetas;
-    private SimpleMatrix J_history;
-    private SimpleMatrix Jcv_history;
+    private SimpleMatrix lossHistory;
+    private SimpleMatrix lossCvHistory;
     private double[] classList;
     private double[] classListCv;
     private double alpha;
@@ -66,7 +65,7 @@ public class LogisticRegression {
      * @return
      */
     public SimpleMatrix getCostHistory() {
-        return J_history;
+        return lossHistory;
     }
 
     /**
@@ -221,8 +220,8 @@ public class LogisticRegression {
                 SimpleMatrix H_predict = predictionFunction(Train, thetas[i]);
                 double cost = costFunction(H_predict, oneVsAll, thetas, lambda, i);
 
-                J_history.set(epoch, 0, epoch);
-                J_history.set(epoch, 1, J_history.get(epoch, 1) + cost);
+                lossHistory.set(epoch, 0, epoch);
+                lossHistory.set(epoch, 1, lossHistory.get(epoch, 1) + cost);
 
                 thetas[i] = gradient(Train, oneVsAll, H_predict, thetas[i], lambda);
             }
@@ -243,14 +242,14 @@ public class LogisticRegression {
                 SimpleMatrix H_predict_train = predictionFunction(X_train, thetas[0]);
                 double costTrain = costFunction(H_predict_train, oneVsAllTrain, thetas, lambda, 0);
 
-                J_history.set(epoch, 0, epoch);
-                J_history.set(epoch, 1, J_history.get(epoch, 1) + costTrain);
+                lossHistory.set(epoch, 0, epoch);
+                lossHistory.set(epoch, 1, lossHistory.get(epoch, 1) + costTrain);
 
                 SimpleMatrix H_predict_cv = predictionFunction(X_cv, thetas[0]);
                 double costCv = costFunction(H_predict_cv, oneVsAllCv, thetas, 0, 0);
 
-                Jcv_history.set(epoch, 0, epoch);
-                Jcv_history.set(epoch, 1, Jcv_history.get(epoch, 1) + costCv);
+                lossCvHistory.set(epoch, 0, epoch);
+                lossCvHistory.set(epoch, 1, lossCvHistory.get(epoch, 1) + costCv);
 
                 thetas[i] = gradient(X_train, oneVsAllTrain, H_predict_train, thetas[0], lambda);
             }
@@ -272,8 +271,8 @@ public class LogisticRegression {
             SimpleMatrix H_predict = predictionFunction(X_train, thetas[0]);
             double cost = costFunction(H_predict, Y_train, thetas, lambda, 0);
 
-            J_history.set(epoch, 0, epoch);
-            J_history.set(epoch, 1, J_history.get(epoch, 1) + cost);
+            lossHistory.set(epoch, 0, epoch);
+            lossHistory.set(epoch, 1, lossHistory.get(epoch, 1) + cost);
 
             thetas[0] = gradient(X_train, Y_train, H_predict, thetas[0], lambda);
         }
@@ -286,14 +285,14 @@ public class LogisticRegression {
             SimpleMatrix H_predict_train = predictionFunction(X_train, thetas[0]);
             double costTrain = costFunction(H_predict_train, Y_train, thetas, lambda, 0);
 
-            J_history.set(epoch, 0, epoch);
-            J_history.set(epoch, 1, J_history.get(epoch, 1) + costTrain);
+            lossHistory.set(epoch, 0, epoch);
+            lossHistory.set(epoch, 1, lossHistory.get(epoch, 1) + costTrain);
 
             SimpleMatrix H_predict_cv = predictionFunction(X_cv, thetas[0]);
             double costCv = costFunction(H_predict_cv, Y_cv, thetas, 0, 0);
 
-            Jcv_history.set(epoch, 0, epoch);
-            Jcv_history.set(epoch, 1, Jcv_history.get(epoch, 1) + costCv);
+            lossCvHistory.set(epoch, 0, epoch);
+            lossCvHistory.set(epoch, 1, lossCvHistory.get(epoch, 1) + costCv);
 
             thetas[0] = gradient(X_train, Y_train, H_predict_train, thetas[0], lambda);
         }
@@ -309,7 +308,7 @@ public class LogisticRegression {
         SimpleMatrix Train = DataSetUtilities.addColumnOfOnes(X_train);
         classList = getClassList(Y_train);
         SimpleMatrix[] thetas = new SimpleMatrix[classList.length > 2 ? classList.length : 1];
-        J_history = new SimpleMatrix(epochNum, 2);
+        lossHistory = new SimpleMatrix(epochNum, 2);
 
         if(classList.length > 2) {
             multiClassClassification(Train, Y_train, thetas, epochNum);
@@ -331,8 +330,8 @@ public class LogisticRegression {
         classList = getClassList(Y_train);
         classListCv = getClassList(Y_cv);
         SimpleMatrix[] thetas = new SimpleMatrix[classList.length > 2 ? classList.length : 1];
-        J_history = new SimpleMatrix(epochNum, 2);
-        Jcv_history = new SimpleMatrix(epochNum, 2);
+        lossHistory = new SimpleMatrix(epochNum, 2);
+        lossCvHistory = new SimpleMatrix(epochNum, 2);
 
         if(classList.length > 2) {
             multiClassClassification(X_train, Y_train, X_cv, Y_cv, thetas, epochNum);
@@ -384,10 +383,10 @@ public class LogisticRegression {
     public void plotCostFunctionHistory() {
         XYLineChart XYLineChart = null;
 
-        if(Jcv_history != null) {
-            XYLineChart = new XYLineChart("CostFunction", new SimpleMatrix[] {J_history, Jcv_history}, true);
+        if(lossCvHistory != null) {
+            XYLineChart = new XYLineChart("CostFunction", new SimpleMatrix[] {lossHistory, lossCvHistory}, true);
         } else {
-            XYLineChart = new XYLineChart("CostFunction", DataSetUtilities.toArray(J_history, 0, 1));
+            XYLineChart = new XYLineChart("CostFunction", DataSetUtilities.toArray(lossHistory, 0, 1));
         }
         XYLineChart.plot();
     }

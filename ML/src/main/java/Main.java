@@ -11,44 +11,24 @@ import org.ejml.simple.SimpleMatrix;
  */
 public class Main {
     public static void main(String[] args) {
-//
-//        double[][] data = new double[][] {
-//                {1, 4, 0},
-//                {3, 2, 0},
-//                {4, 5, 0},
-//                {4, 2, 0},
-//                {2, 1, 0},
-//
-//                {6, 10, 1},
-//                {9, 8, 1},
-//                {6, 7, 1},
-//                {7, 9, 1},
-//                {9, 6, 1},
-//
-//                {11, 2, 2},
-//                {15, 4, 2},
-//                {14, 3.2, 2},
-//                {12, 5, 2},
-//                {15, 1, 2},
-//        };
-//
-//        SimpleMatrix dataSet = new SimpleMatrix(data);
-//
-//        System.out.println(dataSet.get(21));
+
+        double[][] data = new double[][] {
+                {1, 2},
+                {2, 4},
+                {3, 6},
+                {4, 8},
+                {5, 10},
+        };
+
+        SimpleMatrix dataSet = new SimpleMatrix(data);
 
         Sequential sequential = new Sequential();
-        sequential.addLayer(new Input(2));
+        sequential.addLayer(new Input(1));
         sequential.addLayer(new Dense(3));
         sequential.addLayer(new Dense(4));
         sequential.addLayer(new Output(1));
-        sequential.conect();
 
-        for(Layer layer : sequential.getLayers()) {
-            System.out.println(layer);
-            for(SimpleMatrix theta : layer.getThetas()) {
-                theta.print();
-            }
+        sequential.fit(DataSetUtilities.getTrainingSet(dataSet, 0), DataSetUtilities.getAnswersSet(dataSet, 1), 1);
 
         }
     }
-}

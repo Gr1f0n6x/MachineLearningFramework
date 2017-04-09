@@ -7,9 +7,26 @@ import org.ejml.simple.SimpleMatrix;
  */
 public class Output implements Layer {
     private SimpleMatrix neurons;
+    private int units;
 
     public Output(int units) {
-        neurons = new SimpleMatrix(units, 1);
+        this.units =  units;
+        //neurons = new SimpleMatrix(units, 1);
+    }
+
+    @Override
+    public void setNeurons(SimpleMatrix neurons) {
+        this.neurons = neurons;
+    }
+
+    @Override
+    public void setThetas(SimpleMatrix[] thetas) {
+        throw new UnsupportedOperationException("Incorrect call");
+    }
+
+    @Override
+    public SimpleMatrix activate() {
+        return neurons;
     }
 
     @Override
@@ -23,8 +40,8 @@ public class Output implements Layer {
     }
 
     @Override
-    public SimpleMatrix getNeurons() {
-        return neurons;
+    public int getUnits() {
+        return units;
     }
 
     @Override

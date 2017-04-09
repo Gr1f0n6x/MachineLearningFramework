@@ -8,5 +8,8 @@ import org.ejml.simple.SimpleMatrix;
 public interface Layer {
     void connect(int units);
     SimpleMatrix[] getThetas();
-    SimpleMatrix getNeurons();
+    int getUnits();
+    SimpleMatrix activate();
+    void setNeurons(SimpleMatrix neurons);
+    void setThetas(SimpleMatrix[] thetas);
 }

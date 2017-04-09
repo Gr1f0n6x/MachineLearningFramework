@@ -12,8 +12,8 @@ public class LinearRegression {
     private double alpha;
     private double lambda;
     private SimpleMatrix thetas;
-    private SimpleMatrix J_history;
-    private SimpleMatrix Jcv_history;
+    private SimpleMatrix lossHistory;
+    private SimpleMatrix lossCvHistory;
 
     /**
      *
@@ -70,7 +70,7 @@ public class LinearRegression {
      * @return
      */
     public SimpleMatrix getCostHistory() {
-        return J_history;
+        return lossHistory;
     }
 
     /**
@@ -129,15 +129,15 @@ public class LinearRegression {
     public void fit(SimpleMatrix X, SimpleMatrix Y, int epochNum) {
         SimpleMatrix Train = DataSetUtilities.addColumnOfOnes(X);
         SimpleMatrix thetas = new SimpleMatrix(Train.numCols(), 1);
-        J_history = new SimpleMatrix(epochNum, 2);
+        lossHistory = new SimpleMatrix(epochNum, 2);
 
         for(int epoch = 0; epoch < epochNum; ++epoch) {
             SimpleMatrix H_predict = predictionFunction(Train, thetas);
 
             double cost = costFunction(H_predict, Y, thetas, lambda);
 
-            J_history.set(epoch, 0, epoch);
-            J_history.set(epoch, 1, cost);
+            lossHistory.set(epoch, 0, epoch);
+            lossHistory.set(epoch, 1, cost);
 
             thetas = gradient(Train, Y, H_predict, thetas);
         }
@@ -154,21 +154,21 @@ public class LinearRegression {
         SimpleMatrix Y_cv = sets[3];
 
         SimpleMatrix thetas = new SimpleMatrix(X_train.numCols(), 1);
-        J_history = new SimpleMatrix(epochNum, 2);
-        Jcv_history = new SimpleMatrix(epochNum, 2);
+        lossHistory = new SimpleMatrix(epochNum, 2);
+        lossCvHistory = new SimpleMatrix(epochNum, 2);
 
         for(int epoch = 0; epoch < epochNum; ++epoch) {
             SimpleMatrix H_predict_train = predictionFunction(X_train, thetas);
             double costTrain = costFunction(H_predict_train, Y_train, thetas, lambda);
 
-            J_history.set(epoch, 0, epoch);
-            J_history.set(epoch, 1, costTrain);
+            lossHistory.set(epoch, 0, epoch);
+            lossHistory.set(epoch, 1, costTrain);
 
             SimpleMatrix H_predict_cv = predictionFunction(X_cv, thetas);
             double costCv = costFunction(H_predict_cv, Y_cv, thetas, 0);
 
-            Jcv_history.set(epoch, 0, epoch);
-            Jcv_history.set(epoch, 1, costCv);
+            lossCvHistory.set(epoch, 0, epoch);
+            lossCvHistory.set(epoch, 1, costCv);
 
             thetas = gradient(X_train, Y_train, H_predict_train ,thetas);
         }
@@ -191,10 +191,10 @@ public class LinearRegression {
     public void plotCostFunctionHistory() {
         XYLineChart XYLineChart = null;
 
-        if(Jcv_history != null) {
-            XYLineChart = new XYLineChart("CostFunction", new SimpleMatrix[] {J_history, Jcv_history}, true);
+        if(lossCvHistory != null) {
+            XYLineChart = new XYLineChart("CostFunction", new SimpleMatrix[] {lossHistory, lossCvHistory}, true);
         } else {
-            XYLineChart = new XYLineChart("CostFunction", DataSetUtilities.toArray(J_history, 0, 1));
+            XYLineChart = new XYLineChart("CostFunction", DataSetUtilities.toArray(lossHistory, 0, 1));
         }
         XYLineChart.plot();
     }
