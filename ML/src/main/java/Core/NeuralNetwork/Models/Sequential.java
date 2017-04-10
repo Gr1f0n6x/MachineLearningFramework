@@ -2,6 +2,7 @@ package Core.NeuralNetwork.Models;
 
 import Core.NeuralNetwork.Layers.Input;
 import Core.NeuralNetwork.Layers.Layer;
+import Core.NeuralNetwork.Layers.Output;
 import Data.DataSetUtilities;
 import org.ejml.simple.SimpleMatrix;
 
@@ -44,8 +45,15 @@ public class Sequential implements Model {
             for(int sample = 0; sample < X.numRows(); ++sample) {
                 ((Input)layers.get(0)).createInput(X_train.extractVector(true, sample));
 
+                // feed forward
                 for(int i = 0; i < layers.size() - 1; ++i) {
                     layers.get(i + 1).setNeurons(layers.get(i).activate());
+                }
+
+                // back propagation
+                SimpleMatrix error = ((Output)layers.get(layers.size() - 1)).computeError(Y.extractVector(true, sample));
+                for(int i = layers.size() - 2; i >= 0; --i) {
+                    error = layers.get(i).computeError(error);
                 }
             }
         }

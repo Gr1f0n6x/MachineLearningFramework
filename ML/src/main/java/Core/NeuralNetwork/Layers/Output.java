@@ -25,7 +25,12 @@ public class Output implements Layer {
     }
 
     @Override
-    public SimpleMatrix activate() {
+    public SimpleMatrix computeError(SimpleMatrix Y) {
+        return neurons.minus(Y);
+    }
+
+    @Override
+    public SimpleMatrix feedforward() {
         return neurons;
     }
 

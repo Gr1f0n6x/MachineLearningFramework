@@ -26,7 +26,12 @@ public class Dense implements Layer {
     }
 
     @Override
-    public SimpleMatrix activate() {
+    public SimpleMatrix computeError(SimpleMatrix Y) {
+        return null;
+    }
+
+    @Override
+    public SimpleMatrix feedforward() {
         SimpleMatrix activation = new SimpleMatrix(thetas.length, 1);
 
         for(int i = 0; i < thetas.length; ++i) {

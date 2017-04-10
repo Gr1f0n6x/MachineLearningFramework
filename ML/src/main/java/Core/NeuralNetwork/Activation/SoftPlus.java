@@ -5,17 +5,17 @@ import org.ejml.simple.SimpleMatrix;
 /**
  * Created by GrIfOn on 10.04.2017.
  */
-public class Identity implements Activation {
+public class SoftPlus implements Activation {
     @Override
     public SimpleMatrix activation(SimpleMatrix Z) {
-        return Z;
+        return Z.elementExp().plus(1).elementLog();
     }
 
     @Override
     public SimpleMatrix derivative(SimpleMatrix Z) {
-        SimpleMatrix derivative = new SimpleMatrix(Z);
-        derivative.set(1);
+        SimpleMatrix ones = new SimpleMatrix(Z.numRows(), Z.numCols());
+        ones.set(1);
 
-        return derivative;
+        return ones.elementDiv(Z.negative().elementExp().plus(1));
     }
 }
