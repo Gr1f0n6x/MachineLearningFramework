@@ -47,7 +47,7 @@ public class Sequential implements Model {
 
                 // feed forward
                 for(int i = 0; i < layers.size() - 1; ++i) {
-                    layers.get(i + 1).setNeurons(layers.get(i).activate());
+                    layers.get(i + 1).setNeurons(layers.get(i).feedforward());
                 }
 
                 // back propagation
@@ -58,7 +58,7 @@ public class Sequential implements Model {
             }
         }
 
-        layers.get(layers.size() - 1).activate().print();
+        layers.get(layers.size() - 1).feedforward().print();
     }
 
     @Override
