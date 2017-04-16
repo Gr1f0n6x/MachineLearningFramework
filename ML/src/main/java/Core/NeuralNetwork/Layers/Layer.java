@@ -7,10 +7,9 @@ import org.ejml.simple.SimpleMatrix;
  */
 public interface Layer {
     void connect(int units);
-    SimpleMatrix[] getThetas();
     int getUnits();
-    SimpleMatrix feedforward();
-    void setNeurons(SimpleMatrix neurons);
-    void setThetas(SimpleMatrix[] thetas);
+    SimpleMatrix getOutput();
+    SimpleMatrix feedforward(SimpleMatrix A);
     SimpleMatrix computeError(SimpleMatrix Y);
+    void updateWeights(SimpleMatrix delta);
 }

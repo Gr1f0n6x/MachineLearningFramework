@@ -145,6 +145,14 @@ public class LinearRegression {
         this.thetas = thetas;
     }
 
+    /**
+     *
+     * @param X
+     * @param Y
+     * @param epochNum
+     * @param crossValidationPart
+     * @param shuffle
+     */
     public void fit(SimpleMatrix X, SimpleMatrix Y, int epochNum, double crossValidationPart, boolean shuffle) {
         SimpleMatrix[] sets = DataSetUtilities.getCrossValidationAndTrainSets(X.copy(), Y.copy(), crossValidationPart, shuffle);
 

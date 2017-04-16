@@ -6,44 +6,40 @@ import org.ejml.simple.SimpleMatrix;
  * Created by GrIfOn on 09.04.2017.
  */
 public class Input implements Layer {
-    private SimpleMatrix neurons; // input
-    private SimpleMatrix[] thetas;
+    private SimpleMatrix output;
+    private SimpleMatrix input;
+    private SimpleMatrix thetas;
     private int units;
 
     public Input(int units) {
         this.units = units + 1;
     }
 
-    // X already includes bias column
-    public void createInput(SimpleMatrix X) {
-        neurons = new SimpleMatrix(X);
+    @Override
+    public SimpleMatrix getOutput() {
+        return output;
     }
 
-    @Override
-    public void setNeurons(SimpleMatrix neurons) {
-        this.neurons = neurons;
+    public void setoutput(SimpleMatrix output) {
+        this.output = output;
     }
 
-    @Override
-    public void setThetas(SimpleMatrix[] thetas) {
+    public void setThetas(SimpleMatrix thetas) {
         this.thetas = thetas;
     }
 
     @Override
     public SimpleMatrix computeError(SimpleMatrix Y) {
-        return null;
+        throw new UnsupportedOperationException("Incorrect call");
     }
 
     // z(i) = Q(i) * x(i)
     @Override
-    public SimpleMatrix feedforward() {
-        SimpleMatrix activation = new SimpleMatrix(thetas.length, 1);
+    public SimpleMatrix feedforward(SimpleMatrix A) {
+        input = A;
+        output = input.mult(thetas);
 
-        for(int i = 0; i < thetas.length; ++i) {
-            activation.set(i, 0, neurons.mult(thetas[i]).elementSum());
-        }
-
-        return activation;
+        return output;
     }
 
     @Override
@@ -54,16 +50,14 @@ public class Input implements Layer {
     // with another layer
     @Override
     public void connect(int units) {
-        thetas = new SimpleMatrix[units]; // with bias
-
-        for(int theta = 0; theta < thetas.length; ++theta) {
-            thetas[theta] = new SimpleMatrix(this.units, 1); // with bias
-        }
+        thetas = new SimpleMatrix(this.units, units);
     }
 
     @Override
-    public SimpleMatrix[] getThetas() {
-        return thetas;
+    public void updateWeights(SimpleMatrix delta) {
+        SimpleMatrix gradient = input.scale(delta.elementSum()).transpose();
+        // alpha = 0.1 (learning rate)
+        thetas = thetas.plus(gradient.scale(0.1));
     }
 
     @Override

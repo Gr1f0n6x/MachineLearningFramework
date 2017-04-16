@@ -1,6 +1,4 @@
-import Core.NeuralNetwork.Layers.Dense;
 import Core.NeuralNetwork.Layers.Input;
-import Core.NeuralNetwork.Layers.Layer;
 import Core.NeuralNetwork.Layers.Output;
 import Core.NeuralNetwork.Models.Sequential;
 import Data.DataSetUtilities;
@@ -12,23 +10,27 @@ import org.ejml.simple.SimpleMatrix;
 public class Main {
     public static void main(String[] args) {
 
+        //OR
         double[][] data = new double[][] {
-                {1, 2},
-                {2, 4},
-                {3, 6},
-                {4, 8},
-                {5, 10},
+                {0, 0, 0},
+                {0, 1, 1},
+                {1, 0, 1},
+                {1, 1, 1},
         };
 
         SimpleMatrix dataSet = new SimpleMatrix(data);
 
         Sequential sequential = new Sequential();
-        sequential.addLayer(new Input(1));
-        sequential.addLayer(new Dense(3));
-        sequential.addLayer(new Dense(4));
+        sequential.addLayer(new Input(2));
         sequential.addLayer(new Output(1));
 
-        sequential.fit(DataSetUtilities.getTrainingSet(dataSet, 0), DataSetUtilities.getAnswersSet(dataSet, 1), 1);
+        sequential.fit(DataSetUtilities.getTrainingSet(dataSet, 0, 1), DataSetUtilities.getAnswersSet(dataSet, 2), 1);
 
+        sequential.predict(new SimpleMatrix(new double[][] {
+                {0, 0}
+        }));
+        sequential.predict(new SimpleMatrix(new double[][] {
+                {0, 1}
+        }));
         }
     }

@@ -1,8 +1,6 @@
 package Core.NeuralNetwork.Models;
 
-import Core.NeuralNetwork.Layers.Input;
 import Core.NeuralNetwork.Layers.Layer;
-import Core.NeuralNetwork.Layers.Output;
 import Data.DataSetUtilities;
 import org.ejml.simple.SimpleMatrix;
 
@@ -42,27 +40,40 @@ public class Sequential implements Model {
         this.conect();
 
         for(int epoch = 0; epoch < epochNum; ++epoch) {
+            SimpleMatrix error = null;
+
             for(int sample = 0; sample < X.numRows(); ++sample) {
-                ((Input)layers.get(0)).createInput(X_train.extractVector(true, sample));
+                SimpleMatrix output = layers.get(0).feedforward(X_train.extractVector(true, sample));
 
                 // feed forward
-                for(int i = 0; i < layers.size() - 1; ++i) {
-                    layers.get(i + 1).setNeurons(layers.get(i).feedforward());
+                for(int i = 1; i < layers.size(); ++i) {
+                    output = layers.get(i).feedforward(output);
                 }
 
                 // back propagation
-                SimpleMatrix error = ((Output)layers.get(layers.size() - 1)).computeError(Y.extractVector(true, sample));
-                for(int i = layers.size() - 2; i >= 0; --i) {
-                    error = layers.get(i).computeError(error);
+                error = layers.get(layers.size() - 1).computeError(Y.extractVector(true, sample));
+                for(int i = layers.size() - 1; i > 1; --i) {
+                    error = error.plus(layers.get(i).computeError(error));
+                }
+
+                // weights updating
+                for(int i = 0; i < layers.size() ; ++i) {
+                    layers.get(i).updateWeights(error);
                 }
             }
         }
-
-        layers.get(layers.size() - 1).feedforward().print();
     }
 
     @Override
     public void predict(SimpleMatrix X) {
+        SimpleMatrix X_train = DataSetUtilities.addColumnOfOnes(X);
+        SimpleMatrix output = layers.get(0).feedforward(X_train.extractVector(true, 0));
 
+        // feed forward
+        for(int i = 1; i < layers.size(); ++i) {
+            output = layers.get(i).feedforward(output);
+        }
+
+        output.print();
     }
 }

@@ -6,7 +6,7 @@ import org.ejml.simple.SimpleMatrix;
  * Created by GrIfOn on 10.04.2017.
  */
 // 1 ./ (1 + exp(-Z))
-public class Logistic implements Activation {
+public class Sigmoid implements Activation {
     @Override
     public SimpleMatrix activation(SimpleMatrix Z) {
         SimpleMatrix result = new SimpleMatrix(Z);

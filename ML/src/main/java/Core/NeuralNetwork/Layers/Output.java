@@ -1,46 +1,65 @@
 package Core.NeuralNetwork.Layers;
 
+import Core.NeuralNetwork.Activation.Activation;
+import Core.NeuralNetwork.Activation.Sigmoid;
 import org.ejml.simple.SimpleMatrix;
 
 /**
  * Created by GrIfOn on 09.04.2017.
  */
 public class Output implements Layer {
-    private SimpleMatrix neurons;
+    private SimpleMatrix output;
+    private Activation activation;
     private int units;
+
+    private SimpleMatrix error;
 
     public Output(int units) {
         this.units =  units;
-        //neurons = new SimpleMatrix(units, 1);
+        this.activation = new Sigmoid();
+
+        output = new SimpleMatrix(units, 1);
+    }
+
+    public Output(Activation activation, int units) {
+        this.activation = activation;
+        this.units = units;
+
+        output = new SimpleMatrix(units, 1);
+    }
+
+    public void setoutput(SimpleMatrix output) {
+        this.output = output;
     }
 
     @Override
-    public void setNeurons(SimpleMatrix neurons) {
-        this.neurons = neurons;
-    }
-
-    @Override
-    public void setThetas(SimpleMatrix[] thetas) {
-        throw new UnsupportedOperationException("Incorrect call");
+    public SimpleMatrix getOutput() {
+        return output;
     }
 
     @Override
     public SimpleMatrix computeError(SimpleMatrix Y) {
-        return neurons.minus(Y);
+        // (H(X) - Y)
+        // e = a - y
+        error = output.minus(Y);
+        error = activation.derivative(error);
+        return error;
+    }
+
+    // a = g(Z)
+    @Override
+    public SimpleMatrix feedforward(SimpleMatrix Z) {
+        output = activation.activation(Z);
+
+        return output;
     }
 
     @Override
-    public SimpleMatrix feedforward() {
-        return neurons;
+    public void updateWeights(SimpleMatrix delta) {
     }
 
     @Override
     public void connect(int units) {
-        throw new UnsupportedOperationException("Incorrect call");
-    }
-
-    @Override
-    public SimpleMatrix[] getThetas() {
         throw new UnsupportedOperationException("Incorrect call");
     }
 
