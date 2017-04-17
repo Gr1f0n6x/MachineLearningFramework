@@ -10,6 +10,6 @@ import java.util.ArrayList;
  */
 public interface Model {
     void fit(SimpleMatrix X, SimpleMatrix Y, int epochNum);
-    void predict(SimpleMatrix X);
+    SimpleMatrix predict(SimpleMatrix X);
     ArrayList<Layer> getLayers();
 }

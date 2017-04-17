@@ -1,7 +1,7 @@
 package Core.NeuralNetwork.Layers;
 
 import Core.NeuralNetwork.Activation.Activation;
-import Core.NeuralNetwork.Activation.Sigmoid;
+import Core.NeuralNetwork.Activation.Binary;
 import org.ejml.simple.SimpleMatrix;
 
 /**
@@ -9,6 +9,7 @@ import org.ejml.simple.SimpleMatrix;
  */
 public class Output implements Layer {
     private SimpleMatrix output;
+    private SimpleMatrix input;
     private Activation activation;
     private int units;
 
@@ -16,7 +17,7 @@ public class Output implements Layer {
 
     public Output(int units) {
         this.units =  units;
-        this.activation = new Sigmoid();
+        this.activation = new Binary();
 
         output = new SimpleMatrix(units, 1);
     }
@@ -39,23 +40,21 @@ public class Output implements Layer {
 
     @Override
     public SimpleMatrix computeError(SimpleMatrix Y) {
-        // (H(X) - Y)
-        // e = a - y
-        error = output.minus(Y);
-        error = activation.derivative(error);
-        return error;
+        return Y.minus(output);
     }
 
     // a = g(Z)
     @Override
     public SimpleMatrix feedforward(SimpleMatrix Z) {
-        output = activation.activation(Z);
+        input = Z;
+        output = activation.activation(input);
 
         return output;
     }
 
     @Override
     public void updateWeights(SimpleMatrix delta) {
+        throw new UnsupportedOperationException("Incorrect call");
     }
 
     @Override

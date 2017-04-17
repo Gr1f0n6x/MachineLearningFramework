@@ -41,39 +41,42 @@ public class Sequential implements Model {
 
         for(int epoch = 0; epoch < epochNum; ++epoch) {
             SimpleMatrix error = null;
+            SimpleMatrix gradient = null;
 
             for(int sample = 0; sample < X.numRows(); ++sample) {
-                SimpleMatrix output = layers.get(0).feedforward(X_train.extractVector(true, sample));
+                SimpleMatrix currentSample = DataSetUtilities.extractRow(X_train, sample);
+                SimpleMatrix output = layers.get(0).feedforward(currentSample);
 
-                // feed forward
                 for(int i = 1; i < layers.size(); ++i) {
                     output = layers.get(i).feedforward(output);
                 }
 
-                // back propagation
-                error = layers.get(layers.size() - 1).computeError(Y.extractVector(true, sample));
-                for(int i = layers.size() - 1; i > 1; --i) {
-                    error = error.plus(layers.get(i).computeError(error));
-                }
+                SimpleMatrix idealOutput = DataSetUtilities.extractRow(Y, sample);
 
-                // weights updating
-                for(int i = 0; i < layers.size() ; ++i) {
-                    layers.get(i).updateWeights(error);
+                error = layers.get(layers.size() - 1).computeError(idealOutput);
+                gradient = gradient == null ? currentSample.scale(error.elementSum()) : gradient.plus(currentSample.scale(error.elementSum()));
+
+                for(int i = layers.size() - 2; i > 0; --i) {
+                    error = layers.get(i).computeError(error);
+                    gradient = gradient.plus(currentSample.scale(error.elementSum()));
                 }
+            }
+
+            for(int i = 0; i < layers.size() - 1; ++i) {
+                layers.get(i).updateWeights(gradient);
             }
         }
     }
 
     @Override
-    public void predict(SimpleMatrix X) {
-        SimpleMatrix X_train = DataSetUtilities.addColumnOfOnes(X);
-        SimpleMatrix output = layers.get(0).feedforward(X_train.extractVector(true, 0));
+    public SimpleMatrix predict(SimpleMatrix X) {
+        SimpleMatrix sample = DataSetUtilities.addColumnOfOnes(X);
+        SimpleMatrix output = layers.get(0).feedforward(sample);
 
-        // feed forward
         for(int i = 1; i < layers.size(); ++i) {
             output = layers.get(i).feedforward(output);
         }
 
-        output.print();
+        return output;
     }
 }

@@ -250,4 +250,24 @@ public class DataSetUtilities {
 
         return result;
     }
+
+    /**
+     *
+     * @param A
+     * @param row
+     * @return
+     */
+    public static SimpleMatrix extractRow(SimpleMatrix A, int row) {
+        return A.extractVector(true, row);
+    }
+
+    /**
+     *
+     * @param A
+     * @param column
+     * @return
+     */
+    public static SimpleMatrix extractColumn(SimpleMatrix A, int column) {
+        return A.extractVector(false, column);
+    }
 }

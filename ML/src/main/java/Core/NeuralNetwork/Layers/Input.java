@@ -38,7 +38,6 @@ public class Input implements Layer {
     public SimpleMatrix feedforward(SimpleMatrix A) {
         input = A;
         output = input.mult(thetas);
-
         return output;
     }
 
@@ -55,9 +54,7 @@ public class Input implements Layer {
 
     @Override
     public void updateWeights(SimpleMatrix delta) {
-        SimpleMatrix gradient = input.scale(delta.elementSum()).transpose();
-        // alpha = 0.1 (learning rate)
-        thetas = thetas.plus(gradient.scale(0.1));
+        thetas = thetas.plus(delta.transpose());
     }
 
     @Override
