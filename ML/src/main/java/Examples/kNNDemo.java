@@ -1,68 +1,46 @@
 package Examples;
 
+import Data.DataSet;
+import Plot.ClassScatterMultipleDimensions;
 import Utilities.DataSetUtilities;
 import Core.kNN.KNN;
 import Plot.XYClassScatterPlot;
 import org.ejml.simple.SimpleMatrix;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+
 /**
  * Created by GrIfOn on 30.03.2017.
  */
 public class kNNDemo {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws URISyntaxException, IOException {
+        DataSet dataSet = new DataSet(kNNDemo.class.getResource("/iris.csv").toURI());
 
-        double[][] data = new double[][] {
-                {1, 1, 0},
-                {1, 2, 0},
-                {1, 3, 0},
-                {2, 1, 0},
-                {2, 2, 0},
-                {2, 3, 0},
+        dataSet.replaceByValue("Iris-setosa", "0");
+        dataSet.replaceByValue("Iris-versicolor", "1");
+        dataSet.replaceByValue("Iris-virginica", "2");
 
-                {3, 3, 1},
-                {3, 2, 1},
-                {3, 1, 1},
-                {4, 3, 0},
-                {4, 2, 0},
-                {4, 1, 0},
-
-                {5, 1, 1},
-                {5, 2, 1},
-                {5, 3, 1},
-                {6, 1, 1},
-                {6, 2, 1},
-                {6, 3, 1},
-
-                {7, 3, 2},
-                {7, 2, 2},
-                {7, 1, 2},
-                {8, 3, 1},
-                {8, 2, 1},
-                {8, 1, 1},
-
-                {9, 1, 2},
-                {9, 2, 2},
-                {9, 3, 2},
-                {10, 1, 2},
-                {10, 2, 2},
-                {10, 3, 2},
-        };
-
-        SimpleMatrix dataSet = new SimpleMatrix(data);
-
-        XYClassScatterPlot xyClassScatterPlot = new XYClassScatterPlot("data", dataSet);
+        SimpleMatrix[] cvTrain = DataSetUtilities.getCrossValidationAndTrainSets(dataSet.getMatrix(), 0.3, true);
+        SimpleMatrix train = cvTrain[0];
+        SimpleMatrix test = cvTrain[1];
 
         KNN knn = new KNN(3);
-        int optimalK = knn.LOO(DataSetUtilities.getTrainingSet(dataSet, 0, 1), DataSetUtilities.getAnswersSet(dataSet, 2), 34, 0);
+        int optimalK = knn.LOO(DataSetUtilities.getTrainingSet(train, 0, 3), DataSetUtilities.getAnswersSet(train, 4), 100, 0);
         knn.setNeighbors(optimalK);
 
-        knn.fit(DataSetUtilities.getTrainingSet(dataSet, 0, 1), DataSetUtilities.getAnswersSet(dataSet, 2));
+        knn.fit(DataSetUtilities.getTrainingSet(train, 0, 3), DataSetUtilities.getAnswersSet(train, 4));
+        double accuracy = knn.test(DataSetUtilities.getTrainingSet(test, 0, 3), DataSetUtilities.getAnswersSet(test, 4));
+        System.out.println(accuracy);
 
-        double[][] predict = new double[][] {
-                {8.5, 2},
-        };
+        ClassScatterMultipleDimensions plotter = new ClassScatterMultipleDimensions("Iris", train, new String[] {
+                "sepal length",
+                "sepal width",
+                "petal length",
+                "petal width",
+        });
 
-        xyClassScatterPlot.addExtraData(knn.predict(new SimpleMatrix(predict)));
-        xyClassScatterPlot.plot();
+        plotter.plot();
+
     }
 }

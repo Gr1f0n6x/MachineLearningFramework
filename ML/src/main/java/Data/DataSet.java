@@ -5,6 +5,7 @@ import com.opencsv.CSVReader;
 import org.ejml.simple.SimpleMatrix;
 
 import java.io.*;
+import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -27,6 +28,10 @@ public class DataSet {
 
     public DataSet(Path file) throws IOException {
         this(Files.newBufferedReader(file));
+    }
+
+    public DataSet(URI uri) throws IOException {
+        this(Files.newBufferedReader(Paths.get(uri)));
     }
 
     public DataSet(File file) throws IOException {

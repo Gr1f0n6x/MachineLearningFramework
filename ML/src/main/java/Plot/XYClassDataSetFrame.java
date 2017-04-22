@@ -106,17 +106,15 @@ public abstract class XYClassDataSetFrame extends ApplicationFrame implements Pl
         }
 
         for(Map.Entry<String, SimpleMatrix> entry : classMap.entrySet()) {
-
             List<SimpleMatrix> values = (List<SimpleMatrix>) entry.getValue();
             XYSeries xySeries;
-            try {
 
+            try {
                 xySeries = xyDataset.getSeries(entry.getKey());
                 final XYSeries finalXySeries = xySeries;
                 values.stream().forEach((x) -> finalXySeries.add(x.get(0, 0), x.get(0, 1)));
 
             } catch (UnknownKeyException e) {
-
                 xySeries = new XYSeries(entry.getKey());
                 final XYSeries finalXySeries = xySeries;
                 values.stream().forEach((x) -> finalXySeries.add(x.get(0, 0), x.get(0, 1)));

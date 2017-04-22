@@ -1,6 +1,7 @@
 package Core.kNN;
 
 import Plot.XYLineChart;
+import Utilities.DataSetUtilities;
 import org.ejml.simple.SimpleMatrix;
 
 import java.util.*;
@@ -17,8 +18,8 @@ public class KNN {
     private int neighbors;
 
     /**
-     *
-     * @param neighbors
+     * Constructor with parameters
+     * @param neighbors - number of neighbors
      */
     public KNN(int neighbors) {
         if(neighbors <= 0) {
@@ -30,15 +31,15 @@ public class KNN {
     }
 
     /**
-     *
-     * @return
+     * Getter
+     * @return - number of neighbors
      */
     public int getNeighbors() {
         return neighbors;
     }
 
     /**
-     *
+     * Setter
      * @param neighbors
      */
     public void setNeighbors(int neighbors) {
@@ -46,13 +47,13 @@ public class KNN {
     }
 
     /**
-     *
-     * @param prediction
+     * Method for calculating distances between train set and current object
+     * @param object - current object for prediction
      * @return
      */
-    private double calculateDistances(SimpleMatrix prediction, int skip) {
+    private double calculateDistances(SimpleMatrix object, int skip) {
         for(int row = 0; row < normalized_X.numRows(); ++row) {
-            distances.add(new DistanceAndClass(Math.sqrt(normalized_X.extractVector(true, row).minus(prediction).elementPower(2).elementSum()), (int)Y_train.get(row, 0)));
+            distances.add(new DistanceAndClass(Math.sqrt(normalized_X.extractVector(true, row).minus(object).elementPower(2).elementSum()), (int)Y_train.get(row, 0)));
         }
 
         Collections.sort(distances);
@@ -67,8 +68,8 @@ public class KNN {
 
     /**
      *
-     * @param x_train
-     * @param y_train
+     * @param x_train - train data set
+     * @param y_train - labels for train data set
      */
     public void fit(SimpleMatrix x_train, SimpleMatrix y_train) {
         Y_train = y_train;
@@ -77,19 +78,32 @@ public class KNN {
         normalized_X = X_train;
     }
 
+    public double test(SimpleMatrix X, SimpleMatrix Y) {
+        SimpleMatrix answers = predict(X);
+        DataSetUtilities.addColumns(answers, Y).print();
+        double correct = 0;
+
+        for(int row = 0; row < X.numRows(); ++row) {
+            if(answers.get(row) - Y.get(row) == 0) {
+                correct++;
+            }
+        }
+
+        return correct / Y.numRows();
+    }
+
     /**
      *
-     * @param X
-     * @return
+     * @param X - test data set
+     * @return - predicted classes
      */
     public SimpleMatrix predict(SimpleMatrix X) {
         //SimpleMatrix normalized = DataNormalization.minMaxNormalization(X_train, X);
         SimpleMatrix normalized = X;
-        SimpleMatrix answer = new SimpleMatrix(normalized.numRows(), normalized.numCols() + 1);
+        SimpleMatrix answer = new SimpleMatrix(normalized.numRows(), 1);
 
         for(int row = 0; row < normalized.numRows(); ++row) {
-            answer.setRow(row, 0, X.extractVector(true, row).getMatrix().getData());
-            answer.set(row, answer.numCols() - 1, calculateDistances(normalized.extractVector(true, row), 0));
+            answer.set(row, 0, calculateDistances(normalized.extractVector(true, row), 0));
         }
 
         return answer;
@@ -97,28 +111,28 @@ public class KNN {
 
     /**
      * Helpful method for LOO
-     * @param X
-     * @param skip
-     * @return
+     * @param X - train data set
+     * @param skip - if skip = 0 then LOO will calculate error including testing object
+     *             otherwise without  without testing object
+     * @return - predicted class label
      */
     private SimpleMatrix predict(SimpleMatrix X, int skip) {
         //SimpleMatrix normalized = DataNormalization.minMaxNormalization(X_train, X);
         SimpleMatrix normalized = X;
-        SimpleMatrix answer = new SimpleMatrix(normalized.numRows(), normalized.numCols() + 1);
+        SimpleMatrix answer = new SimpleMatrix(normalized.numRows(), 1);
 
         for(int row = 0; row < normalized.numRows(); ++row) {
-            answer.setRow(row, 0, X.extractVector(true, row).getMatrix().getData());
-            answer.set(row, answer.numCols() - 1, calculateDistances(normalized.extractVector(true, row), skip));
+            answer.set(row, 0, calculateDistances(normalized.extractVector(true, row), skip));
         }
 
         return answer;
     }
 
     /**
-     * Leave-one-out
-     * @param X
-     * @param Y
-     * @return
+     * Leave-one-out algorithm
+     * @param X - Train data set
+     * @param Y - labels for train data set
+     * @return - the most appropriate number of neighbors
      */
     public int LOO(SimpleMatrix X, SimpleMatrix Y, int maxK, int delta) {
         SimpleMatrix looHistory = new SimpleMatrix(maxK, 2);
@@ -164,6 +178,11 @@ public class KNN {
         return minK;
     }
 
+    /**
+     * Function for plotting history of errors of algorithm with different number of neighbors
+     * @param looHistory
+     * @param looHistoryBias
+     */
     private void plotLOOHistory(SimpleMatrix looHistory, SimpleMatrix looHistoryBias) {
         XYLineChart XYLineChart = new XYLineChart("LOO", new SimpleMatrix[] {looHistory, looHistoryBias}, true);
         XYLineChart.plot();
@@ -171,7 +190,7 @@ public class KNN {
 
 
     /**
-     *
+     * Helpful class for storing the distance and class label
      */
     private class DistanceAndClass implements Comparable<DistanceAndClass> {
         private double distance;
@@ -179,8 +198,8 @@ public class KNN {
 
         /**
          *
-         * @param distance
-         * @param classNumber
+         * @param distance - calculated distance
+         * @param classNumber - class label of this neighbor
          */
         private DistanceAndClass(double distance, int classNumber) {
             this.distance = distance;
@@ -188,35 +207,11 @@ public class KNN {
         }
 
         /**
-         *
-         * @return
-         */
-        public double getDistance() {
-            return distance;
-        }
-
-        /**
-         *
-         * @param distance
-         */
-        public void setDistance(double distance) {
-            this.distance = distance;
-        }
-
-        /**
-         *
+         * Getter
          * @return
          */
         public int getClassNumber() {
             return classNumber;
-        }
-
-        /**
-         *
-         * @param classNumber
-         */
-        public void setClassNumber(int classNumber) {
-            this.classNumber = classNumber;
         }
 
         /**
