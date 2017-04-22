@@ -3,7 +3,7 @@ package Examples;
 import Core.NeuralNetwork.Layers.Input;
 import Core.NeuralNetwork.Layers.Output;
 import Core.NeuralNetwork.Models.Sequential;
-import Data.DataSetUtilities;
+import Utilities.DataSetUtilities;
 import org.ejml.simple.SimpleMatrix;
 
 /**

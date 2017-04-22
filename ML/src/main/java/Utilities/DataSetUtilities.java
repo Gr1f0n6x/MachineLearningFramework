@@ -1,4 +1,4 @@
-package Data;
+package Utilities;
 
 import org.ejml.simple.SimpleMatrix;
 

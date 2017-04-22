@@ -1,6 +1,6 @@
 package Core;
 
-import Data.DataSetUtilities;
+import Utilities.DataSetUtilities;
 import Plot.XYLineChart;
 import org.ejml.simple.SimpleMatrix;
 

@@ -1,6 +1,6 @@
 package Examples;
 
-import Data.DataSetUtilities;
+import Utilities.DataSetUtilities;
 import Core.LogisticRegression;
 import Plot.XYClassScatterPlot;
 import org.ejml.simple.SimpleMatrix;

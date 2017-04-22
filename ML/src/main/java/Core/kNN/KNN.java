@@ -1,7 +1,5 @@
-package Core;
+package Core.kNN;
 
-import Data.DataNormalization;
-import Data.DataSetUtilities;
 import Plot.XYLineChart;
 import org.ejml.simple.SimpleMatrix;
 
@@ -49,25 +47,17 @@ public class KNN {
 
     /**
      *
-     * @return
-     */
-    public List<DistanceAndClass> getDistances() {
-        return distances;
-    }
-
-    /**
-     *
      * @param prediction
      * @return
      */
-    private double calculateDistances(SimpleMatrix prediction) {
+    private double calculateDistances(SimpleMatrix prediction, int skip) {
         for(int row = 0; row < normalized_X.numRows(); ++row) {
             distances.add(new DistanceAndClass(Math.sqrt(normalized_X.extractVector(true, row).minus(prediction).elementPower(2).elementSum()), (int)Y_train.get(row, 0)));
         }
 
         Collections.sort(distances);
 
-        Map<Integer, Long> counter = distances.stream().limit(neighbors).
+        Map<Integer, Long> counter = distances.stream().skip(skip).limit(neighbors).
                 collect(Collectors.groupingBy(DistanceAndClass::getClassNumber, Collectors.counting()));
 
         distances.clear();
@@ -83,7 +73,8 @@ public class KNN {
     public void fit(SimpleMatrix x_train, SimpleMatrix y_train) {
         Y_train = y_train;
         X_train = x_train;
-        normalized_X = DataNormalization.minMaxNormalization(X_train);
+        //normalized_X = DataNormalization.minMaxNormalization(X_train);
+        normalized_X = X_train;
     }
 
     /**
@@ -92,12 +83,32 @@ public class KNN {
      * @return
      */
     public SimpleMatrix predict(SimpleMatrix X) {
-        SimpleMatrix normalized = DataNormalization.minMaxNormalization(X_train, X);
+        //SimpleMatrix normalized = DataNormalization.minMaxNormalization(X_train, X);
+        SimpleMatrix normalized = X;
         SimpleMatrix answer = new SimpleMatrix(normalized.numRows(), normalized.numCols() + 1);
 
         for(int row = 0; row < normalized.numRows(); ++row) {
             answer.setRow(row, 0, X.extractVector(true, row).getMatrix().getData());
-            answer.set(row, answer.numCols() - 1, calculateDistances(normalized.extractVector(true, row)));
+            answer.set(row, answer.numCols() - 1, calculateDistances(normalized.extractVector(true, row), 0));
+        }
+
+        return answer;
+    }
+
+    /**
+     * Helpful method for LOO
+     * @param X
+     * @param skip
+     * @return
+     */
+    private SimpleMatrix predict(SimpleMatrix X, int skip) {
+        //SimpleMatrix normalized = DataNormalization.minMaxNormalization(X_train, X);
+        SimpleMatrix normalized = X;
+        SimpleMatrix answer = new SimpleMatrix(normalized.numRows(), normalized.numCols() + 1);
+
+        for(int row = 0; row < normalized.numRows(); ++row) {
+            answer.setRow(row, 0, X.extractVector(true, row).getMatrix().getData());
+            answer.set(row, answer.numCols() - 1, calculateDistances(normalized.extractVector(true, row), skip));
         }
 
         return answer;
@@ -111,28 +122,36 @@ public class KNN {
      */
     public int LOO(SimpleMatrix X, SimpleMatrix Y, int maxK, int delta) {
         SimpleMatrix looHistory = new SimpleMatrix(maxK, 2);
+        SimpleMatrix looHistoryBias = new SimpleMatrix(maxK, 2);
         int minK = 0;
         int minError = Integer.MAX_VALUE;
 
-        for(int k = 3; k < maxK && minError > delta; ++k) {
+        this.fit(X, Y);
+
+        for(int k = 1; k < maxK && minError > delta; ++k) {
             this.setNeighbors(k);
             int errorCount = 0;
+            int errorCountBias = 0;
 
             for(int row = 0; row < Y.numRows(); ++row) {
-                SimpleMatrix Xd = DataSetUtilities.removeRow(X, row);
-                SimpleMatrix Yd = DataSetUtilities.removeRow(Y, row);
-
-                this.fit(Xd, Yd);
-                SimpleMatrix prediction = this.predict(X.extractVector(true, row));
+                SimpleMatrix prediction = this.predict(X.extractVector(true, row), 1);
+                SimpleMatrix predictionBias = this.predict(X.extractVector(true, row), 0);
                 SimpleMatrix realAnswer = Y.extractVector(true, row);
 
                 if(realAnswer.get(0, realAnswer.numCols() - 1) != prediction.get(0, prediction.numCols() - 1)) {
                     errorCount++;
                 }
+
+                if(realAnswer.get(0, realAnswer.numCols() - 1) != predictionBias.get(0, prediction.numCols() - 1)) {
+                    errorCountBias++;
+                }
             }
 
             looHistory.set(k, 0, k);
             looHistory.set(k, 1, errorCount);
+
+            looHistoryBias.set(k, 0, k);
+            looHistoryBias.set(k, 1, errorCountBias);
 
             if(minError > errorCount) {
                 minError = errorCount;
@@ -140,14 +159,13 @@ public class KNN {
             }
         }
 
-        plotLOOHistory(looHistory);
+        plotLOOHistory(looHistory, looHistoryBias);
 
         return minK;
     }
 
-    private void plotLOOHistory(SimpleMatrix looHistory) {
-        XYLineChart XYLineChart = new XYLineChart("LOO", DataSetUtilities.toArray(looHistory, 0, 1));;
-
+    private void plotLOOHistory(SimpleMatrix looHistory, SimpleMatrix looHistoryBias) {
+        XYLineChart XYLineChart = new XYLineChart("LOO", new SimpleMatrix[] {looHistory, looHistoryBias}, true);
         XYLineChart.plot();
     }
 

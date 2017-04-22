@@ -1,7 +1,7 @@
 package Core.NeuralNetwork.Models;
 
 import Core.NeuralNetwork.Layers.Layer;
-import Data.DataSetUtilities;
+import Utilities.DataSetUtilities;
 import org.ejml.simple.SimpleMatrix;
 
 import java.util.ArrayList;

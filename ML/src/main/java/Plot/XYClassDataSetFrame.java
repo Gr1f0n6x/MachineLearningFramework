@@ -1,7 +1,7 @@
 package Plot;
 
 import Data.DataSet;
-import Data.DataSetUtilities;
+import Utilities.DataSetUtilities;
 import Plot.Interfaces.Plotter;
 import org.apache.commons.collections.map.MultiValueMap;
 import org.ejml.simple.SimpleMatrix;

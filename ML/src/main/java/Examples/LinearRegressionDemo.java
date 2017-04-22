@@ -1,6 +1,6 @@
 package Examples;
 
-import Data.DataSetUtilities;
+import Utilities.DataSetUtilities;
 import Core.LinearRegression;
 import Plot.XYLineChart;
 import org.ejml.simple.SimpleMatrix;

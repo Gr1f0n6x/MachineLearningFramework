@@ -1,15 +1,10 @@
 package Plot;
 
 import Data.DataSet;
-import Data.DataSetUtilities;
-import Plot.Interfaces.Plotter;
 import org.ejml.simple.SimpleMatrix;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.data.xy.DefaultXYDataset;
-import org.jfree.ui.RefineryUtilities;
 
 import javax.swing.*;
 

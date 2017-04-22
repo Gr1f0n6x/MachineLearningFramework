@@ -1,4 +1,4 @@
-import Data.DataSetUtilities;
+import Utilities.DataSetUtilities;
 import org.ejml.simple.SimpleMatrix;
 import org.junit.Test;
 import static org.junit.Assert.*;
