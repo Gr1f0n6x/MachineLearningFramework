@@ -8,8 +8,8 @@ import org.ejml.simple.SimpleMatrix;
 public interface Layer {
     void connect(int units);
     int getUnits();
-    SimpleMatrix getOutput();
     SimpleMatrix feedforward(SimpleMatrix A);
     SimpleMatrix computeError(SimpleMatrix Y);
     void updateWeights(SimpleMatrix delta);
+    SimpleMatrix computeGradient(SimpleMatrix A);
 }

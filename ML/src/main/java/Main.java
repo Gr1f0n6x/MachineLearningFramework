@@ -1,3 +1,4 @@
+import Core.NeuralNetwork.Activation.Identity;
 import Core.NeuralNetwork.Layers.Input;
 import Core.NeuralNetwork.Layers.Output;
 import Core.NeuralNetwork.Models.Sequential;
@@ -9,51 +10,27 @@ import org.ejml.simple.SimpleMatrix;
  */
 public class Main {
     public static void main(String[] args) {
-
-//        //OR
-//        double[][] data = new double[][] {
-//                {0, 0, 0},
-//                {0, 1, 1},
-//                {1, 0, 1},
-//                {1, 1, 1},
-//        };
-
-//        //AND
-//        double[][] data = new double[][] {
-//                {0, 0, 0},
-//                {0, 1, 0},
-//                {1, 0, 0},
-//                {1, 1, 1},
-//        };
-
-        //NAND
         double[][] data = new double[][] {
-                {0, 0, 1},
-                {0, 1, 0},
-                {1, 0, 0},
-                {1, 1, 0},
+                {1, 1},
+                {2, 4},
+                {3, 9},
+                {4, 16},
+                {5, 25},
         };
 
         SimpleMatrix dataSet = new SimpleMatrix(data);
 
         Sequential sequential = new Sequential();
-        sequential.addLayer(new Input(2));
-        sequential.addLayer(new Output(1));
+        sequential.addLayer(new Input(1));
+        sequential.addLayer(new Output(new Identity(), 1));
 
-        sequential.fit(DataSetUtilities.getTrainingSet(dataSet, 0, 1), DataSetUtilities.getAnswersSet(dataSet, 2), 5);
-
-        sequential.predict(new SimpleMatrix(new double[][] {
-                {0, 0}
-        })).print();
-        sequential.predict(new SimpleMatrix(new double[][] {
-                {0, 1}
-        })).print();
+        sequential.fit(DataSetUtilities.getTrainingSet(dataSet, 0), DataSetUtilities.getAnswersSet(dataSet, 1), 1);
 
         sequential.predict(new SimpleMatrix(new double[][] {
-                {1, 0}
+                {6}
         })).print();
         sequential.predict(new SimpleMatrix(new double[][] {
-                {1, 1}
+                {7}
         })).print();
         }
     }

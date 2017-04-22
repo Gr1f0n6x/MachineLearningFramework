@@ -101,7 +101,7 @@ public class DataSetUtilities {
     public static SimpleMatrix removeColumns(SimpleMatrix matrix, int startColumn, int endColumn) {
         if(startColumn > matrix.numCols() || endColumn > matrix.numCols()
                 || startColumn < 0 || endColumn < 0) {
-            throw new IllegalArgumentException("Arguments: startColumn && endColumn should be less than matrix.numCols and > 0");
+            throw new IllegalArgumentException("Arguments: startColumn && endColumn should be less than matrix.numRows and > 0");
         }
 
         SimpleMatrix A = matrix.extractMatrix(0, matrix.numRows(), 0, startColumn);
@@ -110,6 +110,42 @@ public class DataSetUtilities {
         matrix.print();
 
         return A.combine(0, A.numCols(), B);
+    }
+
+    /**
+     *
+     * @param matrix
+     * @param startRow
+     * @param endRow
+     * @return
+     */
+    public static SimpleMatrix removeRows(SimpleMatrix matrix, int startRow, int endRow) {
+        if(startRow > matrix.numRows() || endRow > matrix.numRows()
+                || startRow < 0 || endRow < 0) {
+            throw new IllegalArgumentException("Arguments: startRow && endRow should be less than matrix.numRows and > 0");
+        }
+
+        SimpleMatrix A = matrix.extractMatrix(0, startRow, 0, matrix.numCols());
+        SimpleMatrix B = matrix.extractMatrix(endRow + 1, matrix.numRows(), 0, matrix.numCols());
+
+        return A.combine(startRow, 0, B);
+    }
+
+    /**
+     *
+     * @param matrix
+     * @param row
+     * @return
+     */
+    public static SimpleMatrix removeRow(SimpleMatrix matrix, int row) {
+        if(row > matrix.numRows() || row < 0) {
+            throw new IllegalArgumentException("Argument: row should be less than matrix.numCols and > 0");
+        }
+
+        SimpleMatrix A = matrix.extractMatrix(0, row, 0, matrix.numCols());
+        SimpleMatrix B = matrix.extractMatrix(row + 1, matrix.numRows(), 0, matrix.numCols());
+
+        return A.combine(row, 0, B);
     }
 
     /**

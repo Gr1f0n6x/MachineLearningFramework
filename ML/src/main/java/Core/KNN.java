@@ -101,6 +101,28 @@ public class KNN {
         return answer;
     }
 
+    /**
+     * Leave-one-out
+     * @param X
+     * @param Y
+     * @return
+     */
+    public int LOO(SimpleMatrix X, SimpleMatrix Y, int maxK) {
+        SimpleMatrix looHistory = new SimpleMatrix(Y.numRows(), 2);
+
+        this.fit(X, Y);
+
+        for(int k = 0; k < maxK; ++k) {
+            this.setNeighbors(k);
+
+            for(int row = 0; row < Y.numRows(); ++row) {
+                
+            }
+        }
+
+        return 0;
+    }
+
 
     /**
      *

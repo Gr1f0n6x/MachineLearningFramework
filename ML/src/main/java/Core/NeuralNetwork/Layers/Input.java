@@ -15,11 +15,6 @@ public class Input implements Layer {
         this.units = units + 1;
     }
 
-    @Override
-    public SimpleMatrix getOutput() {
-        return output;
-    }
-
     public void setoutput(SimpleMatrix output) {
         this.output = output;
     }
@@ -30,6 +25,11 @@ public class Input implements Layer {
 
     @Override
     public SimpleMatrix computeError(SimpleMatrix Y) {
+        throw new UnsupportedOperationException("Incorrect call");
+    }
+
+    @Override
+    public SimpleMatrix computeGradient(SimpleMatrix A) {
         throw new UnsupportedOperationException("Incorrect call");
     }
 

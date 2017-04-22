@@ -17,8 +17,9 @@ public class Binary implements Activation {
 
     @Override
     public SimpleMatrix derivative(SimpleMatrix Z) {
-        SimpleMatrix derivative = new SimpleMatrix(Z.numRows(), Z.numCols());
-        derivative.set(0);
+//        SimpleMatrix derivative = new SimpleMatrix(Z.numRows(), Z.numCols());
+//        derivative.set(0);
+        SimpleMatrix derivative = new SimpleMatrix(Z);
 
         return derivative;
     }

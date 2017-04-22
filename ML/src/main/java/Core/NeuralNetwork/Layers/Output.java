@@ -10,10 +10,9 @@ import org.ejml.simple.SimpleMatrix;
 public class Output implements Layer {
     private SimpleMatrix output;
     private SimpleMatrix input;
+    private SimpleMatrix error;
     private Activation activation;
     private int units;
-
-    private SimpleMatrix error;
 
     public Output(int units) {
         this.units =  units;
@@ -34,13 +33,15 @@ public class Output implements Layer {
     }
 
     @Override
-    public SimpleMatrix getOutput() {
-        return output;
+    public SimpleMatrix computeError(SimpleMatrix Y) {
+        error = Y.minus(output);
+        return error;
     }
 
     @Override
-    public SimpleMatrix computeError(SimpleMatrix Y) {
-        return Y.minus(output);
+    public SimpleMatrix computeGradient(SimpleMatrix A) {
+        SimpleMatrix gradient = activation.derivative(A).scale(error.elementSum());
+        return gradient;
     }
 
     // a = g(Z)

@@ -54,11 +54,13 @@ public class Sequential implements Model {
                 SimpleMatrix idealOutput = DataSetUtilities.extractRow(Y, sample);
 
                 error = layers.get(layers.size() - 1).computeError(idealOutput);
-                gradient = gradient == null ? currentSample.scale(error.elementSum()) : gradient.plus(currentSample.scale(error.elementSum()));
+                //gradient = gradient == null ? currentSample.scale(error.elementSum()) : gradient.plus(currentSample.scale(error.elementSum()));
+                gradient = gradient == null ? layers.get(layers.size() - 1).computeGradient(currentSample) : gradient.plus(layers.get(layers.size() - 1).computeGradient(currentSample));
 
                 for(int i = layers.size() - 2; i > 0; --i) {
                     error = layers.get(i).computeError(error);
-                    gradient = gradient.plus(currentSample.scale(error.elementSum()));
+                    //gradient = gradient.plus(currentSample.scale(error.elementSum()));
+                    gradient = gradient.plus(layers.get(layers.size() - 1).computeGradient(currentSample));
                 }
             }
 
