@@ -40,6 +40,8 @@ public class kNNDemo {
         xyClassScatterPlot.plot();
 
         KNN knn = new KNN(3);
+        knn.LOO(DataSetUtilities.getTrainingSet(dataSet, 0, 1), DataSetUtilities.getAnswersSet(dataSet, 2), 10, 1);
+
         knn.fit(DataSetUtilities.getTrainingSet(dataSet, 0, 1), DataSetUtilities.getAnswersSet(dataSet, 2));
 
         double[][] predict = new double[][] {

@@ -1,6 +1,8 @@
 package Core;
 
 import Data.DataNormalization;
+import Data.DataSetUtilities;
+import Plot.XYLineChart;
 import org.ejml.simple.SimpleMatrix;
 
 import java.util.*;
@@ -21,8 +23,8 @@ public class KNN {
      * @param neighbors
      */
     public KNN(int neighbors) {
-        if(neighbors % 2 == 0) {
-            throw new IllegalArgumentException("Amount of neighbors should be odd");
+        if(neighbors <= 0) {
+            throw new IllegalArgumentException("Amount of neighbors should be > 0");
         }
 
         this.neighbors = neighbors;
@@ -107,20 +109,46 @@ public class KNN {
      * @param Y
      * @return
      */
-    public int LOO(SimpleMatrix X, SimpleMatrix Y, int maxK) {
-        SimpleMatrix looHistory = new SimpleMatrix(Y.numRows(), 2);
+    public int LOO(SimpleMatrix X, SimpleMatrix Y, int maxK, int delta) {
+        SimpleMatrix looHistory = new SimpleMatrix(maxK, 2);
+        int minK = 0;
+        int minError = Integer.MAX_VALUE;
 
-        this.fit(X, Y);
-
-        for(int k = 0; k < maxK; ++k) {
+        for(int k = 3; k < maxK && minError > delta; ++k) {
             this.setNeighbors(k);
+            int errorCount = 0;
 
             for(int row = 0; row < Y.numRows(); ++row) {
-                
+                SimpleMatrix Xd = DataSetUtilities.removeRow(X, row);
+                SimpleMatrix Yd = DataSetUtilities.removeRow(Y, row);
+
+                this.fit(Xd, Yd);
+                SimpleMatrix prediction = this.predict(X.extractVector(true, row));
+                SimpleMatrix realAnswer = Y.extractVector(true, row);
+
+                if(realAnswer.get(0, realAnswer.numCols() - 1) != prediction.get(0, prediction.numCols() - 1)) {
+                    errorCount++;
+                }
+            }
+
+            looHistory.set(k, 0, k);
+            looHistory.set(k, 1, errorCount);
+
+            if(minError > errorCount) {
+                minError = errorCount;
+                minK = k;
             }
         }
 
-        return 0;
+        plotLOOHistory(looHistory);
+
+        return minK;
+    }
+
+    private void plotLOOHistory(SimpleMatrix looHistory) {
+        XYLineChart XYLineChart = new XYLineChart("LOO", DataSetUtilities.toArray(looHistory, 0, 1));;
+
+        XYLineChart.plot();
     }
 
 
