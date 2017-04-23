@@ -1,56 +1,46 @@
 package Examples;
 
+import Data.DataSet;
+import Plot.ClassScatterMultipleDimensions;
 import Utilities.DataSetUtilities;
 import Core.LogisticRegression;
 import Plot.XYClassScatterPlot;
 import org.ejml.simple.SimpleMatrix;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+
 /**
  * Created by GrIfOn on 29.03.2017.
  */
 public class MultipleLogisticRegressionDemo {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws URISyntaxException, IOException {
+        DataSet data = new DataSet(MultipleLogisticRegressionDemo.class.getResource("/iris.csv").toURI());
 
-        double[][] data = new double[][] {
-                {1, 4, 0},
-                {3, 2, 0},
-                {4, 5, 0},
-                {4, 2, 0},
-                {2, 1, 0},
+        data.replaceByValue("Iris-setosa", "0");
+        data.replaceByValue("Iris-versicolor", "1");
+        data.replaceByValue("Iris-virginica", "2");
 
-                {6, 10, 1},
-                {9, 8, 1},
-                {6, 7, 1},
-                {7, 9, 1},
-                {9, 6, 1},
+        SimpleMatrix dataSet = data.getMatrix();
+        SimpleMatrix[] cvTrain = DataSetUtilities.getCrossValidationAndTrainSets(dataSet, 0.2, true);
+        SimpleMatrix train = cvTrain[0];
+        SimpleMatrix test = cvTrain[1];
 
-                {11, 2, 2},
-                {15, 4, 2},
-                {14, 3.2, 2},
-                {12, 5, 2},
-                {15, 1, 2},
-        };
-
-        SimpleMatrix dataSet = new SimpleMatrix(data);
-
-        XYClassScatterPlot xyClassScatterPlot = new XYClassScatterPlot("demo", dataSet);
-        xyClassScatterPlot.plot();
-
-        LogisticRegression logisticRegression = new LogisticRegression(1);
-        //LogisticRegression logisticRegression = new LogisticRegression(0.1, 5);
-        logisticRegression.fit(DataSetUtilities.getTrainingSet(dataSet, 0, 1), DataSetUtilities.getAnswersSet(dataSet, 2), 1000);
-
+        LogisticRegression logisticRegression = new LogisticRegression(0.2);
+        logisticRegression.fit(DataSetUtilities.getTrainingSet(train, 0, 3), DataSetUtilities.getAnswersSet(train, 4), 1000);
         logisticRegression.plotCostFunctionHistory();
 
-        double[][] predict = new double[][] {
-                {6, 4},
-                {10, 4},
-                {11, 4},
-                {12, 4},
-        };
+        double accuracy = logisticRegression.test(DataSetUtilities.getTrainingSet(test, 0, 3), DataSetUtilities.getAnswersSet(test, 4));
+        System.out.println(accuracy);
 
-        xyClassScatterPlot.addExtraData(DataSetUtilities.addColumns(new SimpleMatrix(predict), logisticRegression.predict(new SimpleMatrix(predict))));
-        xyClassScatterPlot.plot();
+//        ClassScatterMultipleDimensions plotter = new ClassScatterMultipleDimensions("Iris", train, new String[] {
+//                "sepal length",
+//                "sepal width",
+//                "petal length",
+//                "petal width",
+//        });
+//
+//        plotter.plot();
 
     }
 }
