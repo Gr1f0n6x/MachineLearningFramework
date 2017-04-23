@@ -1,50 +1,34 @@
 package Examples;
 
+import Data.DataSet;
 import Utilities.DataSetUtilities;
 import Core.LinearRegression;
 import Plot.XYLineChart;
 import org.ejml.simple.SimpleMatrix;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
 
 /**
  * Created by GrIfOn on 19.03.2017.
  */
 public class LinearRegressionDemo {
 
-    public static void main(String[] args) {
-        double[][] data = new double[][]{
-                {1, 1, 1},
-                {2, 4, 4},
-                {3, 9, 9},
-                {4, 16, 16},
-                {5, 25, 25},
-                {6, 36, 36},
-                {7, 49, 49},
-        };
+    public static void main(String[] args) throws URISyntaxException, IOException {
+        DataSet dataSet = new DataSet(kNNDemo.class.getResource("/cement.csv").toURI());
 
-        SimpleMatrix matrix = new SimpleMatrix(data);
-        SimpleMatrix X = DataSetUtilities.getTrainingSet(matrix, 0, 1);
+        SimpleMatrix[] cvTrain = DataSetUtilities.getCrossValidationAndTrainSets(dataSet.getMatrix(), 0.3, false);
+        SimpleMatrix train = cvTrain[0];
+        SimpleMatrix test = cvTrain[1];
 
-        SimpleMatrix Y = DataSetUtilities.getAnswersSet(matrix, 2);
-
-
-        LinearRegression linearRegression = new LinearRegression(0.001, 1);
-        linearRegression.fit(X, Y, 100, 0.2, true);
+        LinearRegression linearRegression = new LinearRegression(0.000001, 10);
+        linearRegression.fit(DataSetUtilities.getTrainingSet(train, 1, 8), DataSetUtilities.getAnswersSet(train, 9), 5000);
         linearRegression.plotCostFunctionHistory();
 
-        SimpleMatrix test = new SimpleMatrix(new double[][] {
-                {7, 49},
-                {8, 64},
-                {9, 81},
-                {10, 100},
-        });
-
-        SimpleMatrix result = linearRegression.predict(test);
-        DataSetUtilities.addColumns(test.extractVector(false, 0), result).print();
-        DataSetUtilities.addColumns(X.extractVector(false, 0), Y).print();
-
+        SimpleMatrix result = linearRegression.predict(DataSetUtilities.getTrainingSet(test, 1, 8));
         XYLineChart lineChart = new XYLineChart("Prediction",
-                new SimpleMatrix[] {DataSetUtilities.addColumns(test.extractVector(false, 0), result),
-                        DataSetUtilities.addColumns(X.extractVector(false, 0), Y)}, true);
+                        new SimpleMatrix[] {DataSetUtilities.addColumns(test.extractVector(false, 0), result),
+                        DataSetUtilities.addColumns(dataSet.getMatrix().extractVector(false, 0), dataSet.getMatrix().extractVector(false, 9))}, true);
 
         lineChart.plot();
     }

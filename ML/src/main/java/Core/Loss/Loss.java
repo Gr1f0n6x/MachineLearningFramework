@@ -1,4 +1,4 @@
-package Core.NeuralNetwork.Loss;
+package Core.Loss;
 
 import org.ejml.simple.SimpleMatrix;
 

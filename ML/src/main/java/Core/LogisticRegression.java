@@ -1,5 +1,7 @@
 package Core;
 
+import Core.Loss.Loss;
+import Core.Loss.MeanSquaredLogarithmic;
 import Utilities.DataSetUtilities;
 import Plot.XYLineChart;
 import org.ejml.simple.SimpleMatrix;
@@ -17,6 +19,7 @@ public class LogisticRegression {
     private double[] classListCv;
     private double alpha;
     private double lambda;
+    private Loss loss;
 
     /**
      *
@@ -30,8 +33,7 @@ public class LogisticRegression {
      * @param alpha
      */
     public LogisticRegression(double alpha) {
-        this.alpha = alpha > 0 ? alpha : 1;
-        this.lambda = 0;
+        this(alpha, 0);
     }
 
     /**
@@ -42,6 +44,7 @@ public class LogisticRegression {
     public LogisticRegression(double alpha, double lambda) {
         this.alpha = alpha > 0 ? alpha : 1;
         this.lambda = lambda > 0 ? lambda : 0;
+        loss = new MeanSquaredLogarithmic();
     }
 
     /**
@@ -109,24 +112,9 @@ public class LogisticRegression {
      */
     private double costFunction(SimpleMatrix H_predict, SimpleMatrix Y, SimpleMatrix[] thetas, double lambda, int classNumber) {
         if(lambda > 0) {
-            // -Y .* log(H)
-            SimpleMatrix first = Y.negative().elementMult(H_predict.elementLog());
-
-            //(1 - Y) .* log(1 - H)
-            SimpleMatrix second = Y.minus(1).negative().elementMult(H_predict.minus(1).negative().elementLog());
-
-            //lambda / (2 * m) * Q^2
-            SimpleMatrix third = thetas[classNumber].extractMatrix(1, thetas[classNumber].numRows(), 0, 1).elementPower(2);
-
-            return first.minus(second).elementSum() / Y.numRows() + third.elementSum() * lambda / (2 * Y.numRows());
+            return loss.computeCost(H_predict, Y, thetas[classNumber], lambda);
         } else {
-            // -Y .* log(H)
-            SimpleMatrix first = Y.negative().elementMult(H_predict.elementLog());
-
-            //(1 - Y) .* log(1 - H)
-            SimpleMatrix second = Y.minus(1).negative().elementMult(H_predict.minus(1).negative().elementLog());
-
-            return first.minus(second).elementSum() / Y.numRows();
+            return loss.computeCost(H_predict, Y, thetas[classNumber]);
         }
     }
 

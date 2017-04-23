@@ -1,5 +1,7 @@
 package Core;
 
+import Core.Loss.Loss;
+import Core.Loss.MeanSquared;
 import Utilities.DataSetUtilities;
 import Plot.XYLineChart;
 import org.ejml.simple.SimpleMatrix;
@@ -14,6 +16,7 @@ public class LinearRegression {
     private SimpleMatrix thetas;
     private SimpleMatrix lossHistory;
     private SimpleMatrix lossCvHistory;
+    private Loss loss;
 
     /**
      *
@@ -30,6 +33,7 @@ public class LinearRegression {
     public LinearRegression(double alpha, double lambda) {
         this.alpha = alpha > 0 ? alpha : 1;
         this.lambda = lambda > 0 ? lambda : 0;
+        loss = new MeanSquared();
     }
 
     /**
@@ -37,8 +41,7 @@ public class LinearRegression {
      * @param alpha
      */
     public LinearRegression(double alpha) {
-        this.alpha = alpha > 0 ? alpha : 1;
-        this.lambda = 0;
+        this(alpha, 0);
     }
 
     /**
@@ -90,9 +93,9 @@ public class LinearRegression {
      */
     private double costFunction(SimpleMatrix H_predict, SimpleMatrix Y_train, SimpleMatrix thetas, double lambda) {
         if(lambda > 0) {
-            return H_predict.minus(Y_train).elementPower(2).elementSum() / (2 * Y_train.numRows()) + lambda / (2 * Y_train.numRows()) * thetas.extractMatrix(1, thetas.numRows(), 0, 1).elementPower(2).elementSum();
+            return loss.computeCost(H_predict, Y_train, thetas, lambda);
         } else {
-            return H_predict.minus(Y_train).elementPower(2).elementSum() / (2 * Y_train.numRows());
+            return loss.computeCost(H_predict, Y_train, thetas);
         }
     }
 
