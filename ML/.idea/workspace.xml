@@ -2,14 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="db464d71-2ca9-42a8-8bac-594a49c4a85c" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/cement.csv" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/Core/LinearRegression.class" afterPath="$PROJECT_DIR$/target/classes/Core/LinearRegression.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/Examples/LinearRegressionDemo.class" afterPath="$PROJECT_DIR$/target/classes/Examples/LinearRegressionDemo.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/Examples/MultipleLogisticRegressionDemo.class" afterPath="$PROJECT_DIR$/target/classes/Examples/MultipleLogisticRegressionDemo.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Core/LinearRegression.java" afterPath="$PROJECT_DIR$/src/main/java/Core/LinearRegression.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Examples/LinearRegressionDemo.java" afterPath="$PROJECT_DIR$/src/main/java/Examples/LinearRegressionDemo.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Examples/MultipleLogisticRegressionDemo.java" afterPath="$PROJECT_DIR$/src/main/java/Examples/MultipleLogisticRegressionDemo.java" />
     </list>
     <ignored path="ML.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -35,11 +28,9 @@
       <file leaf-file-name="LinearRegressionDemo.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/Examples/LinearRegressionDemo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.22921914">
-              <caret line="59" column="77" selection-start-line="59" selection-start-column="77" selection-end-line="59" selection-end-column="77" />
-              <folding>
-                <element signature="e#398#441#0" expanded="false" />
-              </folding>
+            <state vertical-scroll-proportion="0.2520593">
+              <caret line="16" column="83" selection-start-line="16" selection-start-column="83" selection-end-line="16" selection-end-column="83" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -979,7 +970,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32913387" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33070865" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33070865" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24963397" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -1425,11 +1416,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Examples/LinearRegressionDemo.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.22921914">
-          <caret line="59" column="77" selection-start-line="59" selection-start-column="77" selection-end-line="59" selection-end-column="77" />
-          <folding>
-            <element signature="e#398#441#0" expanded="false" />
-          </folding>
+        <state vertical-scroll-proportion="0.2520593">
+          <caret line="16" column="83" selection-start-line="16" selection-start-column="83" selection-end-line="16" selection-end-column="83" />
+          <folding />
         </state>
       </provider>
     </entry>
