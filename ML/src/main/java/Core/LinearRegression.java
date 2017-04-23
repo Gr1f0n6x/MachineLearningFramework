@@ -184,6 +184,20 @@ public class LinearRegression {
         this.thetas = thetas;
     }
 
+    public double test(SimpleMatrix X, SimpleMatrix Y) {
+        SimpleMatrix answers = predict(X);
+        DataSetUtilities.addColumns(answers, Y).print();
+        double correct = 0;
+
+        for(int row = 0; row < X.numRows(); ++row) {
+            if(answers.get(row) - Y.get(row) == 0) {
+                correct++;
+            }
+        }
+
+        return correct / Y.numRows();
+    }
+
     /**
      *
      * @param X

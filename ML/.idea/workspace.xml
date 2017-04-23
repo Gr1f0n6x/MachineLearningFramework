@@ -2,7 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="db464d71-2ca9-42a8-8bac-594a49c4a85c" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Core/LogisticRegression.java" afterPath="$PROJECT_DIR$/src/main/java/Core/LogisticRegression.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/cement.csv" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/Core/LinearRegression.class" afterPath="$PROJECT_DIR$/target/classes/Core/LinearRegression.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/Examples/LinearRegressionDemo.class" afterPath="$PROJECT_DIR$/target/classes/Examples/LinearRegressionDemo.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/Examples/MultipleLogisticRegressionDemo.class" afterPath="$PROJECT_DIR$/target/classes/Examples/MultipleLogisticRegressionDemo.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Core/LinearRegression.java" afterPath="$PROJECT_DIR$/src/main/java/Core/LinearRegression.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Examples/LinearRegressionDemo.java" afterPath="$PROJECT_DIR$/src/main/java/Examples/LinearRegressionDemo.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Examples/MultipleLogisticRegressionDemo.java" afterPath="$PROJECT_DIR$/src/main/java/Examples/MultipleLogisticRegressionDemo.java" />
     </list>
     <ignored path="ML.iws" />
@@ -26,21 +32,36 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="MultipleLogisticRegressionDemo.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/Examples/MultipleLogisticRegressionDemo.java">
+      <file leaf-file-name="LinearRegressionDemo.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/Examples/LinearRegressionDemo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.41666666">
-              <caret line="26" column="39" selection-start-line="26" selection-start-column="39" selection-end-line="26" selection-end-column="39" />
-              <folding />
+            <state vertical-scroll-proportion="0.22921914">
+              <caret line="59" column="77" selection-start-line="59" selection-start-column="77" selection-end-line="59" selection-end-column="77" />
+              <folding>
+                <element signature="e#398#441#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LogisticRegression.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/Core/LogisticRegression.java">
+      <file leaf-file-name="LinearRegression.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/Core/LinearRegression.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="346" column="56" selection-start-line="346" selection-start-column="56" selection-end-line="346" selection-end-column="56" />
+              <caret line="126" column="4" selection-start-line="126" selection-start-column="4" selection-end-line="126" selection-end-column="4" />
+              <folding>
+                <element signature="e#1431#1432#0" expanded="true" />
+                <element signature="e#1474#1475#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="cement.csv" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/cement.csv">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="0" column="8" selection-start-line="0" selection-start-column="8" selection-end-line="0" selection-end-column="8" />
               <folding />
             </state>
           </provider>
@@ -67,9 +88,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/LearningAlgorithms/NeuralNetwork/Layers/Dense.java" />
-        <option value="$PROJECT_DIR$/src/main/java/Core/NeuralNetwork/Neuron.java" />
-        <option value="$PROJECT_DIR$/src/main/java/Core/NeuralNetwork/Layers/Neuron.java" />
         <option value="$PROJECT_DIR$/src/main/java/Core/NeuralNetwork/Activation/Activation.java" />
         <option value="$PROJECT_DIR$/src/main/java/Core/NeuralNetwork/Activation/Identity.java" />
         <option value="$PROJECT_DIR$/src/main/java/Core/NeuralNetwork/Activation/Softsign.java" />
@@ -85,7 +103,6 @@
         <option value="$PROJECT_DIR$/src/main/java/Core/NeuralNetwork/Loss/Loss.java" />
         <option value="$PROJECT_DIR$/src/main/java/Core/NeuralNetwork/Loss/MeanSquared.java" />
         <option value="$PROJECT_DIR$/src/main/java/Core/NeuralNetwork/Loss/MeanSquaredLogarithmic.java" />
-        <option value="$PROJECT_DIR$/src/main/java/Core/LinearRegression.java" />
         <option value="$PROJECT_DIR$/src/main/java/Core/NeuralNetwork/Activation/Sigmoid.java" />
         <option value="$PROJECT_DIR$/src/main/java/Core/NeuralNetwork/Layers/Dense.java" />
         <option value="$PROJECT_DIR$/src/main/java/Core/NeuralNetwork/Models/Model.java" />
@@ -118,6 +135,10 @@
         <option value="$PROJECT_DIR$/src/main/java/Examples/kNNDemo.java" />
         <option value="$PROJECT_DIR$/src/main/java/Core/LogisticRegression.java" />
         <option value="$PROJECT_DIR$/src/main/java/Examples/MultipleLogisticRegressionDemo.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/YachtHydrodynamics.csv" />
+        <option value="$PROJECT_DIR$/src/main/java/Core/LinearRegression.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/yacht.csv" />
+        <option value="$PROJECT_DIR$/src/main/java/Examples/LinearRegressionDemo.java" />
       </list>
     </option>
   </component>
@@ -388,9 +409,6 @@
     <property name="project.structure.side.proportion" value="0.2" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\WORK_Java\MachineLearningFramework\ML\src\main\resources" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\WORK_Java\MachineLearningFramework\ML\src\main\resources" />
       <recent name="D:\WORK_Java\MachineLearningFramework\ML\src\main\java" />
@@ -398,8 +416,11 @@
       <recent name="D:\WORK_Java\MachineLearningFramework\ML\src\main\java\Core\kNN" />
       <recent name="D:\WORK_Java\MachineLearningFramework\ML\src\main\java\Plot\Interfaces" />
     </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\WORK_Java\MachineLearningFramework\ML\src\main\resources" />
+    </key>
   </component>
-  <component name="RunManager" selected="Application.MultipleLogisticRegressionDemo">
+  <component name="RunManager" selected="Application.LinearRegressionDemo">
     <configuration default="false" name="DataSetUtilitiesTests.removeRowsTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <module name="ML" />
@@ -958,7 +979,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32913387" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33228347" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33070865" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24963397" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -988,29 +1009,22 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="22" />
+      <option name="time" value="23" />
     </breakpoint-manager>
-    <watches-manager />
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="thetas" language="JAVA" custom="" />
+        <watch expression="lossHistory" language="JAVA" custom="" />
+        <watch expression="7 = -1.3401830638942812E12" />
+        <watch expression="8 = -3.2283161314486446E10" />
+      </configuration>
+    </watches-manager>
   </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$MAVEN_REPOSITORY$/org/ejml/dense64/0.30/dense64-0.30.jar!/org/ejml/ops/CommonOps.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-10.62963">
-          <caret line="801" column="35" selection-start-line="801" selection-start-column="35" selection-end-line="801" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Core/NeuralNetwork/Activation/Tanh.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Core/NeuralNetwork/Loss/Loss.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.2520593">
@@ -1109,6 +1123,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.8121911">
           <caret line="68" column="13" selection-start-line="68" selection-start-column="13" selection-end-line="68" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1142,14 +1159,6 @@
             <element signature="e#5748#5749#0" expanded="false" />
             <element signature="e#5784#5785#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Core/LinearRegression.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8039539">
-          <caret line="207" column="5" selection-start-line="207" selection-start-column="5" selection-end-line="207" selection-end-column="5" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1228,14 +1237,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Data/DataSet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="34" column="5" selection-start-line="34" selection-start-column="5" selection-end-line="34" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/junit/junit/4.12/junit-4.12.jar!/org/junit/Assert.class">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.34827587">
@@ -1247,6 +1248,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.19604613">
           <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1254,6 +1258,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.8682043">
           <caret line="31" column="34" selection-start-line="31" selection-start-column="34" selection-end-line="31" selection-end-column="34" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1289,18 +1296,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Plot/XYDataSetFrame.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="132" column="0" selection-start-line="132" selection-start-column="0" selection-end-line="132" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/iris.csv">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="27" selection-start-line="0" selection-start-column="27" selection-end-line="0" selection-end-column="27" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1312,26 +1312,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Plot/XYLineChart.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.83196044">
-          <caret line="84" column="0" selection-start-line="84" selection-start-column="0" selection-end-line="84" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="47" column="0" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Utilities/DataSetUtilities.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="293" column="14" selection-start-line="293" selection-start-column="14" selection-end-line="293" selection-end-column="14" />
           <folding />
         </state>
       </provider>
@@ -1356,14 +1340,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Examples/kNNDemo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="16" column="57" selection-start-line="16" selection-start-column="57" selection-end-line="16" selection-end-column="57" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Examples/BinaryLogisticRegressionDemo.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.3723229">
@@ -1374,17 +1350,86 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Core/LogisticRegression.java">
       <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.64415157">
+          <caret line="352" column="13" selection-start-line="352" selection-start-column="13" selection-end-line="352" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Plot/XYDataSetFrame.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="2.988468">
+          <caret line="137" column="19" selection-start-line="137" selection-start-column="19" selection-end-line="137" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Plot/XYLineChart.java">
+      <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="346" column="56" selection-start-line="346" selection-start-column="56" selection-end-line="346" selection-end-column="56" />
+          <caret line="84" column="0" selection-start-line="84" selection-start-column="0" selection-end-line="84" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Data/DataSet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="92" column="26" selection-start-line="92" selection-start-column="26" selection-end-line="92" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Examples/kNNDemo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.39209226">
+          <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Utilities/DataSetUtilities.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33333334">
+          <caret line="50" column="0" selection-start-line="50" selection-start-column="0" selection-end-line="50" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Examples/MultipleLogisticRegressionDemo.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.41666666">
-          <caret line="26" column="39" selection-start-line="26" selection-start-column="39" selection-end-line="26" selection-end-column="39" />
+        <state vertical-scroll-proportion="0.22921914">
+          <caret line="20" column="52" selection-start-line="20" selection-start-column="52" selection-end-line="20" selection-end-column="52" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/cement.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="8" selection-start-line="0" selection-start-column="8" selection-end-line="0" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Core/LinearRegression.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="126" column="4" selection-start-line="126" selection-start-column="4" selection-end-line="126" selection-end-column="4" />
+          <folding>
+            <element signature="e#1431#1432#0" expanded="true" />
+            <element signature="e#1474#1475#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Examples/LinearRegressionDemo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.22921914">
+          <caret line="59" column="77" selection-start-line="59" selection-start-column="77" selection-end-line="59" selection-end-column="77" />
+          <folding>
+            <element signature="e#398#441#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>

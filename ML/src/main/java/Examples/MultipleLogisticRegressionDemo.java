@@ -26,7 +26,8 @@ public class MultipleLogisticRegressionDemo {
         SimpleMatrix train = cvTrain[0];
         SimpleMatrix test = cvTrain[1];
 
-        LogisticRegression logisticRegression = new LogisticRegression(0.2);
+        // sometimes it return less than 20% accuracy, sometimes more than 90%
+        LogisticRegression logisticRegression = new LogisticRegression(0.1);
         logisticRegression.fit(DataSetUtilities.getTrainingSet(train, 0, 3), DataSetUtilities.getAnswersSet(train, 4), 1000);
         logisticRegression.plotCostFunctionHistory();
 
