@@ -7,20 +7,10 @@ import org.ejml.simple.SimpleMatrix;
  */
 public class Input implements Layer {
     private SimpleMatrix output;
-    private SimpleMatrix input;
-    private SimpleMatrix thetas;
     private int units;
 
     public Input(int units) {
         this.units = units + 1;
-    }
-
-    public void setoutput(SimpleMatrix output) {
-        this.output = output;
-    }
-
-    public void setThetas(SimpleMatrix thetas) {
-        this.thetas = thetas;
     }
 
     @Override
@@ -29,15 +19,8 @@ public class Input implements Layer {
     }
 
     @Override
-    public SimpleMatrix computeGradient(SimpleMatrix A) {
-        throw new UnsupportedOperationException("Incorrect call");
-    }
-
-    // z(i) = Q(i) * x(i)
-    @Override
     public SimpleMatrix feedforward(SimpleMatrix A) {
-        input = A;
-        output = input.mult(thetas);
+        output = A;
         return output;
     }
 
@@ -49,12 +32,12 @@ public class Input implements Layer {
     // with another layer
     @Override
     public void connect(int units) {
-        thetas = new SimpleMatrix(this.units, units);
+        throw new UnsupportedOperationException("Incorrect call");
     }
 
     @Override
-    public void updateWeights(SimpleMatrix delta) {
-        thetas = thetas.plus(delta.transpose());
+    public void updateWeights() {
+        throw new UnsupportedOperationException("Incorrect call");
     }
 
     @Override

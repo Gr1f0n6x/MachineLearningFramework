@@ -2,6 +2,8 @@ package Core.NeuralNetwork.Layers;
 
 import Core.NeuralNetwork.Activation.Activation;
 import Core.NeuralNetwork.Activation.Binary;
+import Core.NeuralNetwork.Initialization.Initialization;
+import Core.NeuralNetwork.Initialization.RandomInit;
 import org.ejml.simple.SimpleMatrix;
 
 /**
@@ -11,6 +13,7 @@ public class Output implements Layer {
     private SimpleMatrix output;
     private SimpleMatrix input;
     private SimpleMatrix error;
+    private SimpleMatrix thetas;
     private Activation activation;
     private int units;
 
@@ -28,39 +31,35 @@ public class Output implements Layer {
         output = new SimpleMatrix(units, 1);
     }
 
-    public void setoutput(SimpleMatrix output) {
-        this.output = output;
-    }
-
+    // delta
     @Override
     public SimpleMatrix computeError(SimpleMatrix Y) {
-        error = Y.minus(output);
+        error = activation.derivative(output).elementMult(Y.minus(output));
+
         return error;
     }
 
-    @Override
-    public SimpleMatrix computeGradient(SimpleMatrix A) {
-        SimpleMatrix gradient = activation.derivative(A).scale(error.elementSum());
-        return gradient;
-    }
-
     // a = g(Z)
+    // Z = input * Q
     @Override
     public SimpleMatrix feedforward(SimpleMatrix Z) {
         input = Z;
-        output = activation.activation(input);
+        output = activation.activation(input.mult(thetas));
 
         return output;
     }
 
     @Override
-    public void updateWeights(SimpleMatrix delta) {
-        throw new UnsupportedOperationException("Incorrect call");
+    public void updateWeights() {
+        SimpleMatrix delta = input.scale(error.elementSum()).elementMult(activation.derivative(input)).transpose();
+
+        thetas = thetas.plus(delta);
     }
 
     @Override
     public void connect(int units) {
-        throw new UnsupportedOperationException("Incorrect call");
+        Initialization init = new RandomInit(-1., 1.);
+        thetas = init.init(units, this.units);
     }
 
     @Override

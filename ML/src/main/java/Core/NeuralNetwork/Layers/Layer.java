@@ -10,6 +10,5 @@ public interface Layer {
     int getUnits();
     SimpleMatrix feedforward(SimpleMatrix A);
     SimpleMatrix computeError(SimpleMatrix Y);
-    void updateWeights(SimpleMatrix delta);
-    SimpleMatrix computeGradient(SimpleMatrix A);
+    void updateWeights();
 }
