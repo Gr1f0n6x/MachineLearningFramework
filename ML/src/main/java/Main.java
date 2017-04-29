@@ -1,4 +1,4 @@
-import Core.NeuralNetwork.Activation.Identity;
+import Core.NeuralNetwork.Activation.Sigmoid;
 import Core.NeuralNetwork.Layers.Input;
 import Core.NeuralNetwork.Layers.Output;
 import Core.NeuralNetwork.Models.Sequential;
@@ -14,26 +14,32 @@ import java.net.URISyntaxException;
 public class Main {
     public static void main(String[] args) throws IOException, URISyntaxException {
         double[][] data = new double[][] {
-                {1, 1},
-                {2, 4},
-                {3, 9},
-                {4, 16},
-                {5, 25},
+                {0, 0, 0},
+                {0, 1, 1},
+                {1, 0, 1},
+                {1, 1, 1},
         };
 
         SimpleMatrix dataSet = new SimpleMatrix(data);
 
         Sequential sequential = new Sequential();
-        sequential.addLayer(new Input(1));
-        sequential.addLayer(new Output(new Identity(), 1));
+        sequential.addLayer(new Input(2));
+        sequential.addLayer(new Output(new Sigmoid(), 1));
 
-        sequential.fit(DataSetUtilities.getTrainingSet(dataSet, 0), DataSetUtilities.getAnswersSet(dataSet, 1), 1);
+        sequential.fit(DataSetUtilities.getTrainingSet(dataSet, 0, 1), DataSetUtilities.getAnswersSet(dataSet, 2), 100);
 
         sequential.predict(new SimpleMatrix(new double[][] {
-                {6}
+                {0, 0}
         })).print();
         sequential.predict(new SimpleMatrix(new double[][] {
-                {7}
+                {0, 1}
+        })).print();
+
+        sequential.predict(new SimpleMatrix(new double[][] {
+                {1, 0}
+        })).print();
+        sequential.predict(new SimpleMatrix(new double[][] {
+                {1, 1}
         })).print();
         }
     }
