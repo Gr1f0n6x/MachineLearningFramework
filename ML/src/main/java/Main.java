@@ -1,4 +1,5 @@
 import Core.NeuralNetwork.Activation.Sigmoid;
+import Core.NeuralNetwork.Layers.Dense;
 import Core.NeuralNetwork.Layers.Input;
 import Core.NeuralNetwork.Layers.Output;
 import Core.NeuralNetwork.Models.Sequential;
@@ -15,15 +16,16 @@ public class Main {
     public static void main(String[] args) throws IOException, URISyntaxException {
         double[][] data = new double[][] {
                 {0, 0, 0},
-                {0, 1, 0},
-                {1, 0, 0},
-                {1, 1, 1},
+                {0, 1, 1},
+                {1, 0, 1},
+                {1, 1, 0},
         };
 
         SimpleMatrix dataSet = new SimpleMatrix(data);
 
         Sequential sequential = new Sequential();
         sequential.addLayer(new Input(2));
+        sequential.addLayer(new Dense(new Sigmoid(), 2));
         sequential.addLayer(new Output(new Sigmoid(), 1));
 
         sequential.fit(DataSetUtilities.getTrainingSet(dataSet, 0, 1), DataSetUtilities.getAnswersSet(dataSet, 2), 1000);

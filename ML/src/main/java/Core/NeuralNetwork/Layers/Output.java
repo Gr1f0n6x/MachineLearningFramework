@@ -1,7 +1,7 @@
 package Core.NeuralNetwork.Layers;
 
 import Core.NeuralNetwork.Activation.Activation;
-import Core.NeuralNetwork.Activation.Binary;
+import Core.NeuralNetwork.Activation.Sigmoid;
 import Core.NeuralNetwork.Initialization.Initialization;
 import Core.NeuralNetwork.Initialization.RandomInit;
 import org.ejml.simple.SimpleMatrix;
@@ -19,7 +19,7 @@ public class Output implements Layer {
 
     public Output(int units) {
         this.units =  units;
-        this.activation = new Binary();
+        this.activation = new Sigmoid();
 
         output = new SimpleMatrix(units, 1);
     }
