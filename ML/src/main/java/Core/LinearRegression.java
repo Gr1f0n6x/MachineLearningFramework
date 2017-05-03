@@ -95,7 +95,7 @@ public class LinearRegression {
         if(lambda > 0) {
             return loss.computeCost(H_predict, Y_train, thetas, lambda);
         } else {
-            return loss.computeCost(H_predict, Y_train, thetas);
+            return loss.computeCost(H_predict, Y_train);
         }
     }
 

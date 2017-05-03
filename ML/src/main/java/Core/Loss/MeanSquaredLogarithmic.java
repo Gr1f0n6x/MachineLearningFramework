@@ -10,11 +10,10 @@ public class MeanSquaredLogarithmic implements Loss {
      * J(Q) = 1/m * sum[-Y .* log(H) - (1 - Y) .* log(1 - H)]
      * @param predicted
      * @param expected
-     * @param thetas
      * @return
      */
     @Override
-    public double computeCost(SimpleMatrix predicted, SimpleMatrix expected, SimpleMatrix thetas) {
+    public double computeCost(SimpleMatrix predicted, SimpleMatrix expected) {
         int m = expected.numRows();
         return 1 / m *
                 expected.negative().elementMult(predicted.elementLog()). // -Y .* log(H)

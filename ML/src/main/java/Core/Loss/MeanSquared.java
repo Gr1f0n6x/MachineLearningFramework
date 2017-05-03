@@ -10,11 +10,10 @@ public class MeanSquared implements Loss {
      * J(Q) = 1/2m * sum(h(x) - y)^2
      * @param predicted
      * @param expected
-     * @param thetas
      * @return
      */
     @Override
-    public double computeCost(SimpleMatrix predicted, SimpleMatrix expected, SimpleMatrix thetas) {
+    public double computeCost(SimpleMatrix predicted, SimpleMatrix expected) {
         int m = expected.numRows();
         return 1 / (2*m) * predicted.minus(expected).elementPower(2).elementSum();
     }

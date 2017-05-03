@@ -114,7 +114,7 @@ public class LogisticRegression {
         if(lambda > 0) {
             return loss.computeCost(H_predict, Y, thetas[classNumber], lambda);
         } else {
-            return loss.computeCost(H_predict, Y, thetas[classNumber]);
+            return loss.computeCost(H_predict, Y);
         }
     }
 
