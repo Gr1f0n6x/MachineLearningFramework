@@ -1,7 +1,5 @@
 package Core.NeuralNetwork.Layers;
 
-import Core.Loss.Loss;
-import Core.Loss.MeanSquared;
 import Core.NeuralNetwork.Activation.Activation;
 import Core.NeuralNetwork.Activation.Sigmoid;
 import Core.NeuralNetwork.Initialization.Initialization;
@@ -33,9 +31,11 @@ public class Dense implements Layer {
 
     // delta
     @Override
-    public SimpleMatrix computeError(SimpleMatrix Y) {
-//        Loss loss = new MeanSquared();
-//        error = loss.computeCost(output, Y);
+    public SimpleMatrix computeError(SimpleMatrix delta) {
+        //error = delta.elementMult(activation.derivative(input.mult(thetas)).transpose());
+        error = delta.mult(activation.derivative(input.mult(thetas)));
+
+        //return thetas.mult(error);
         return error;
     }
 
@@ -44,15 +44,16 @@ public class Dense implements Layer {
     @Override
     public SimpleMatrix feedforward(SimpleMatrix Z) {
         input = Z;
+
         output = activation.activation(input.mult(thetas));
+        output = output.combine(0, 2, new SimpleMatrix(new double[][] {{1}}));
 
         return output;
     }
 
     @Override
     public void updateWeights() {
-        // delta = alpha * error * INPUT * f'(OUTPUT)
-        SimpleMatrix delta = input.scale(error.elementSum()).transpose().mult(activation.derivative(input));
+        SimpleMatrix delta = input.transpose().mult(error);
 
         thetas = thetas.plus(delta);
     }
@@ -60,7 +61,7 @@ public class Dense implements Layer {
     @Override
     public void connect(int units) {
         Initialization init = new RandomInit(-1., 1.);
-        thetas = init.init(units, this.units);
+        thetas = init.init(units, this.units - 1);
     }
 
     @Override

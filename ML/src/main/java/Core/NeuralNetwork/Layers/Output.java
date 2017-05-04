@@ -1,7 +1,5 @@
 package Core.NeuralNetwork.Layers;
 
-import Core.Loss.Loss;
-import Core.Loss.MeanSquared;
 import Core.NeuralNetwork.Activation.Activation;
 import Core.NeuralNetwork.Activation.Sigmoid;
 import Core.NeuralNetwork.Initialization.Initialization;
@@ -36,10 +34,9 @@ public class Output implements Layer {
     // delta
     @Override
     public SimpleMatrix computeError(SimpleMatrix Y) {
-        Loss loss = new MeanSquared();
-//        error = loss.computeCost(output, Y);
-        error = Y.minus(output);
+        error = Y.minus(output).mult(activation.derivative(input.mult(thetas)));
 
+        //return thetas.mult(error);
         return error;
     }
 
@@ -55,7 +52,7 @@ public class Output implements Layer {
 
     @Override
     public void updateWeights() {
-        SimpleMatrix delta = input.scale(error.elementSum()).elementMult(activation.derivative(input)).transpose();
+        SimpleMatrix delta = input.transpose().mult(error);
 
         thetas = thetas.plus(delta);
     }

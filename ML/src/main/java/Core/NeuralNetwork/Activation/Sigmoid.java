@@ -19,6 +19,8 @@ public class Sigmoid implements Activation {
     // g(Z) .* (1 - g(Z))
     @Override
     public SimpleMatrix derivative(SimpleMatrix Z) {
-        return activation(Z).elementMult(activation(Z).minus(1).negative());
+        SimpleMatrix derivative = activation(Z);
+
+        return derivative.elementMult(derivative.minus(1).negative());
     }
 }
