@@ -18,6 +18,8 @@ public class Dense implements Layer {
     private Activation activation;
     private int units;
 
+    private SimpleMatrix momentum;
+
     public Dense(int units) {
         this.units = units;
         this.activation = new Sigmoid();
@@ -33,10 +35,14 @@ public class Dense implements Layer {
     // delta
     @Override
     public SimpleMatrix computeError(SimpleMatrix delta) {
-        error = delta.elementMult(DataSetUtilities.addColumnOfOnes(activation.derivative(input.mult(thetas))).transpose());
+//        activation.derivative(input.mult(thetas)).print();
+//        delta.print();
+//        error = delta.elementMult(DataSetUtilities.addColumnOfOnes(activation.derivative(input.mult(thetas))).transpose());
+//
+//        return DataSetUtilities.addColumnOfOnes(thetas).mult(error);
+        error = delta.mult(activation.derivative(input.mult(thetas)));
 
-        return DataSetUtilities.addColumnOfOnes(thetas).mult(error);
-        //return error;
+        return delta;
     }
 
     // a = g(Z)
@@ -53,9 +59,19 @@ public class Dense implements Layer {
 
     @Override
     public void updateWeights() {
-        SimpleMatrix delta = error.extractMatrix(0, error.numRows() - 1, 0 ,error.numCols()).mult(input);
+//        SimpleMatrix delta = error.extractMatrix(0, error.numRows() - 1, 0 ,error.numCols()).mult(input);
+//
+//        thetas = thetas.plus(delta.transpose());
 
-        thetas = thetas.plus(delta.transpose());
+        SimpleMatrix delta = error.transpose().mult(input).transpose();
+
+        thetas = thetas.plus(delta);
+
+        if(momentum != null) {
+            thetas = thetas.plus(momentum);
+        }
+
+        momentum = delta;
     }
 
     @Override

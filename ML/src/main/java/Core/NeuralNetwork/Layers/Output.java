@@ -17,6 +17,8 @@ public class Output implements Layer {
     private Activation activation;
     private int units;
 
+    private SimpleMatrix momentum;
+
     public Output(int units) {
         this.units =  units;
         this.activation = new Sigmoid();
@@ -36,8 +38,8 @@ public class Output implements Layer {
     public SimpleMatrix computeError(SimpleMatrix Y) {
         error = Y.minus(output).elementMult(activation.derivative(input.mult(thetas)));
 
-        return thetas.mult(error);
-        //return error;
+//        return thetas.mult(error);
+        return Y.minus(output);
     }
 
     // a = g(Z)
@@ -55,6 +57,12 @@ public class Output implements Layer {
         SimpleMatrix delta = input.transpose().mult(error);
 
         thetas = thetas.plus(delta);
+
+        if(momentum != null) {
+            thetas = thetas.plus(momentum);
+        }
+
+        momentum = delta;
     }
 
     @Override
