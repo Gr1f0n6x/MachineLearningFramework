@@ -4,6 +4,7 @@ import Core.NeuralNetwork.Activation.Activation;
 import Core.NeuralNetwork.Activation.Sigmoid;
 import Core.NeuralNetwork.Initialization.Initialization;
 import Core.NeuralNetwork.Initialization.RandomInit;
+import Utilities.DataSetUtilities;
 import org.ejml.simple.SimpleMatrix;
 
 /**
@@ -18,7 +19,7 @@ public class Dense implements Layer {
     private int units;
 
     public Dense(int units) {
-        this.units = units + 1;
+        this.units = units;
         this.activation = new Sigmoid();
 
         output = new SimpleMatrix(units, 1);
@@ -26,17 +27,16 @@ public class Dense implements Layer {
 
     public Dense(Activation activation, int units) {
         this.activation = activation;
-        this.units = units + 1;
+        this.units = units;
     }
 
     // delta
     @Override
     public SimpleMatrix computeError(SimpleMatrix delta) {
-        //error = delta.elementMult(activation.derivative(input.mult(thetas)).transpose());
-        error = delta.mult(activation.derivative(input.mult(thetas)));
+        error = delta.elementMult(DataSetUtilities.addColumnOfOnes(activation.derivative(input.mult(thetas))).transpose());
 
-        //return thetas.mult(error);
-        return error;
+        return DataSetUtilities.addColumnOfOnes(thetas).mult(error);
+        //return error;
     }
 
     // a = g(Z)
@@ -46,27 +46,27 @@ public class Dense implements Layer {
         input = Z;
 
         output = activation.activation(input.mult(thetas));
-        output = output.combine(0, 2, new SimpleMatrix(new double[][] {{1}}));
+        output = DataSetUtilities.addColumnOfOnes(output);
 
         return output;
     }
 
     @Override
     public void updateWeights() {
-        SimpleMatrix delta = input.transpose().mult(error);
+        SimpleMatrix delta = error.extractMatrix(0, error.numRows() - 1, 0 ,error.numCols()).mult(input);
 
-        thetas = thetas.plus(delta);
+        thetas = thetas.plus(delta.transpose());
     }
 
     @Override
     public void connect(int units) {
         Initialization init = new RandomInit(-1., 1.);
-        thetas = init.init(units, this.units - 1);
+        thetas = init.init(units, this.units);
     }
 
     @Override
     public int getUnits() {
-        return units;
+        return units + 1;
     }
 
     @Override

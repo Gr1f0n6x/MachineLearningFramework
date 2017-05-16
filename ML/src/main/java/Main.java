@@ -26,6 +26,7 @@ public class Main {
         Sequential sequential = new Sequential();
         sequential.addLayer(new Input(2));
         sequential.addLayer(new Dense(new Sigmoid(), 2));
+        sequential.addLayer(new Dense(new Sigmoid(), 2));
         sequential.addLayer(new Output(new Sigmoid(), 1));
 
         sequential.fit(DataSetUtilities.getTrainingSet(dataSet, 0, 1), DataSetUtilities.getAnswersSet(dataSet, 2), 1000);

@@ -34,10 +34,10 @@ public class Output implements Layer {
     // delta
     @Override
     public SimpleMatrix computeError(SimpleMatrix Y) {
-        error = Y.minus(output).mult(activation.derivative(input.mult(thetas)));
+        error = Y.minus(output).elementMult(activation.derivative(input.mult(thetas)));
 
-        //return thetas.mult(error);
-        return error;
+        return thetas.mult(error);
+        //return error;
     }
 
     // a = g(Z)
