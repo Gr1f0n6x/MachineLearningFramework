@@ -26,11 +26,11 @@ public class kNNDemo {
         SimpleMatrix test = cvTrain[1];
 
         KNN knn = new KNN(3);
-        int optimalK = knn.LOO(DataSetUtilities.getTrainingSet(train, 0, 3), DataSetUtilities.getAnswersSet(train, 4), 100, 0);
+        int optimalK = knn.LOO(DataSetUtilities.extractMatrix(train, 0, 3), DataSetUtilities.extractMatrix(train, 4), 100, 0);
         knn.setNeighbors(optimalK);
 
-        knn.fit(DataSetUtilities.getTrainingSet(train, 0, 3), DataSetUtilities.getAnswersSet(train, 4));
-        double accuracy = knn.test(DataSetUtilities.getTrainingSet(test, 0, 3), DataSetUtilities.getAnswersSet(test, 4));
+        knn.fit(DataSetUtilities.extractMatrix(train, 0, 3), DataSetUtilities.extractMatrix(train, 4));
+        double accuracy = knn.test(DataSetUtilities.extractMatrix(test, 0, 3), DataSetUtilities.extractMatrix(test, 4));
         System.out.println(accuracy);
 
         ClassScatterMultipleDimensions plotter = new ClassScatterMultipleDimensions("Iris", train, new String[] {

@@ -14,7 +14,7 @@ public class Identity implements Activation {
     @Override
     public SimpleMatrix derivative(SimpleMatrix Z) {
         SimpleMatrix derivative = new SimpleMatrix(Z);
-        derivative.set(1);
+        derivative.set(1.0);
 
         return derivative;
     }

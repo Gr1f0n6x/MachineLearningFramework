@@ -82,8 +82,8 @@ public abstract class XYClassDataSetFrame extends ApplicationFrame implements Pl
      * @param yColumn
      */
     protected void setXyDataset(SimpleMatrix dataSet, int x1Column, int x2Column, int yColumn) {
-        SimpleMatrix X = DataSetUtilities.getTrainingSet(dataSet, x1Column, x2Column);
-        SimpleMatrix Y = DataSetUtilities.getAnswersSet(dataSet, yColumn);
+        SimpleMatrix X = DataSetUtilities.extractMatrix(dataSet, x1Column, x2Column);
+        SimpleMatrix Y = DataSetUtilities.extractMatrix(dataSet, yColumn);
 
         setXyDataset(DataSetUtilities.addColumns(X, Y));
     }

@@ -12,4 +12,5 @@ public interface Model {
     void fit(SimpleMatrix X, SimpleMatrix Y, double learnRate, int epochNum);
     SimpleMatrix predict(SimpleMatrix X);
     ArrayList<Layer> getLayers();
+    double test(SimpleMatrix X, SimpleMatrix Y);
 }

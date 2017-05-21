@@ -28,10 +28,10 @@ public class MultipleLogisticRegressionDemo {
 
         // sometimes it return less than 20% accuracy, sometimes more than 90%
         LogisticRegression logisticRegression = new LogisticRegression(0.1);
-        logisticRegression.fit(DataSetUtilities.getTrainingSet(train, 0, 3), DataSetUtilities.getAnswersSet(train, 4), 1000);
+        logisticRegression.fit(DataSetUtilities.extractMatrix(train, 0, 3), DataSetUtilities.extractMatrix(train, 4), 1000);
         logisticRegression.plotCostFunctionHistory();
 
-        double accuracy = logisticRegression.test(DataSetUtilities.getTrainingSet(test, 0, 3), DataSetUtilities.getAnswersSet(test, 4));
+        double accuracy = logisticRegression.test(DataSetUtilities.extractMatrix(test, 0, 3), DataSetUtilities.extractMatrix(test, 4));
         System.out.println(accuracy);
 
 //        ClassScatterMultipleDimensions plotter = new ClassScatterMultipleDimensions("Iris", train, new String[] {

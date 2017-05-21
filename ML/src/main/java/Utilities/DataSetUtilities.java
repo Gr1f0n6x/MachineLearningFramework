@@ -14,7 +14,7 @@ public class DataSetUtilities {
      * @param endColumn - number of last column for training set
      * @return - copied training set
      */
-    public static SimpleMatrix getTrainingSet(SimpleMatrix matrix, int startColumn, int endColumn) {
+    public static SimpleMatrix extractMatrix(SimpleMatrix matrix, int startColumn, int endColumn) {
         if(startColumn > matrix.numCols() || endColumn > matrix.numCols()
                 || startColumn < 0 || endColumn < 0) {
             throw new IllegalArgumentException("Arguments: startColumn && endColumn should be less than matrix.numCols and > 0");
@@ -29,21 +29,7 @@ public class DataSetUtilities {
      * @param column - number of column for training set
      * @return - copied training set
      */
-    public static SimpleMatrix getTrainingSet(SimpleMatrix matrix, int column) {
-        if(column > matrix.numCols() || column < 0) {
-            throw new IllegalArgumentException("Argument: column should be less than matrix.numCols and > 0");
-        }
-
-        return matrix.extractMatrix(0, matrix.numRows(), column, column + 1);
-    }
-
-    /**
-     *
-     * @param matrix - original data set
-     * @param column - number of column for answering set
-     * @return - copied training set
-     */
-    public static SimpleMatrix getAnswersSet(SimpleMatrix matrix, int column) {
+    public static SimpleMatrix extractMatrix(SimpleMatrix matrix, int column) {
         if(column > matrix.numCols() || column < 0) {
             throw new IllegalArgumentException("Argument: column should be less than matrix.numCols and > 0");
         }
@@ -305,5 +291,22 @@ public class DataSetUtilities {
      */
     public static SimpleMatrix extractColumn(SimpleMatrix A, int column) {
         return A.extractVector(false, column);
+    }
+
+
+    /**
+     *
+     * @param Y
+     * @param numClasses
+     * @return
+     */
+    public static SimpleMatrix toCategorical(SimpleMatrix Y, int numClasses) {
+        SimpleMatrix categories = new SimpleMatrix(Y.numRows(), numClasses);
+        categories.set(0);
+
+        for(int row = 0; row < Y.numRows(); ++row) {
+            categories.set(row, (int)Y.get(row, 0), 1);
+        }
+        return categories;
     }
 }

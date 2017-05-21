@@ -11,4 +11,5 @@ public interface Layer {
     SimpleMatrix feedforward(SimpleMatrix A);
     SimpleMatrix computeError(SimpleMatrix Y);
     void updateWeights(double rate);
+    SimpleMatrix getWeights();
 }

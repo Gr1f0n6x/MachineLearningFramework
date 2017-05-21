@@ -25,7 +25,7 @@ public class PerceptronDemo {
         sequential.addLayer(new Input(2));
         sequential.addLayer(new Output(new Sigmoid(), 1));
 
-        sequential.fit(DataSetUtilities.getTrainingSet(dataSet, 0, 1), DataSetUtilities.getAnswersSet(dataSet, 2), 1,1000);
+        sequential.fit(DataSetUtilities.extractMatrix(dataSet, 0, 1), DataSetUtilities.extractMatrix(dataSet, 2), 1,1000);
 
         sequential.predict(new SimpleMatrix(new double[][] {
                 {0, 0}

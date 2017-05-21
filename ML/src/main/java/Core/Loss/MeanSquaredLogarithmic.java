@@ -34,7 +34,7 @@ public class MeanSquaredLogarithmic implements Loss {
         int m = expected.numRows();
         return 1 / m *
                 expected.negative().elementMult(predicted.elementLog()). // -Y .* log(H)
-                        minus(expected.minus(1).negative().elementMult(predicted.minus(1).negative().elementLog())). // -(1 - Y) .* log(1 - H)
-                        elementSum() + lambda / (2 * m) * thetas.extractMatrix(1, thetas.numRows(), 0 , 1).elementPower(2).elementSum(); // lambda * Q^2 / 2m
+                        minus(expected.minus(1.0).negative().elementMult(predicted.minus(1).negative().elementLog())). // -(1 - Y) .* log(1 - H)
+                        elementSum() + lambda / (2.0 * m) * thetas.extractMatrix(1, thetas.numRows(), 0 , 1).elementPower(2).elementSum(); // lambda * Q^2 / 2m
     }
 }

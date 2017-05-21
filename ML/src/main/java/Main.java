@@ -3,6 +3,8 @@ import Core.NeuralNetwork.Layers.Dense;
 import Core.NeuralNetwork.Layers.Input;
 import Core.NeuralNetwork.Layers.Output;
 import Core.NeuralNetwork.Models.Sequential;
+import Data.DataSet;
+import Examples.MultipleLogisticRegressionDemo;
 import Utilities.DataSetUtilities;
 import org.ejml.simple.SimpleMatrix;
 
@@ -14,36 +16,30 @@ import java.net.URISyntaxException;
  */
 public class Main {
     public static void main(String[] args) throws IOException, URISyntaxException {
-        double[][] data = new double[][] {
-                {0, 0, 0},
-                {0, 1, 1},
-                {1, 0, 0},
-                {1, 1, 1},
-        };
+        DataSet data = new DataSet(MultipleLogisticRegressionDemo.class.getResource("/iris.csv").toURI());
 
-        SimpleMatrix dataSet = new SimpleMatrix(data);
+        data.replaceByValue("Iris-setosa", "0");
+        data.replaceByValue("Iris-versicolor", "1");
+        data.replaceByValue("Iris-virginica", "2");
 
-        Sequential sequential = new Sequential();
-        sequential.addLayer(new Input(2));
-//        sequential.addLayer(new Dense(new Sigmoid(), 4));
-        sequential.addLayer(new Dense(new Sigmoid(), 2));
-        sequential.addLayer(new Output(new Sigmoid(), 1));
+        SimpleMatrix dataSet = data.getMatrix();
+        SimpleMatrix[] cvTrain = DataSetUtilities.getCrossValidationAndTrainSets(dataSet, 0.2, true);
+        SimpleMatrix train = cvTrain[0];
+        SimpleMatrix test = cvTrain[1];
 
-        sequential.fit(DataSetUtilities.getTrainingSet(dataSet, 0, 1), DataSetUtilities.getAnswersSet(dataSet, 2), 1, 1000);
-        sequential.plotCostFunctionHistory();
+        DataSetUtilities.toCategorical(DataSetUtilities.extractMatrix(train, 4), 3).print();
+//
+//        Sequential sequential = new Sequential();
+//        sequential.addLayer(new Input(4));
+//        sequential.addLayer(new Dense(new Sigmoid(), 5));
+//        sequential.addLayer(new Dense(new Sigmoid(), 5));
+//        sequential.addLayer(new Dense(new Sigmoid(), 5));
+//        sequential.addLayer(new Output(new Sigmoid(), 3));
+//
+//        sequential.fit(DataSetUtilities.extractMatrix(train, 0, 3), DataSetUtilities.extractMatrix(train, 4), 0.1, 1000);
+//        sequential.plotCostFunctionHistory();
+//        sequential.predict(DataSetUtilities.extractMatrix(dataSet, 0, 1)).print();
 
-        sequential.predict(new SimpleMatrix(new double[][] {
-                {0, 0}
-        })).print();
-        sequential.predict(new SimpleMatrix(new double[][] {
-                {0, 1}
-        })).print();
 
-        sequential.predict(new SimpleMatrix(new double[][] {
-                {1, 0}
-        })).print();
-        sequential.predict(new SimpleMatrix(new double[][] {
-                {1, 1}
-        })).print();
-        }
     }
+}

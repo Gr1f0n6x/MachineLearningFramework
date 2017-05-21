@@ -1,5 +1,7 @@
 package Core.NeuralNetwork.Models;
 
+import Core.Loss.Loss;
+import Core.Loss.MeanSquared;
 import Core.NeuralNetwork.Layers.Layer;
 import Plot.XYLineChart;
 import Utilities.DataSetUtilities;
@@ -40,6 +42,8 @@ public class Sequential implements Model {
 
         this.conect();
 
+        Loss loss = new MeanSquared();
+
         for(int epoch = 0; epoch < epochNum; ++epoch) {
             double error = 0;
 
@@ -53,7 +57,8 @@ public class Sequential implements Model {
                 }
 
                 SimpleMatrix delta = DataSetUtilities.extractRow(Y, sample);
-                error = layers.get(layers.size() - 1).computeError(delta).elementSum();
+//                error += layers.get(layers.size() - 1).computeError(delta).elementSum();
+                error += loss.computeCost(output, delta);
 
                 for(int i = layers.size() - 1; i > 0; --i) {
                     delta = layers.get(i).computeError(delta);
@@ -67,20 +72,38 @@ public class Sequential implements Model {
             }
 
             lossHistory.set(epoch, 0, epoch);
-            lossHistory.set(epoch, 1, Math.abs(error));
+            lossHistory.set(epoch, 1, error);
         }
     }
 
     @Override
     public SimpleMatrix predict(SimpleMatrix X) {
-        SimpleMatrix sample = DataSetUtilities.addColumnOfOnes(X);
-        SimpleMatrix output = layers.get(0).feedforward(sample);
+        SimpleMatrix samples = DataSetUtilities.addColumnOfOnes(X);
+        SimpleMatrix result = new SimpleMatrix(X.numRows(), layers.get(layers.size() - 1).getUnits());
 
-        for(int i = 1; i < layers.size(); ++i) {
-            output = layers.get(i).feedforward(output);
+        for(int sample = 0; sample < samples.numRows(); ++sample) {
+            SimpleMatrix output = DataSetUtilities.extractRow(samples, sample);
+
+            for(int i = 0; i < layers.size(); ++i) {
+                output = layers.get(i).feedforward(output);
+            }
+
+            result.setRow(sample, 0, output.getMatrix().getData());
         }
 
-        return output;
+        return result;
+    }
+
+    public void printWeights() {
+        for(int i = 1; i < layers.size(); ++i) {
+            System.out.println(layers.get(i));
+            layers.get(i).getWeights().print();
+        }
+    }
+
+    @Override
+    public double test(SimpleMatrix X, SimpleMatrix Y) {
+        return 0;
     }
 
     /**

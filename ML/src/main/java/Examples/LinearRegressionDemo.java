@@ -22,10 +22,10 @@ public class LinearRegressionDemo {
         SimpleMatrix test = cvTrain[1];
 
         LinearRegression linearRegression = new LinearRegression(0.000001, 10);
-        linearRegression.fit(DataSetUtilities.getTrainingSet(train, 1, 8), DataSetUtilities.getAnswersSet(train, 9), 5000);
+        linearRegression.fit(DataSetUtilities.extractMatrix(train, 1, 8), DataSetUtilities.extractMatrix(train, 9), 5000);
         linearRegression.plotCostFunctionHistory();
 
-        SimpleMatrix result = linearRegression.predict(DataSetUtilities.getTrainingSet(test, 1, 8));
+        SimpleMatrix result = linearRegression.predict(DataSetUtilities.extractMatrix(test, 1, 8));
         XYLineChart lineChart = new XYLineChart("Prediction",
                         new SimpleMatrix[] {DataSetUtilities.addColumns(test.extractVector(false, 0), result),
                         DataSetUtilities.addColumns(dataSet.getMatrix().extractVector(false, 0), dataSet.getMatrix().extractVector(false, 9))}, true);

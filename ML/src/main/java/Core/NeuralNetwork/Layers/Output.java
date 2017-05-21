@@ -1,6 +1,7 @@
 package Core.NeuralNetwork.Layers;
 
 import Core.NeuralNetwork.Activation.Activation;
+import Core.NeuralNetwork.Activation.Identity;
 import Core.NeuralNetwork.Activation.Sigmoid;
 import Core.NeuralNetwork.Initialization.Initialization;
 import Core.NeuralNetwork.Initialization.RandomInit;
@@ -21,7 +22,7 @@ public class Output implements Layer {
 
     public Output(int units) {
         this.units =  units;
-        this.activation = new Sigmoid();
+        this.activation = new Identity();
 
         output = new SimpleMatrix(units, 1);
     }
@@ -38,7 +39,8 @@ public class Output implements Layer {
     public SimpleMatrix computeError(SimpleMatrix Y) {
         error = Y.minus(output).elementMult(activation.derivative(input.mult(thetas)));
 
-        return thetas.mult(error);
+//        return thetas.mult(error);
+        return thetas.mult(error.transpose());
     }
 
     // a = g(Z)
@@ -56,18 +58,23 @@ public class Output implements Layer {
         SimpleMatrix delta = input.transpose().mult(error);
 
         thetas = thetas.plus(delta.scale(rate));
-
-        if(momentum != null) {
-            thetas = thetas.plus(momentum);
-        }
-
-        momentum = delta;
+//
+//        if(momentum != null) {
+//            thetas = thetas.plus(momentum);
+//        }
+//
+//        momentum = delta;
     }
 
     @Override
     public void connect(int units) {
-        Initialization init = new RandomInit(0.0, 1.0);
+        Initialization init = new RandomInit(-1.0, 1.0);
         thetas = init.init(units, this.units);
+    }
+
+    @Override
+    public SimpleMatrix getWeights() {
+        return thetas;
     }
 
     @Override

@@ -41,6 +41,11 @@ public class Input implements Layer {
     }
 
     @Override
+    public SimpleMatrix getWeights() {
+        throw new UnsupportedOperationException("Incorrect call");
+    }
+
+    @Override
     public String toString() {
         return "Input{}";
     }

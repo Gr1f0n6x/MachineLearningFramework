@@ -49,6 +49,6 @@ public class kNNTests {
     public void looTest() {
         KNN knn = new KNN(3);
 
-        assertEquals(3, knn.LOO(DataSetUtilities.getTrainingSet(dataset, 0, 1), DataSetUtilities.getAnswersSet(dataset, 2), 34, 0));
+        assertEquals(3, knn.LOO(DataSetUtilities.extractMatrix(dataset, 0, 1), DataSetUtilities.extractMatrix(dataset, 2), 34, 0));
     }
 }

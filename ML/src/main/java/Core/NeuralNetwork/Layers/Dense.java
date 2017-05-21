@@ -1,6 +1,7 @@
 package Core.NeuralNetwork.Layers;
 
 import Core.NeuralNetwork.Activation.Activation;
+import Core.NeuralNetwork.Activation.Identity;
 import Core.NeuralNetwork.Activation.Sigmoid;
 import Core.NeuralNetwork.Initialization.Initialization;
 import Core.NeuralNetwork.Initialization.RandomInit;
@@ -22,7 +23,7 @@ public class Dense implements Layer {
 
     public Dense(int units) {
         this.units = units;
-        this.activation = new Sigmoid();
+        this.activation = new Identity();
 
         output = new SimpleMatrix(units, 1);
     }
@@ -63,17 +64,22 @@ public class Dense implements Layer {
 
         thetas = thetas.plus(delta.scale(rate));
 
-        if(momentum != null) {
-            thetas = thetas.plus(momentum);
-        }
-
-        momentum = delta;
+//        if(momentum != null) {
+//            thetas = thetas.plus(momentum);
+//        }
+//
+//        momentum = delta;
     }
 
     @Override
     public void connect(int units) {
-        Initialization init = new RandomInit(0.0, 1.0);
+        Initialization init = new RandomInit(-1.0, 1.0);
         thetas = init.init(units, this.units);
+    }
+
+    @Override
+    public SimpleMatrix getWeights() {
+        return thetas;
     }
 
     @Override

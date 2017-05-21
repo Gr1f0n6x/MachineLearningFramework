@@ -15,7 +15,7 @@ public class MeanSquared implements Loss {
     @Override
     public double computeCost(SimpleMatrix predicted, SimpleMatrix expected) {
         int m = expected.numRows();
-        return 1 / (2*m) * predicted.minus(expected).elementPower(2).elementSum();
+        return 1.0 / (2.0 * m) * predicted.minus(expected).elementPower(2).elementSum();
     }
 
     /**
@@ -29,6 +29,6 @@ public class MeanSquared implements Loss {
     @Override
     public double computeCost(SimpleMatrix predicted, SimpleMatrix expected, SimpleMatrix thetas, double lambda) {
         int m = expected.numRows();
-        return 1 / (2 * m) * (predicted.minus(expected).elementPower(2).elementSum() + lambda * thetas.extractMatrix(1, thetas.numRows(), 0, 1).elementSum());
+        return 1.0 / (2.0 * m) * (predicted.minus(expected).elementPower(2).elementSum() + lambda * thetas.extractMatrix(1, thetas.numRows(), 0, 1).elementSum());
     }
 }

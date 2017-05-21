@@ -137,7 +137,7 @@ public class DataSet {
             getMatrix();
         }
 
-        return DataSetUtilities.getTrainingSet(matrix, startColumn, endColumn);
+        return DataSetUtilities.extractMatrix(matrix, startColumn, endColumn);
     }
 
     /**
@@ -150,7 +150,7 @@ public class DataSet {
             getMatrix();
         }
 
-        return DataSetUtilities.getTrainingSet(matrix, column, column + 1);
+        return DataSetUtilities.extractMatrix(matrix, column, column + 1);
     }
 
     /**
@@ -163,7 +163,7 @@ public class DataSet {
             getMatrix();
         }
 
-        return DataSetUtilities.getAnswersSet(matrix, column);
+        return DataSetUtilities.extractMatrix(matrix, column);
     }
 
     /**
