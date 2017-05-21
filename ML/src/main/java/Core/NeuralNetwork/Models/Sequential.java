@@ -3,6 +3,7 @@ package Core.NeuralNetwork.Models;
 import Core.Loss.Loss;
 import Core.Loss.MeanSquared;
 import Core.NeuralNetwork.Layers.Layer;
+import Core.NeuralNetwork.Optimizers.Optimizer;
 import Plot.XYLineChart;
 import Utilities.DataSetUtilities;
 import org.ejml.simple.SimpleMatrix;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 public class Sequential implements Model {
     private ArrayList<Layer> layers = new ArrayList<>();
     private SimpleMatrix lossHistory;
+    private Optimizer optimizer;
 
     public Sequential() {
     }
@@ -35,7 +37,12 @@ public class Sequential implements Model {
     }
 
     @Override
-    public void fit(SimpleMatrix X, SimpleMatrix Y, double learnRate, int epochNum) {
+    public void compile(Optimizer optimizer) {
+        this.optimizer = optimizer;
+    }
+
+    @Override
+    public void fit(SimpleMatrix X, SimpleMatrix Y, int batchSize, int epochNum) {
         lossHistory = new SimpleMatrix(epochNum, 2);
 
         SimpleMatrix X_train = DataSetUtilities.addColumnOfOnes(X);
@@ -46,6 +53,8 @@ public class Sequential implements Model {
 
         for(int epoch = 0; epoch < epochNum; ++epoch) {
             double error = 0;
+            int currentBatch = 0;
+            SimpleMatrix delta = new SimpleMatrix(1, Y.numCols());
 
             for(int sample = 0; sample < X.numRows(); ++sample) {
                 //------------------------------------------------------------------------//
@@ -56,16 +65,24 @@ public class Sequential implements Model {
                     output = layers.get(i).feedforward(output);
                 }
 
-                SimpleMatrix delta = DataSetUtilities.extractRow(Y, sample);
-//                error += layers.get(layers.size() - 1).computeError(delta).elementSum();
-                error += loss.computeCost(output, delta);
+                error += loss.computeCost(output, DataSetUtilities.extractRow(Y, sample));
+                delta = delta.plus(DataSetUtilities.extractRow(Y, sample).minus(output));
 
-                for(int i = layers.size() - 1; i > 0; --i) {
-                    delta = layers.get(i).computeError(delta);
-                }
+                currentBatch++;
 
-                for(int i = layers.size() - 1; i > 0; --i) {
-                    layers.get(i).updateWeights(learnRate);
+                if(currentBatch == batchSize) {
+                    SimpleMatrix backpropagation = new SimpleMatrix(delta);
+
+                    for(int i = layers.size() - 1; i > 0; --i) {
+                        backpropagation = layers.get(i).computeError(backpropagation);
+                    }
+
+                    for(int i = layers.size() - 1; i > 0; --i) {
+                        layers.get(i).updateWeights(optimizer);
+                    }
+
+                    currentBatch = 0;
+                    delta.set(0);
                 }
                 //------------------------------------------------------------------------//
                 //------------------------------------------------------------------------//

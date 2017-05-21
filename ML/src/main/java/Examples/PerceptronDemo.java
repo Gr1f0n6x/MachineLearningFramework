@@ -4,6 +4,7 @@ import Core.NeuralNetwork.Activation.Sigmoid;
 import Core.NeuralNetwork.Layers.Input;
 import Core.NeuralNetwork.Layers.Output;
 import Core.NeuralNetwork.Models.Sequential;
+import Core.NeuralNetwork.Optimizers.SGD;
 import Utilities.DataSetUtilities;
 import org.ejml.simple.SimpleMatrix;
 
@@ -25,20 +26,9 @@ public class PerceptronDemo {
         sequential.addLayer(new Input(2));
         sequential.addLayer(new Output(new Sigmoid(), 1));
 
-        sequential.fit(DataSetUtilities.extractMatrix(dataSet, 0, 1), DataSetUtilities.extractMatrix(dataSet, 2), 1,1000);
-
-        sequential.predict(new SimpleMatrix(new double[][] {
-                {0, 0}
-        })).print();
-        sequential.predict(new SimpleMatrix(new double[][] {
-                {0, 1}
-        })).print();
-
-        sequential.predict(new SimpleMatrix(new double[][] {
-                {1, 0}
-        })).print();
-        sequential.predict(new SimpleMatrix(new double[][] {
-                {1, 1}
-        })).print();
+        sequential.compile(new SGD(1, 0, 0, false));
+        sequential.fit(DataSetUtilities.extractMatrix(dataSet, 0, 1), DataSetUtilities.extractMatrix(dataSet, 2), 1, 1000);
+        sequential.plotCostFunctionHistory();
+        sequential.predict(DataSetUtilities.extractMatrix(dataSet, 0, 1)).print();
     }
 }

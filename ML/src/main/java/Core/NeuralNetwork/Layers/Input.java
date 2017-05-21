@@ -1,16 +1,14 @@
 package Core.NeuralNetwork.Layers;
 
+import Core.NeuralNetwork.Optimizers.Optimizer;
 import org.ejml.simple.SimpleMatrix;
 
 /**
  * Created by GrIfOn on 09.04.2017.
  */
-public class Input implements Layer {
-    private SimpleMatrix output;
-    private int units;
-
+public class Input extends Layer {
     public Input(int units) {
-        this.units = units + 1;
+        this.units = units;
     }
 
     @Override
@@ -25,18 +23,12 @@ public class Input implements Layer {
     }
 
     @Override
-    public int getUnits() {
-        return units;
-    }
-
-    // with another layer
-    @Override
     public void connect(int units) {
         throw new UnsupportedOperationException("Incorrect call");
     }
 
     @Override
-    public void updateWeights(double rate) {
+    public void updateWeights(Optimizer optimizer) {
         throw new UnsupportedOperationException("Incorrect call");
     }
 

@@ -11,16 +11,7 @@ import org.ejml.simple.SimpleMatrix;
 /**
  * Created by GrIfOn on 09.04.2017.
  */
-public class Dense implements Layer {
-    private SimpleMatrix output;
-    private SimpleMatrix input;
-    private SimpleMatrix error;
-    private SimpleMatrix thetas;
-    private Activation activation;
-    private int units;
-
-    private SimpleMatrix momentum;
-
+public class Dense extends Layer {
     public Dense(int units) {
         this.units = units;
         this.activation = new Identity();
@@ -33,21 +24,13 @@ public class Dense implements Layer {
         this.units = units;
     }
 
-    // delta
     @Override
     public SimpleMatrix computeError(SimpleMatrix delta) {
-// OK
-//        error = delta.mult(activation.derivative(input.mult(thetas)));
-//
-//        return delta;
-
         error = activation.derivative(input.mult(thetas)).scale(delta.elementSum());
 
         return thetas.mult(error.transpose());
     }
 
-    // a = g(Z)
-    // Z = input * Q
     @Override
     public SimpleMatrix feedforward(SimpleMatrix Z) {
         input = Z;
@@ -56,35 +39,6 @@ public class Dense implements Layer {
         output = DataSetUtilities.addColumnOfOnes(output);
 
         return output;
-    }
-
-    @Override
-    public void updateWeights(double rate) {
-        SimpleMatrix delta = input.transpose().mult(error);
-
-        thetas = thetas.plus(delta.scale(rate));
-
-//        if(momentum != null) {
-//            thetas = thetas.plus(momentum);
-//        }
-//
-//        momentum = delta;
-    }
-
-    @Override
-    public void connect(int units) {
-        Initialization init = new RandomInit(-1.0, 1.0);
-        thetas = init.init(units, this.units);
-    }
-
-    @Override
-    public SimpleMatrix getWeights() {
-        return thetas;
-    }
-
-    @Override
-    public int getUnits() {
-        return units + 1;
     }
 
     @Override

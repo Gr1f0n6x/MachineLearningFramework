@@ -5,6 +5,7 @@ import Core.NeuralNetwork.Layers.Dense;
 import Core.NeuralNetwork.Layers.Input;
 import Core.NeuralNetwork.Layers.Output;
 import Core.NeuralNetwork.Models.Sequential;
+import Core.NeuralNetwork.Optimizers.SGD;
 import Utilities.DataSetUtilities;
 import org.ejml.simple.SimpleMatrix;
 
@@ -32,7 +33,8 @@ public class MLPRegressionDemo {
         sequential.addLayer(new Dense(3));
         sequential.addLayer(new Output(4));
 
-        sequential.fit(DataSetUtilities.extractMatrix(dataSet, 0), DataSetUtilities.extractMatrix(dataSet, 1, 4), 0.000000003, 10000);
+        sequential.compile(new SGD(0.000000003, 0, 0, false));
+        sequential.fit(DataSetUtilities.extractMatrix(dataSet, 0), DataSetUtilities.extractMatrix(dataSet, 1, 4), 1, 10000);
         sequential.plotCostFunctionHistory();
         sequential.predict(DataSetUtilities.extractMatrix(dataSet, 0)).print();
 

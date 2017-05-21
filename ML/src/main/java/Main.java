@@ -3,6 +3,7 @@ import Core.NeuralNetwork.Layers.Dense;
 import Core.NeuralNetwork.Layers.Input;
 import Core.NeuralNetwork.Layers.Output;
 import Core.NeuralNetwork.Models.Sequential;
+import Core.NeuralNetwork.Optimizers.SGD;
 import Data.DataSet;
 import Examples.MultipleLogisticRegressionDemo;
 import Utilities.DataSetUtilities;
@@ -27,18 +28,21 @@ public class Main {
         SimpleMatrix train = cvTrain[0];
         SimpleMatrix test = cvTrain[1];
 
-        DataSetUtilities.toCategorical(DataSetUtilities.extractMatrix(train, 4), 3).print();
-//
-//        Sequential sequential = new Sequential();
-//        sequential.addLayer(new Input(4));
-//        sequential.addLayer(new Dense(new Sigmoid(), 5));
-//        sequential.addLayer(new Dense(new Sigmoid(), 5));
-//        sequential.addLayer(new Dense(new Sigmoid(), 5));
-//        sequential.addLayer(new Output(new Sigmoid(), 3));
-//
-//        sequential.fit(DataSetUtilities.extractMatrix(train, 0, 3), DataSetUtilities.extractMatrix(train, 4), 0.1, 1000);
-//        sequential.plotCostFunctionHistory();
-//        sequential.predict(DataSetUtilities.extractMatrix(dataSet, 0, 1)).print();
+        SimpleMatrix Y = DataSetUtilities.toCategorical(DataSetUtilities.extractMatrix(train, 4), 3);
+
+        Sequential sequential = new Sequential();
+        sequential.addLayer(new Input(4));
+        sequential.addLayer(new Dense(new Sigmoid(), 5));
+        sequential.addLayer(new Dense(new Sigmoid(), 5));
+        sequential.addLayer(new Dense(new Sigmoid(), 5));
+        sequential.addLayer(new Output(new Sigmoid(), 3));
+
+        sequential.compile(new SGD(2, 0.1, 0.01, false));
+        sequential.fit(DataSetUtilities.extractMatrix(train, 0, 3), Y, 1, 1000);
+        sequential.plotCostFunctionHistory();
+
+        Y.print();
+        sequential.predict(DataSetUtilities.extractMatrix(dataSet, 0, 3)).print();
 
 
     }
