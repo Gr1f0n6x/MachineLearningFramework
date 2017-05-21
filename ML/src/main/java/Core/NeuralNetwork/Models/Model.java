@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * Created by GrIfOn on 09.04.2017.
  */
 public interface Model {
-    void fit(SimpleMatrix X, SimpleMatrix Y, int epochNum);
+    void fit(SimpleMatrix X, SimpleMatrix Y, double learnRate, int epochNum);
     SimpleMatrix predict(SimpleMatrix X);
     ArrayList<Layer> getLayers();
 }

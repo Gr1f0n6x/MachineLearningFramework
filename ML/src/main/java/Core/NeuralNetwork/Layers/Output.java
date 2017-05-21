@@ -38,8 +38,7 @@ public class Output implements Layer {
     public SimpleMatrix computeError(SimpleMatrix Y) {
         error = Y.minus(output).elementMult(activation.derivative(input.mult(thetas)));
 
-//        return thetas.mult(error);
-        return Y.minus(output);
+        return thetas.mult(error);
     }
 
     // a = g(Z)
@@ -53,10 +52,10 @@ public class Output implements Layer {
     }
 
     @Override
-    public void updateWeights() {
+    public void updateWeights(double rate) {
         SimpleMatrix delta = input.transpose().mult(error);
 
-        thetas = thetas.plus(delta);
+        thetas = thetas.plus(delta.scale(rate));
 
         if(momentum != null) {
             thetas = thetas.plus(momentum);
@@ -67,7 +66,7 @@ public class Output implements Layer {
 
     @Override
     public void connect(int units) {
-        Initialization init = new RandomInit(-1., 1.);
+        Initialization init = new RandomInit(0.0, 1.0);
         thetas = init.init(units, this.units);
     }
 

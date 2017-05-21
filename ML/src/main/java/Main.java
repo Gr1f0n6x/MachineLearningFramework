@@ -17,19 +17,20 @@ public class Main {
         double[][] data = new double[][] {
                 {0, 0, 0},
                 {0, 1, 1},
-                {1, 0, 1},
-                {1, 1, 0},
+                {1, 0, 0},
+                {1, 1, 1},
         };
 
         SimpleMatrix dataSet = new SimpleMatrix(data);
 
         Sequential sequential = new Sequential();
         sequential.addLayer(new Input(2));
-        sequential.addLayer(new Dense(new Sigmoid(), 4));
+//        sequential.addLayer(new Dense(new Sigmoid(), 4));
         sequential.addLayer(new Dense(new Sigmoid(), 2));
         sequential.addLayer(new Output(new Sigmoid(), 1));
 
-        sequential.fit(DataSetUtilities.getTrainingSet(dataSet, 0, 1), DataSetUtilities.getAnswersSet(dataSet, 2), 1000);
+        sequential.fit(DataSetUtilities.getTrainingSet(dataSet, 0, 1), DataSetUtilities.getAnswersSet(dataSet, 2), 1, 1000);
+        sequential.plotCostFunctionHistory();
 
         sequential.predict(new SimpleMatrix(new double[][] {
                 {0, 0}

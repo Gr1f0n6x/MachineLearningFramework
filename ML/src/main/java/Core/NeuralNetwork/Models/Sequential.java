@@ -1,6 +1,7 @@
 package Core.NeuralNetwork.Models;
 
 import Core.NeuralNetwork.Layers.Layer;
+import Plot.XYLineChart;
 import Utilities.DataSetUtilities;
 import org.ejml.simple.SimpleMatrix;
 
@@ -32,7 +33,7 @@ public class Sequential implements Model {
     }
 
     @Override
-    public void fit(SimpleMatrix X, SimpleMatrix Y, int epochNum) {
+    public void fit(SimpleMatrix X, SimpleMatrix Y, double learnRate, int epochNum) {
         lossHistory = new SimpleMatrix(epochNum, 2);
 
         SimpleMatrix X_train = DataSetUtilities.addColumnOfOnes(X);
@@ -40,6 +41,8 @@ public class Sequential implements Model {
         this.conect();
 
         for(int epoch = 0; epoch < epochNum; ++epoch) {
+            double error = 0;
+
             for(int sample = 0; sample < X.numRows(); ++sample) {
                 //------------------------------------------------------------------------//
                 //------------------------------------------------------------------------//
@@ -50,17 +53,21 @@ public class Sequential implements Model {
                 }
 
                 SimpleMatrix delta = DataSetUtilities.extractRow(Y, sample);
+                error = layers.get(layers.size() - 1).computeError(delta).elementSum();
 
                 for(int i = layers.size() - 1; i > 0; --i) {
                     delta = layers.get(i).computeError(delta);
                 }
 
                 for(int i = layers.size() - 1; i > 0; --i) {
-                    layers.get(i).updateWeights();
+                    layers.get(i).updateWeights(learnRate);
                 }
                 //------------------------------------------------------------------------//
                 //------------------------------------------------------------------------//
             }
+
+            lossHistory.set(epoch, 0, epoch);
+            lossHistory.set(epoch, 1, Math.abs(error));
         }
     }
 
@@ -74,5 +81,13 @@ public class Sequential implements Model {
         }
 
         return output;
+    }
+
+    /**
+     *
+     */
+    public void plotCostFunctionHistory() {
+        XYLineChart XYLineChart = new XYLineChart("CostFunction", DataSetUtilities.toArray(lossHistory, 0, 1));
+        XYLineChart.plot();
     }
 }

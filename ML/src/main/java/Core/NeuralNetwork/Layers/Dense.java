@@ -35,14 +35,14 @@ public class Dense implements Layer {
     // delta
     @Override
     public SimpleMatrix computeError(SimpleMatrix delta) {
-//        activation.derivative(input.mult(thetas)).print();
-//        delta.print();
-//        error = delta.elementMult(DataSetUtilities.addColumnOfOnes(activation.derivative(input.mult(thetas))).transpose());
+// OK
+//        error = delta.mult(activation.derivative(input.mult(thetas)));
 //
-//        return DataSetUtilities.addColumnOfOnes(thetas).mult(error);
-        error = delta.mult(activation.derivative(input.mult(thetas)));
+//        return delta;
 
-        return delta;
+        error = activation.derivative(input.mult(thetas)).scale(delta.elementSum());
+
+        return thetas.mult(error.transpose());
     }
 
     // a = g(Z)
@@ -58,14 +58,10 @@ public class Dense implements Layer {
     }
 
     @Override
-    public void updateWeights() {
-//        SimpleMatrix delta = error.extractMatrix(0, error.numRows() - 1, 0 ,error.numCols()).mult(input);
-//
-//        thetas = thetas.plus(delta.transpose());
+    public void updateWeights(double rate) {
+        SimpleMatrix delta = input.transpose().mult(error);
 
-        SimpleMatrix delta = error.transpose().mult(input).transpose();
-
-        thetas = thetas.plus(delta);
+        thetas = thetas.plus(delta.scale(rate));
 
         if(momentum != null) {
             thetas = thetas.plus(momentum);
@@ -76,7 +72,7 @@ public class Dense implements Layer {
 
     @Override
     public void connect(int units) {
-        Initialization init = new RandomInit(-1., 1.);
+        Initialization init = new RandomInit(0.0, 1.0);
         thetas = init.init(units, this.units);
     }
 

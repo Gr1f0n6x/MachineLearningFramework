@@ -36,7 +36,7 @@ public class Input implements Layer {
     }
 
     @Override
-    public void updateWeights() {
+    public void updateWeights(double rate) {
         throw new UnsupportedOperationException("Incorrect call");
     }
 
