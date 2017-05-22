@@ -35,6 +35,12 @@ public class ClassScatterMultipleDimensions extends ApplicationFrame implements 
         this.setContentPane(preparePanels(dataSet, title, columnsName));
     }
 
+    public ClassScatterMultipleDimensions(String title, SimpleMatrix dataSet, SimpleMatrix centroids, String[] columnsName) {
+        super(title);
+
+        this.setContentPane(preparePanels(dataSet, centroids, title, columnsName));
+    }
+
     private JPanel preparePanels(SimpleMatrix X, String title, String[] columnsName) {
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(X.numCols() / 2, X.numCols() / 2, 5, 5));
@@ -42,6 +48,22 @@ public class ClassScatterMultipleDimensions extends ApplicationFrame implements 
         for(int i = 0; i < X.numCols(); ++i) {
             for(int j = i + 1; j < X.numCols() - 1; ++j) {
                 XYSeriesCollection xySeriesCollection = getDataSetForPanel(X, i, j);
+                JFreeChart chart = ChartFactory.createScatterPlot(title, columnsName[i], columnsName[j], xySeriesCollection, PlotOrientation.VERTICAL, true, true, false);
+                panel.add(new ChartPanel(chart));
+            }
+        }
+
+        return panel;
+    }
+
+    private JPanel preparePanels(SimpleMatrix X, SimpleMatrix centroids, String title, String[] columnsName) {
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(X.numCols() / 2, X.numCols() / 2, 5, 5));
+
+        for(int i = 0; i < X.numCols(); ++i) {
+            for(int j = i + 1; j < X.numCols() - 1; ++j) {
+                XYSeriesCollection xySeriesCollection = getDataSetForPanel(X, i, j);
+                xySeriesCollection.addSeries(getCentroidsSeries(centroids, i, j));
                 JFreeChart chart = ChartFactory.createScatterPlot(title, columnsName[i], columnsName[j], xySeriesCollection, PlotOrientation.VERTICAL, true, true, false);
                 panel.add(new ChartPanel(chart));
             }
@@ -78,6 +100,16 @@ public class ClassScatterMultipleDimensions extends ApplicationFrame implements 
         }
 
         return xyDataset;
+    }
+
+    private XYSeries getCentroidsSeries(SimpleMatrix centroids, int x1, int x2) {
+        XYSeries series = new XYSeries(x1 + " " + x2);
+
+        for(int row = 0; row < centroids.numRows(); ++row) {
+            series.add(centroids.get(row, x1), centroids.get(row, x2));
+        }
+
+        return series;
     }
 
     @Override

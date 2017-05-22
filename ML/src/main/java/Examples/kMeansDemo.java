@@ -1,3 +1,5 @@
+package Examples;
+
 import Core.KMeans;
 import Data.DataSet;
 import Plot.ClassScatterMultipleDimensions;
@@ -8,11 +10,11 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 
 /**
- * Created by GrIfOn on 12.03.2017.
+ * Created by GrIfOn on 22.05.2017.
  */
-public class Main {
-    public static void main(String[] args) throws IOException, URISyntaxException {
-        DataSet data = new DataSet(Main.class.getResource("/iris.csv").toURI());
+public class kMeansDemo {
+    public static void main(String[] args) throws URISyntaxException, IOException {
+        DataSet data = new DataSet(kMeansDemo.class.getResource("/iris.csv").toURI());
 
         data.replaceByValue("Iris-setosa", "0");
         data.replaceByValue("Iris-versicolor", "1");
