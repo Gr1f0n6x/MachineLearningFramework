@@ -1,4 +1,5 @@
-import Core.NeuralNetwork.Activation.Sigmoid;
+package Examples;
+
 import Core.NeuralNetwork.Activation.Tanh;
 import Core.NeuralNetwork.Layers.Dense;
 import Core.NeuralNetwork.Layers.Input;
@@ -12,9 +13,9 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 
 /**
- * Created by GrIfOn on 12.03.2017.
+ * Created by GrIfOn on 23.05.2017.
  */
-public class Main {
+public class XORDemo {
     public static void main(String[] args) throws IOException, URISyntaxException {
         double[][] data = new double[][] {
                 {0, 0, -1},
